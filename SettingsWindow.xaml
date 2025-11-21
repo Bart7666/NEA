@@ -37,7 +37,7 @@
                 <Label Content="Font:" Style="{DynamicResource Label}"/>
             </Viewbox>
             <Viewbox Grid.Column="1">
-                <Grid>
+                <Grid Margin="5,5,5,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -47,7 +47,7 @@
                 </Grid>
             </Viewbox>
             <Viewbox Grid.Row="2" Grid.Column="1">
-                <Button Margin="2" x:Name="ApplyButton" Click="ApplyButton_Click" Content="Apply" Style="{DynamicResource Button}"/>
+                <Button Margin="2" x:Name="ApplyButton" Click="ApplyButton_Click" Content="Apply" Style="{DynamicResource Button}" Loaded="ApplyButton_Loaded"/>
             </Viewbox>
             
         </Grid>
