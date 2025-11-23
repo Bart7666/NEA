@@ -1,5 +1,8 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -7,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace NEA
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for EncryptionDecryptionWIndow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EncryptionDecryptionWIndow : Window
     {
-        public MainWindow()
+        public EncryptionDecryptionWIndow()
         {
             InitializeComponent();
         }
@@ -37,20 +39,20 @@ namespace NEA
         /// <param name="e"></param>
         private void MaximiseButton_Click(object sender, RoutedEventArgs e)
         {
-            if(this.WindowState == WindowState.Maximized) { this.WindowState= WindowState.Normal; }
-            else {  this.WindowState = WindowState.Maximized;}
+            if (this.WindowState == WindowState.Maximized) { this.WindowState = WindowState.Normal; }
+            else { this.WindowState = WindowState.Maximized; }
         }
         /// <summary>
-        /// Closes this window and so the entire application
+        /// Closes the parent window closing the entire application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Owner.Close();
         }
         /// <summary>
-        /// Opens the settings window
+        /// Opens the settings window.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -62,20 +64,16 @@ namespace NEA
             this.Hide();
         }
         /// <summary>
-        /// Does nothing as the user is already in the home screen
+        /// Closes this window and shows home window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Owner.Show();
+            this.Close();
+        }
 
-        }
-        private void EncryptionDecryptionButton_Click(object sender, RoutedEventArgs e)
-        {
-            EncryptionDecryptionWIndow encryptionDecryptionWIndow = new EncryptionDecryptionWIndow();
-            encryptionDecryptionWIndow.Owner = this;
-            encryptionDecryptionWIndow.Show();
-            this.Hide();
-        }
     }
 }
+

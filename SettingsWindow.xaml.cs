@@ -22,7 +22,6 @@ namespace NEA
         public SettingsWindow()
         {
             InitializeComponent();
-            this.WindowState = WindowState.Maximized; //Window will be fullscreen upon opening
         }
         
 
@@ -83,5 +82,53 @@ namespace NEA
                 LightModeRButton.IsChecked = true;
             }
         }
+        /// <summary>
+        /// Minimises the current window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MinimiseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        /// <summary>
+        /// Maximises the current window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MaximiseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized) { this.WindowState = WindowState.Normal; }
+            else { this.WindowState = WindowState.Maximized; }
+        }
+        /// <summary>
+        /// Closes the parent window closing the entire application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Owner.Close();
+        }
+        /// <summary>
+        /// Does nothing as user already in settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// Closes this window and shows home window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Owner.Show();
+            this.Close();
+        }
+
     }
 }
