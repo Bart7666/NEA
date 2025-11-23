@@ -11,9 +11,11 @@
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="MenuItem" x:Key="BaseMenuItem">
+        <Setter Property="Background" Value="White"/>
     </Style>
     <Style TargetType="MenuItem" x:Key="DarkMenuItem">
         <Setter Property="Foreground" Value="#99b3e6"/>
+        <Setter Property="BorderBrush" Value="#595959"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="Label" x:Key="BaseLabel">
@@ -39,7 +41,7 @@
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="Button" x:Key="BaseButton">
-        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
     </Style>
     <Style TargetType="Button" x:Key="DarkButton">
         <Setter Property="BorderBrush" Value="#99b3e6"/>

@@ -5,31 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NEA"
         mc:Ignorable="d"
-        Title="EncryptionDecryptionWIndow" Height="450" Width="800" MinHeight="40" MinWidth="200" WindowStyle="None" WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" >
-            <!--Title Bar-->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="HomeButton" Click="HomeButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height="40" Width="40" Style="{DynamicResource Button}">
-                <Image Source="/Images/Lock.jpg" />
-            </Button>
-            <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,2" Grid.Column="2" Style="{DynamicResource Button}">
-                <Image Source="/Images/Settings Cog.png"/>
-            </Button>
-            <Button x:Name="MinimiseButton" Click="MinimiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content="-" Height ="30" Width="30" Margin="5,5,5,2" Grid.Column="3" Style="{DynamicResource Button}"/>
-            <Button x:Name="MaximiseButton" Click="MaximiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content="[]" Height ="30" Width="30" Margin="5,5,5,2" Grid.Column="4" Style="{DynamicResource Button}"/>
-            <Button x:Name="CloseButton" Click="CloseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content ="X" Height ="30" Width="30" Margin="5,5,10,2" Grid.Column="5" Style="{DynamicResource Button}"/>
+        Title="EncryptionDecryptionWIndow" Height="450" Width="800" MinHeight="40" MinWidth="200" WindowStyle="None" Style="{DynamicResource Window}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="40"/>
+    </WindowChrome.WindowChrome>
+    <Border Style="{StaticResource WindowMainPanelStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <!--Title Bar-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" x:Name="HomeButton" Click="HomeButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height="40" Width="40" Style="{DynamicResource Button}">
+                    <Image Source="/Images/Lock.jpg" />
+                </Button>
+                <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="2" Style="{DynamicResource Button}">
+                    <Image Source="/Images/Settings Cog.png"/>
+                </Button>
+                <Button x:Name="MinimiseButton" Click="MinimiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content="-" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="3" Style="{DynamicResource Button}"/>
+                <Button x:Name="MaximiseButton" Click="MaximiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content="[]" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="4" Style="{DynamicResource Button}"/>
+                <Button x:Name="CloseButton" Click="CloseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content ="X" Height ="30" Width="30" Margin="5,5,10,5" Grid.Column="5" Style="{DynamicResource Button}"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <!-- Window Content -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.15*"/>
+                    <RowDefinition Height="0.05*"/>
+                    <RowDefinition Height="0.7*"/>
+                    <RowDefinition Height="0.1*"/>
+                </Grid.RowDefinitions>
+                <Viewbox Grid.Row="1">
+                    <Label Style="{DynamicResource Label}" Content="Input Field"/>
+                </Viewbox>
+                <Viewbox Grid.Row="1" Grid.Column="2">
+                    <Label Style="{DynamicResource Label}" Content="Output Field"/>
+                </Viewbox>
+                <TextBox Grid.Row="2" Grid.Column="0" x:Name="InputFieldTBox" Margin="10,5,5,5" Style="{DynamicResource TextBox}" TextWrapping="Wrap" AcceptsReturn="True" />
+                <Border Grid.Row="2" Grid.Column="2" Margin="5,5,10,5" Style="{DynamicResource Border}">
+                    <TextBlock  x:Name="OutputFieldTBlock" Margin="5" Style="{DynamicResource TextBlock}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+                </Border>
+                <!-- to do: Make this not awful when changing themes and learn how to do paths/implement custom control to show arrows and the settings-->
+                    <Menu  Grid.Row="1" Grid.Column="1" Margin="5" Style="{DynamicResource Menu}">
+                        <MenuItem Header="test external" Style="{DynamicResource MenuItem}">
+                            <Label Content="test top" Style="{DynamicResource Label}" />
+                            <Button Content="test bottom" Style="{DynamicResource Button}"/>
+                        </MenuItem>
+                    </Menu>
+                
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </Window>

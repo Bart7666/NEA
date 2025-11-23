@@ -20,6 +20,20 @@
     </Style>
     <Style TargetType="RadioButton" x:Key="RadioButton">
     </Style>
-    
+    <Style TargetType="Border" x:Key="Border">
+        <Setter Property="BorderThickness" Value="0.25"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+    </Style>
+    <!-- This is to fix the border issue discovered in testing for prototype 1 and is copied code with small alterations-->
+    <Style x:Key="WindowMainPanelStyle" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}" Value="Maximized">
+                <Setter Property="BorderThickness" Value="0" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>
     
