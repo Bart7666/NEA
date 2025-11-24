@@ -79,7 +79,7 @@ namespace NEA
             encryptionDecryptionWIndow.Show();
             this.Hide();
         }
-        // The following code fixes the border issue for the application, it is copied as referenced in the NEA documentation.
+        // The following code (untill comment says otherwise) fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -178,5 +178,6 @@ namespace NEA
             public POINT ptMinTrackSize;
             public POINT ptMaxTrackSize;
         }
+        //End of copied code.
     }
 }

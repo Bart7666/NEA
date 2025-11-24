@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     <!-- Contains the list of all controls with a key associated with each so styles can be changed easily -->
     <!-- To add more controls create master key alongside style here and actual styles in ThemesList Dictionary -->
     <Style TargetType="MenuItem" x:Key="MenuItem">
@@ -27,6 +28,10 @@
     <Style TargetType="Path" x:Key="Icon Path">
         <Setter Property="Stroke" Value="Black"/>
     </Style>
+    <Style TargetType="ComboBox" x:Key="ComboBox">
+    </Style>
+    <Style TargetType="ComboBoxItem" x:Key="ComboBoxItem">
+    </Style>
     <!-- This is to fix the border issue discovered in testing for prototype 1 and is copied code with small alterations-->
     <Style x:Key="WindowMainPanelStyle" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="Black" />
@@ -37,6 +42,10 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    
+    
+    
+    
 
 </ResourceDictionary>
     

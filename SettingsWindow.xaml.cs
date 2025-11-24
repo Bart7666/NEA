@@ -55,6 +55,8 @@ namespace NEA
                 Application.Current.Resources["TextBox"] = Application.Current.Resources["BaseTextBox"];
                 Application.Current.Resources["RadioButton"] = Application.Current.Resources["BaseRadioButton"];
                 Application.Current.Resources["Icon Path"] = Application.Current.Resources["BasePath"];
+                Application.Current.Resources["ComboBox"] = Application.Current.Resources["BaseComboBox"];
+                Application.Current.Resources["ComboBoxItem"] = Application.Current.Resources["BaseComboBoxItem"];
             }
             else if (DarkModeRButton.IsChecked != null && (bool)DarkModeRButton.IsChecked)
             {
@@ -76,6 +78,9 @@ namespace NEA
                 Application.Current.Resources["TextBox"] = Application.Current.Resources["DarkTextBox"];
                 Application.Current.Resources["RadioButton"] = Application.Current.Resources["DarkRadioButton"];
                 Application.Current.Resources["Icon Path"] = Application.Current.Resources["DarkPath"];
+                Application.Current.Resources["ComboBox"] = Application.Current.Resources["DarkComboBox"];
+                Application.Current.Resources["ComboBoxItem"] = Application.Current.Resources["DarkComboBoxItem"];
+
             }
             this.Owner.Show();
             this.Close();
@@ -173,7 +178,7 @@ namespace NEA
             this.Close();
         }
 
-        // The following code fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
+        // The following code (untill comment says otherwise) fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -272,5 +277,6 @@ namespace NEA
             public POINT ptMinTrackSize;
             public POINT ptMaxTrackSize;
         }
+        // End of copied code.
     }
 }

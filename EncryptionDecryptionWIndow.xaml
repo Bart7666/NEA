@@ -69,17 +69,30 @@
                 </Viewbox>
                 <TextBox Grid.Row="2" Grid.Column="0" x:Name="InputFieldTBox" Margin="10,5,5,5" Style="{DynamicResource TextBox}" TextWrapping="Wrap" AcceptsReturn="True" />
                 <Border Grid.Row="2" Grid.Column="2" Margin="5,5,10,5" Style="{DynamicResource Border}">
-                    <TextBlock  x:Name="OutputFieldTBlock" Margin="5" Style="{DynamicResource TextBlock}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+                    <TextBlock  x:Name="OutputFieldTBlock" Style="{DynamicResource TextBlock}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
                 </Border>
-                <!-- to do: Make this not awful when changing themes and learn how to do paths/implement custom control to show arrows and the settings-->
-                    <Menu  Grid.Row="1" Grid.Column="1" Margin="5" Style="{DynamicResource Menu}">
-                        <Viewbox>
-                            <Canvas Height="10" Width="10">
-                                <Path Data="M -5,5 50,5 " Style="{DynamicResource Icon Path}"/>
-                            </Canvas>
-                        </Viewbox>
-                    </Menu>
-                
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="5,0" >
+                    <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}" Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
+                </Viewbox>
+                <Grid x:Name="CipherSettings" Grid.ColumnSpan="3" Margin="10,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="1" Style="{DynamicResource Border}" >
+                        <ComboBox Style="{DynamicResource ComboBox}" x:Name="CipherCBox" >
+                            <ComboBoxItem>
+                                <Button>text</Button>
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </Border>
+                    
+                </Grid>
+
             </Grid>
         </Grid>
     </Border>

@@ -75,8 +75,9 @@ namespace NEA
             this.Owner.Show();
             this.Close();
         }
+       
 
-        // The following code fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
+        // The following code (untill comment says otherwise) fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -175,6 +176,13 @@ namespace NEA
             public POINT ptMinTrackSize;
             public POINT ptMaxTrackSize;
         }
+        //End of copied code
+        private void EncryptDecryptBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
+
     }
 }
 

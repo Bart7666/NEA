@@ -34,7 +34,7 @@
                 <Button Grid.Column="0" x:Name="HomeButton" Click="HomeButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height="40" Width="40" Style="{DynamicResource Button}">
                     <Image Source="/Images/Lock.jpg" />
                 </Button>
-                <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="False" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="2" Style="{DynamicResource Button}">
+                <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="You are in settings" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="2" Style="{DynamicResource Button}">
                     <Image Source="/Images/Settings Cog.png"/>
                 </Button>
                 <Button x:Name="MinimiseButton" Click="MinimiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="3" Style="{DynamicResource Button}">
