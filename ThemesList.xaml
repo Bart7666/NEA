@@ -68,5 +68,11 @@
         <Setter Property="BorderBrush" Value="#99b3e6"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
+    <Style TargetType="Path" x:Key="BasePath">
+        <Setter Property="Stroke" Value="Black"/>
+    </Style>
+    <Style TargetType="Path" x:Key="DarkPath">
+        <Setter Property="Stroke" Value="#99b3e6"/>
+    </Style>
 </ResourceDictionary>
     

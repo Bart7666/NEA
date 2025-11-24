@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NEA"
         mc:Ignorable="d"
-        Title="EncryptionDecryptionWIndow" Height="450" Width="800" MinHeight="40" MinWidth="200" WindowStyle="None" Style="{DynamicResource Window}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="BreakEncrypt-Ciphers" Icon="/Images/Colour Palette.ico" Height="450" Width="800" MinHeight="40" MinWidth="200" WindowStyle="None" Style="{DynamicResource Window}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="40"/>
     </WindowChrome.WindowChrome>
@@ -31,9 +31,22 @@
                 <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="2" Style="{DynamicResource Button}">
                     <Image Source="/Images/Settings Cog.png"/>
                 </Button>
-                <Button x:Name="MinimiseButton" Click="MinimiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content="-" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="3" Style="{DynamicResource Button}"/>
-                <Button x:Name="MaximiseButton" Click="MaximiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content="[]" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="4" Style="{DynamicResource Button}"/>
-                <Button x:Name="CloseButton" Click="CloseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Content ="X" Height ="30" Width="30" Margin="5,5,10,5" Grid.Column="5" Style="{DynamicResource Button}"/>
+                <Button x:Name="MinimiseButton" Click="MinimiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="3" Style="{DynamicResource Button}">
+                    <Canvas>
+                        <Path Data="M -8,0 h 16" Style="{DynamicResource Icon Path}"/>
+                    </Canvas>
+                </Button>
+                <Button x:Name="MaximiseButton" Click="MaximiseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="4" Style="{DynamicResource Button}">
+                    <Canvas>
+                        <Path Data="M -8,-3 v 10 h 10 v-10 h-10 v1" Style="{DynamicResource Icon Path}"/>
+                        <Path Data="M 2,3 h 4 v -10 h-10 v4" Style="{DynamicResource Icon Path}" />
+                    </Canvas>
+                </Button>
+                <Button x:Name="CloseButton" Click="CloseButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,10,5" Grid.Column="5" Style="{DynamicResource Button}">
+                    <Canvas>
+                        <Path Data="M -8,-8 8,8 M -8,8 8,-8 " Style="{DynamicResource Icon Path}"/>
+                    </Canvas>
+                </Button>
             </Grid>
             <Grid Grid.Row="1">
                 <!-- Window Content -->
@@ -60,10 +73,11 @@
                 </Border>
                 <!-- to do: Make this not awful when changing themes and learn how to do paths/implement custom control to show arrows and the settings-->
                     <Menu  Grid.Row="1" Grid.Column="1" Margin="5" Style="{DynamicResource Menu}">
-                        <MenuItem Header="test external" Style="{DynamicResource MenuItem}">
-                            <Label Content="test top" Style="{DynamicResource Label}" />
-                            <Button Content="test bottom" Style="{DynamicResource Button}"/>
-                        </MenuItem>
+                        <Viewbox>
+                            <Canvas Height="10" Width="10">
+                                <Path Data="M -5,5 50,5 " Style="{DynamicResource Icon Path}"/>
+                            </Canvas>
+                        </Viewbox>
                     </Menu>
                 
             </Grid>

@@ -37,7 +37,14 @@ namespace NEA
         {
             if (LightModeRButton.IsChecked != null && (bool)LightModeRButton.IsChecked)
             {
-                this.Owner.Resources["Theme"] = "Light";//This changes the value of theme to light
+                if (this.Owner is MainWindow) //If settings was opened from Home window.
+                {
+                    this.Owner.Resources["Theme"] = "Light";//This changes the value of theme to light
+                }
+                else //If settings was opened from any other window (the solution will only have 2 layers of owned windows with settings).
+                {
+                    this.Owner.Owner.Resources["Theme"] = "Light";//This changes the value of theme to light
+                }
                 Application.Current.Resources["Button"] = Application.Current.Resources["BaseButton"];
                 Application.Current.Resources["Menu"] = Application.Current.Resources["BaseMenu"];
                 Application.Current.Resources["MenuItem"] = Application.Current.Resources["BaseMenuItem"];
@@ -47,10 +54,18 @@ namespace NEA
                 Application.Current.Resources["Label"] = Application.Current.Resources["BaseLabel"];
                 Application.Current.Resources["TextBox"] = Application.Current.Resources["BaseTextBox"];
                 Application.Current.Resources["RadioButton"] = Application.Current.Resources["BaseRadioButton"];
+                Application.Current.Resources["Icon Path"] = Application.Current.Resources["BasePath"];
             }
             else if (DarkModeRButton.IsChecked != null && (bool)DarkModeRButton.IsChecked)
             {
-                this.Owner.Resources["Theme"] = "Dark";//This changes the value of theme to dark
+                if (this.Owner is MainWindow) //If settings was opened from Home window.
+                {
+                    this.Owner.Resources["Theme"] = "Dark";//This changes the value of theme to dark
+                }
+                else //If settings was opened from any other window (the solution will only have 2 layers of owned windows with settings).
+                {
+                    this.Owner.Owner.Resources["Theme"] = "Dark";//This changes the value of theme to dark
+                }
                 Application.Current.Resources["Button"] = Application.Current.Resources["DarkButton"];
                 Application.Current.Resources["Menu"] = Application.Current.Resources["DarkMenu"];
                 Application.Current.Resources["MenuItem"] = Application.Current.Resources["DarkMenuItem"];
@@ -60,6 +75,7 @@ namespace NEA
                 Application.Current.Resources["Label"] = Application.Current.Resources["DarkLabel"];
                 Application.Current.Resources["TextBox"] = Application.Current.Resources["DarkTextBox"];
                 Application.Current.Resources["RadioButton"] = Application.Current.Resources["DarkRadioButton"];
+                Application.Current.Resources["Icon Path"] = Application.Current.Resources["DarkPath"];
             }
             this.Owner.Show();
             this.Close();

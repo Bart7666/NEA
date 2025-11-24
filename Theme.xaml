@@ -24,6 +24,9 @@
         <Setter Property="BorderThickness" Value="0.25"/>
         <Setter Property="BorderBrush" Value="Black"/>
     </Style>
+    <Style TargetType="Path" x:Key="Icon Path">
+        <Setter Property="Stroke" Value="Black"/>
+    </Style>
     <!-- This is to fix the border issue discovered in testing for prototype 1 and is copied code with small alterations-->
     <Style x:Key="WindowMainPanelStyle" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="Black" />
