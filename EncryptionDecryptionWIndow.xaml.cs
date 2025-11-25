@@ -75,7 +75,7 @@ namespace NEA
             this.Owner.Show();
             this.Close();
         }
-       
+
 
         // The following code (untill comment says otherwise) fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
         protected override void OnSourceInitialized(EventArgs e)
@@ -181,8 +181,30 @@ namespace NEA
         {
 
         }
-        
+        /// <summary>
+        /// User selected to encrypt data and so changes content and logic of EncryptDecryptBtn to match.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectEncrypt_Selected(object sender, RoutedEventArgs e)
+        {
+            EncryptDecryptBtn.Content = "Encrypt";
+        }
+        /// <summary>
+        /// User selected to decrypt data and so changes content and logic of EncryptDecryptBtn to match.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectDecrypt_Selected(object sender, RoutedEventArgs e)
+        {
+            EncryptDecryptBtn.Content = "Decrypt";
+        }
 
+        private void SelectCaesarCipher_Selected(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
+    
 }
 

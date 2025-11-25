@@ -74,23 +74,47 @@
                 <Viewbox Grid.Column="1" Grid.Row="1" Margin="5,0" >
                     <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}" Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
                 </Viewbox>
-                <Grid x:Name="CipherSettings" Grid.ColumnSpan="3" Margin="10,5">
+                <Grid x:Name="CipherSettings" Grid.ColumnSpan="3" Margin="10,5" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="110" Width="*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Row="1" Style="{DynamicResource Border}" >
-                        <ComboBox Style="{DynamicResource ComboBox}" x:Name="CipherCBox" >
-                            <ComboBoxItem>
-                                <Button>text</Button>
+                    <Border Grid.Column="0" Grid.Row="1" Style="{DynamicResource Border}" >
+                        <ComboBox Style="{DynamicResource ComboBox}" IsEditable="False" x:Name="CipherCBox" SelectedIndex="0">
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" Visibility="Collapsed">
+                                <Label Content="Select Cipher" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectCaesarCipher" Selected="SelectCaesarCipher_Selected">
+                                <Label Content="Caesar Cipher" Style="{DynamicResource Label}" />
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}">
+                                <Label Content="other Cipher" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}">
+                                <Label Content="and onther Cipher" Style="{DynamicResource Label}"/>
                             </ComboBoxItem>
                         </ComboBox>
                     </Border>
-                    
+                    <Border Grid.Column="1" Grid.Row="1" Style="{DynamicResource Border}" >
+                        <ComboBox Style="{DynamicResource ComboBox}" IsEditable="False" x:Name="EncryptDecryptCBox" SelectedIndex="0">
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" Visibility="Collapsed">
+                                <Label Content="Encrypt or Decrypt" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectEncrypt" Selected="SelectEncrypt_Selected">
+                                <Label Content="Encrypt" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectDecrypt" Selected="SelectDecrypt_Selected">
+                                <Label Content="Decrypt" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </Border>
+                    <Border Grid.Column="2" Style="{DynamicResource Border}">
+                        <TextBox x:Name="KeyTBox" Style="{DynamicResource TextBox}"/>
+                    </Border>
                 </Grid>
 
             </Grid>
