@@ -21,6 +21,8 @@ namespace NEA
     /// </summary>
     public partial class EncryptionDecryptionWIndow : Window
     {
+        public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None;
+
         public EncryptionDecryptionWIndow()
         {
             InitializeComponent();
@@ -177,9 +179,34 @@ namespace NEA
             public POINT ptMaxTrackSize;
         }
         //End of copied code
+
+
         private void EncryptDecryptBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (CurrentAlgorithm != AlgorithmSelected.None) //An algorithm is selected
+            {
+                if(CurrentAlgorithm == AlgorithmSelected.CaesarCipher)
+                {
+                    CaesarCipher Algorithm = new CaesarCipher();
+                    ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text);
+                    if (InputValidity == ValidationResult.Valid)
+                    {
+                        Algorithm.CleanData(DataInputType.Text);
+                        if((string)EncryptDecryptBtn.Content == "Encrypt")
+                        {
+                            Algorithm.EncryptData();
+                            Algorithm.ComposeData(DataInputType.Text);
+                        }
+                        else if ((string)EncryptDecryptBtn.Content == "Decrypt")
+                        {
+                            Algorithm.DecryptData();
+                            Algorithm.ComposeData(DataInputType.Text);
+                        }
+                        OutputFieldTBlock.Text = Algorithm.OutputData;
+                    }
 
+                }
+            }
         }
         /// <summary>
         /// User selected to encrypt data and so changes content and logic of EncryptDecryptBtn to match.
@@ -202,7 +229,7 @@ namespace NEA
 
         private void SelectCaesarCipher_Selected(object sender, RoutedEventArgs e)
         {
-
+            CurrentAlgorithm = AlgorithmSelected.CaesarCipher;
         }
     }
     

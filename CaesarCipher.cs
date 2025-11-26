@@ -3,7 +3,7 @@
     /// <summary>
     /// Implementation of CeasarCipher as a class.
     /// </summary>
-    public class CeasarCipher : EncryptionAlgorithm
+    public class CaesarCipher : EncryptionAlgorithm
     {
         /// <summary>
         ///Key to use in encryption or decryption by Caesar Cipher, Overrides root key definition within EncryptionAlgorithm
