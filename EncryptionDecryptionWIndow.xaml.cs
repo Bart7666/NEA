@@ -179,20 +179,23 @@ namespace NEA
             public POINT ptMaxTrackSize;
         }
         //End of copied code
-
-
+        /// <summary>
+        /// Encrypts or Decrypts inputdata using the selected algorithm, else alerts user of incorrect algorithm configuration or input data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EncryptDecryptBtn_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentAlgorithm != AlgorithmSelected.None) //An algorithm is selected
             {
-                if(CurrentAlgorithm == AlgorithmSelected.CaesarCipher)
+                if(CurrentAlgorithm == AlgorithmSelected.CaesarCipher) //Caesar Cipher is selected to use
                 {
-                    CaesarCipher Algorithm = new CaesarCipher();
-                    ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text);
-                    if (InputValidity == ValidationResult.Valid)
+                    CaesarCipher Algorithm = new CaesarCipher(); //Instance of Caesar Cipher created
+                    ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text); //Attempts to set and so validate input data
+                    if (InputValidity == ValidationResult.Valid) //If all input data is correct
                     {
-                        Algorithm.CleanData(DataInputType.Text);
-                        if((string)EncryptDecryptBtn.Content == "Encrypt")
+                        Algorithm.CleanData(DataInputType.Text); //Cleans input data
+                        if((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
                         {
                             Algorithm.EncryptData();
                             Algorithm.ComposeData(DataInputType.Text);
@@ -202,10 +205,25 @@ namespace NEA
                             Algorithm.DecryptData();
                             Algorithm.ComposeData(DataInputType.Text);
                         }
-                        OutputFieldTBlock.Text = Algorithm.OutputData;
+                        OutputFieldTBlock.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
                     }
-
+                    else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
+                    {
+                        throw new NotImplementedException(); //Create pop up window alerting user of incorrect input plaintext / ciphertext data
+                    }
+                    else if (InputValidity == ValidationResult.KeyInvalid) //Alerts user key is invalid for this algorithm
+                    {
+                        throw new NotImplementedException(); //Create pop up window alerting user of incorrect key
+                    }
+                    else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
+                    {
+                        throw new NotImplementedException(); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
+                    }
                 }
+            }
+            else // No algorithm selected
+            {
+                throw new NotImplementedException(); //Create pop up window alerting user of them not having selected a cipher to use
             }
         }
         /// <summary>
@@ -226,7 +244,11 @@ namespace NEA
         {
             EncryptDecryptBtn.Content = "Decrypt";
         }
-
+        /// <summary>
+        /// Sets algorithm to be used in encryption and decryption to be Caesar Cipher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectCaesarCipher_Selected(object sender, RoutedEventArgs e)
         {
             CurrentAlgorithm = AlgorithmSelected.CaesarCipher;
