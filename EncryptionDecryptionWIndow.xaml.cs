@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace NEA
-{
+{   
     /// <summary>
     /// Interaction logic for EncryptionDecryptionWIndow.xaml
     /// </summary>

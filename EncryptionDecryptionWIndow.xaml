@@ -67,7 +67,7 @@
                 <Viewbox Grid.Row="1" Grid.Column="2">
                     <Label Style="{DynamicResource Label}" Content="Output Field"/>
                 </Viewbox>
-                <TextBox Grid.Row="2" Grid.Column="0" x:Name="InputFieldTBox" Margin="10,5,5,5" Style="{DynamicResource TextBox}" TextWrapping="Wrap" AcceptsReturn="True" />
+                <TextBox Grid.Row="2" Grid.Column="0" x:Name="InputFieldTBox" Text="Max character length = 536870912&#x0a;Using extended ASCII (ISO Latin-1)" Margin="10,5,5,5" Style="{DynamicResource TextBox}" TextWrapping="Wrap" AcceptsReturn="True" />
                 <Border Grid.Row="2" Grid.Column="2" Margin="5,5,10,5" Style="{DynamicResource Border}">
                     <TextBlock  x:Name="OutputFieldTBlock" Style="{DynamicResource TextBlock}" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
                 </Border>
@@ -112,11 +112,19 @@
                             </ComboBoxItem>
                         </ComboBox>
                     </Border>
-                    <Border Grid.Column="2" Style="{DynamicResource Border}">
-                        <TextBox x:Name="KeyTBox" Style="{DynamicResource TextBox}"/>
-                    </Border>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.3*"/>
+                            <RowDefinition Height="0.7*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.RowSpan="2" Style="{DynamicResource Border}"/>
+                        <Viewbox Stretch="Uniform" Grid.Row="0">
+                            <Label Content="Key Field" Style="{DynamicResource Label}"/>
+                        </Viewbox>
+                        <TextBox x:Name="KeyFieldTBox" TextWrapping="Wrap" Grid.Row="1" Style="{DynamicResource TextBox}"/>
+                        
+                    </Grid>
                 </Grid>
-
             </Grid>
         </Grid>
     </Border>
