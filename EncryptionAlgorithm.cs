@@ -63,9 +63,9 @@
         {
             get
             {
-                if (_cleanedData != null)
+                if (_processedData != null)
                 {
-                    return _cleanedData;
+                    return _processedData;
                 }
                 else //Should never occur but to make code more robust
                 {
@@ -74,7 +74,7 @@
             }
             set //Does not need validation as all user input validation has already been done and this is purely internal
             {
-                _cleanedData = value;
+                _processedData = value;
             }
         }
 
@@ -86,9 +86,9 @@
         {
             get
             {
-                if (_cleanedData != null)
+                if (_outputData != null)
                 {
-                    return _cleanedData;
+                    return _outputData;
                 }
                 else //Should never occur but to make code more robust
                 {
@@ -97,7 +97,7 @@
             }
             set //Does not need validation as all user input validation has already been done and this is purely internal
             {
-                _cleanedData = value;
+                _outputData = value;
             }
         }
 
@@ -136,7 +136,7 @@
                 {
                     if((int)RawDataCharacter < 256) //If the character is a part of extended ASCII (0-255), add to CleanedData
                     {
-                        CleanedData += Convert.ToString(((int)RawDataCharacter), 2); //Converts integer (Extended ASCII) representation into a string containing binary
+                        CleanedData += Convert.ToString(((int)RawDataCharacter), 2).PadLeft(8,'0'); //Converts integer (Extended ASCII) representation into a string containing binary then pads it with zeros untill it is 8 bits long before adding it to cleaned data
                     }
                     else //Else add a question mark
                     {
@@ -167,7 +167,7 @@
             {
                 if (WorkingProcessedData[Index] != ',')//Handles CSV files
                 {
-                    OutputData+=Convert.ToString(Convert.ToInt32(WorkingProcessedData.Substring(Index, 8),2)); //First converts ProcessedData into an integer from a string of binary, then converts it back into a string to add to OutputData
+                    OutputData+=Convert.ToString((char)Convert.ToInt32(WorkingProcessedData.Substring(Index, 8),2)); //First converts ProcessedData into an integer from a string of binary, then converts it back into a string to add to OutputData
                     Index += 8;
                 }
                 else 

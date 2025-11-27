@@ -96,11 +96,11 @@
                                 ASCIICharacter -= 30;
                             }
                         }
-                        ProcessedData += Convert.ToString(ASCIICharacter); //Adds ciphertext to processedData
+                        ProcessedData += Convert.ToString(ASCIICharacter,2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
                     else
                     {
-                        ProcessedData += Convert.ToString(ASCIICharacter); //Adds ciphertext to processedData
+                        ProcessedData += Convert.ToString(ASCIICharacter,2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
                     Index += 8;
                 }

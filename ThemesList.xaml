@@ -6,29 +6,37 @@
     To add any new or (custom) user controls requires a version of each style for each control-->
     <Style TargetType="Menu" x:Key="BaseMenu">
         <Setter Property="Background" Value="White"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="Menu" x:Key="DarkMenu">
         <Setter Property="BorderBrush" Value="#99b3e6"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="MenuItem" x:Key="BaseMenuItem">
         <Setter Property="Background" Value="White"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="MenuItem" x:Key="DarkMenuItem">
         <Setter Property="Foreground" Value="#99b3e6"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="#595959"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="Label" x:Key="BaseLabel">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Foreground" Value="Black"/>
     </Style>
     <Style TargetType="Label" x:Key="DarkLabel">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
     </Style>
     <Style TargetType="Window" x:Key="BaseWindow">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="Black"/>
     </Style>
     <Style TargetType="Window" x:Key="DarkWindow">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="#99b3e6"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
@@ -42,32 +50,40 @@
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="Button" x:Key="BaseButton">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="Gray"/>
     </Style>
     <Style TargetType="Button" x:Key="DarkButton">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="#99b3e6"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="TextBlock" x:Key="BaseTextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Foreground" Value="Black"/>
     </Style>
     <Style TargetType="TextBlock" x:Key="DarkTextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="TextBox" x:Key="BaseTextBox">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="DarkGray"/>
     </Style>
     <Style TargetType="TextBox" x:Key="DarkTextBox">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="#99b3e6"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
     <Style TargetType="RadioButton" x:Key="BaseRadioButton">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="DarkGray"/>
     </Style>
     <Style TargetType="RadioButton" x:Key="DarkRadioButton">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="#99b3e6"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
@@ -78,14 +94,18 @@
         <Setter Property="Stroke" Value="#99b3e6"/>
     </Style>
     <Style TargetType="ComboBoxItem" x:Key="BaseComboBoxItem">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Background" Value="White"/>
     </Style>
     <Style TargetType="ComboBoxItem" x:Key="DarkComboBoxItem">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
         <Setter Property="BorderBrush" Value="#595959"/>
         <Setter Property="Background" Value="#595959"/>
     </Style>
-    
+    <FontFamily x:Key="ArialFont">Arial</FontFamily>
+    <FontFamily x:Key="SegoeUI">Segoe UI</FontFamily>
+    <FontFamily x:Key="ComicSansMS">Comic Sans MS</FontFamily>
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -358,6 +378,7 @@
         <Setter Property="Background" Value="{StaticResource ComboBox.Disabled.Background}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>

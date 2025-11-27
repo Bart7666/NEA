@@ -4,22 +4,30 @@
     <!-- Contains the list of all controls with a key associated with each so styles can be changed easily -->
     <!-- To add more controls create master key alongside style here and actual styles in ThemesList Dictionary -->
     <Style TargetType="MenuItem" x:Key="MenuItem">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="Button" x:Key="Button">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="Menu" x:Key="Menu">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Background" Value="White"/>
     </Style>
     <Style TargetType="Window" x:Key="Window">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     <!-- This is used to control the background to each window of the solution -->
     </Style>
     <Style TargetType="TextBlock" x:Key="TextBlock">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="TextBox" x:Key="TextBox">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="Label" x:Key="Label">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="RadioButton" x:Key="RadioButton">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="Border" x:Key="Border">
         <Setter Property="BorderThickness" Value="0.25"/>
@@ -29,8 +37,10 @@
         <Setter Property="Stroke" Value="Black"/>
     </Style>
     <Style TargetType="ComboBox" x:Key="ComboBox">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <Style TargetType="ComboBoxItem" x:Key="ComboBoxItem">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
     <!-- This is to fix the border issue discovered in testing for prototype 1 and is copied code with small alterations-->
     <Style x:Key="WindowMainPanelStyle" TargetType="{x:Type Border}">
@@ -42,10 +52,12 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
-    
-    
-    
+    <FontFamily x:Key="CurrentFont">Segoe UI</FontFamily>
+
+
+
+
+
 
 </ResourceDictionary>
     

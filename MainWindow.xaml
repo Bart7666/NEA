@@ -11,6 +11,7 @@
         <WindowChrome CaptionHeight="40" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
     </WindowChrome.WindowChrome>
     <Window.Resources>
+        <sys:String x:Key="Font">"SegoeUI"</sys:String>
         <sys:String x:Key="Theme">"Light"</sys:String>
     </Window.Resources>
     <Border Style="{StaticResource WindowMainPanelStyle}">

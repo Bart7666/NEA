@@ -81,6 +81,18 @@
                         <RadioButton Grid.Column="1" x:Name="DarkModeRButton" Style="{DynamicResource RadioButton}" GroupName="Theme" Content="Dark" Margin="5,0,0,0"/>
                     </Grid>
                 </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1">
+                    <Grid Margin="5,5,5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" x:Name="SegoeUIRButton" Style="{DynamicResource RadioButton}" GroupName="Font" Content="Segoe UI" Margin="0,0,5,0" FontFamily="Segoe UI"/>
+                        <RadioButton Grid.Column="1" x:Name="ArialRButton" Style="{DynamicResource RadioButton}" GroupName="Font" Content="Arial" Margin="5,0,5,0" FontFamily="Arial"/>
+                        <RadioButton Grid.Column="2" x:Name="ComicSansMSRButton" Style="{DynamicResource RadioButton}" GroupName="Font" Content="Comic Sans MS" Margin="5,0,0,0" FontFamily="Comic Sans MS"/>
+                    </Grid>
+                </Viewbox>
                 <Viewbox Grid.Row="2" Grid.Column="1">
                     <Button Margin="2" x:Name="ApplyButton" Click="ApplyButton_Click" Content="Apply" Style="{DynamicResource Button}" Loaded="ApplyButton_Loaded"/>
                 </Viewbox>

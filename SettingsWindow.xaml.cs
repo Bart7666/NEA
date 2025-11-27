@@ -25,11 +25,9 @@ namespace NEA
         {
             InitializeComponent();
         }
-        
-
 
         /// <summary>
-        /// Sets the user theme depending on the currently selected radiobutton.
+        /// Sets the user settings depending on the currently selected radiobuttons.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -80,7 +78,43 @@ namespace NEA
                 Application.Current.Resources["Icon Path"] = Application.Current.Resources["DarkPath"];
                 Application.Current.Resources["ComboBox"] = Application.Current.Resources["DarkComboBox"];
                 Application.Current.Resources["ComboBoxItem"] = Application.Current.Resources["DarkComboBoxItem"];
+            }
 
+            if(SegoeUIRButton.IsChecked != null && (bool)SegoeUIRButton.IsChecked) //Applies selected font 
+            {
+                if (this.Owner is MainWindow) //If settings was opened from Home window.
+                {
+                    this.Owner.Resources["Font"] = "SegoeUI";//This changes the value of font to SegoeUI
+                }
+                else //If settings was opened from any other window (the solution will only have 2 layers of owned windows with settings).
+                {
+                    this.Owner.Owner.Resources["Font"] = "SegoeUI";//This changes the value of font to SegoeUI
+                }
+                Application.Current.Resources["CurrentFont"] = Application.Current.Resources["SegoeUI"];
+            }
+            else if(ArialRButton.IsChecked != null && (bool)ArialRButton.IsChecked)
+            {
+                if (this.Owner is MainWindow) //If settings was opened from Home window.
+                {
+                    this.Owner.Resources["Font"] = "Arial";//This changes the value of font to Arial
+                }
+                else //If settings was opened from any other window (the solution will only have 2 layers of owned windows with settings).
+                {
+                    this.Owner.Owner.Resources["Font"] = "Arial";//This changes the value of font to Arial
+                }
+                Application.Current.Resources["CurrentFont"] = Application.Current.Resources["Arial"];
+            }
+            else if (ComicSansMSRButton.IsChecked != null && (bool)ComicSansMSRButton.IsChecked)
+            {
+                if (this.Owner is MainWindow) //If settings was opened from Home window.
+                {
+                    this.Owner.Resources["Font"] = "ComicSansMS";//This changes the value of font to ComicSansMS
+                }
+                else //If settings was opened from any other window (the solution will only have 2 layers of owned windows with settings).
+                {
+                    this.Owner.Owner.Resources["Font"] = "ComicSansMS";//This changes the value of font to ComicSansMS
+                }
+                Application.Current.Resources["CurrentFont"] = Application.Current.Resources["ComicSansMS"];
             }
             this.Owner.Show();
             this.Close();
@@ -94,7 +128,7 @@ namespace NEA
         {
             if (this.Owner is MainWindow) //If settings was opened from Home window.
             {
-                if ((string)this.Owner.FindResource("Theme") == "Light")
+                if ((string)this.Owner.FindResource("Theme") == "Light") //Checks currently selected theme
                 {
                     LightModeRButton.IsChecked = true;
                 }
@@ -105,6 +139,22 @@ namespace NEA
                 else //Base case for first loading
                 {
                     LightModeRButton.IsChecked = true;
+                }
+                if ((string)this.Owner.FindResource("Font") == "SegoeUI") //Checjs currently selected font
+                {
+                    SegoeUIRButton.IsChecked = true;
+                }
+                else if ((string)this.Owner.FindResource("Font") == "Arial")
+                {
+                    ArialRButton.IsChecked = true;
+                }
+                else if ((string)this.Owner.FindResource("Font") == "ComicSansMS")
+                {
+                    ComicSansMSRButton.IsChecked = true;
+                }
+                else //Base case for first loading
+                {
+                    SegoeUIRButton.IsChecked = true;
                 }
             }
             else //If settings was opened from any other window (the solution will only have 2 layers of owned windows with settings).
@@ -120,6 +170,22 @@ namespace NEA
                 else //Base case for first loading
                 {
                     LightModeRButton.IsChecked = true;
+                }
+                if ((string)this.Owner.Owner.FindResource("Font") == "SegoeUI") //Checjs currently selected font
+                {
+                    SegoeUIRButton.IsChecked = true;
+                }
+                else if ((string)this.Owner.Owner.FindResource("Font") == "Arial")
+                {
+                    ArialRButton.IsChecked = true;
+                }
+                else if ((string)this.Owner.Owner.FindResource("Font") == "ComicSansMS")
+                {
+                    ComicSansMSRButton.IsChecked = true;
+                }
+                else //Base case for first loading
+                {
+                    SegoeUIRButton.IsChecked = true;
                 }
             }
         }
