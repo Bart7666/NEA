@@ -69,10 +69,10 @@
                     <Button Content="Encryption&#10;      and&#10;Decryption" x:Name="EncryptionDecryptionButton" Click="EncryptionDecryptionButton_Click" Margin="10,5,5,5" Style="{DynamicResource Button}"/>
                 </Viewbox>
                 <Viewbox Grid.Column="1" Grid.Row="1" Stretch="Uniform">
-                    <Button Content="&#10;Networking&#10;"  Margin="5,5,5,5" Style="{DynamicResource Button}"/>
+                    <Button Content="&#10;Networking&#10;" Margin="5,5,5,5" x:Name="NetworkingBtn" Click="NetworkingBtn_Click" Style="{DynamicResource Button}"/>
                 </Viewbox>
                 <Viewbox Grid.Column="2" Grid.Row="1" Stretch="Uniform">
-                    <Button Content="  Algorithm&#10;&#10;Comparison"  Margin="5,5,10,5" Style="{DynamicResource Button}"/>
+                    <Button Content="  Algorithm&#10;&#10;Comparison" x:Name="AlgorithmComparisonBtn" Click="AlgorithmComparisonBtn_Click" Margin="5,5,10,5" Style="{DynamicResource Button}"/>
                 </Viewbox>
             </Grid>
         </Grid>

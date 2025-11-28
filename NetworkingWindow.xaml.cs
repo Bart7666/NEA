@@ -1,6 +1,9 @@
-﻿using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,80 +12,18 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace NEA
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for NetworkingWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class NetworkingWindow : Window
     {
-        public MainWindow()
+        public NetworkingWindow()
         {
             InitializeComponent();
-        }
-        /// <summary>
-        /// Minimises the current window.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MinimiseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-        /// <summary>
-        /// Maximises the current window.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MaximiseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(this.WindowState == WindowState.Maximized) { this.WindowState= WindowState.Normal; }
-            else {  this.WindowState = WindowState.Maximized;}
-        }
-        /// <summary>
-        /// Closes this window and so the entire application.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-        /// <summary>
-        /// Opens the settings window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            SettingsWindow settingsWindow = new SettingsWindow();
-            settingsWindow.Owner = this;
-            settingsWindow.Show();
-            this.Hide();
-        }
-        /// <summary>
-        /// Does nothing as the user is already in the home screen.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void HomeButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        /// <summary>
-        /// Opens EncryptionDecryption Window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EncryptionDecryptionButton_Click(object sender, RoutedEventArgs e)
-        {
-            EncryptionDecryptionWIndow encryptionDecryptionWIndow = new EncryptionDecryptionWIndow();
-            encryptionDecryptionWIndow.Owner = this;
-            encryptionDecryptionWIndow.Show();
-            this.Hide();
         }
         // The following code (untill comment says otherwise) fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
         protected override void OnSourceInitialized(EventArgs e)
@@ -184,23 +125,56 @@ namespace NEA
             public POINT ptMaxTrackSize;
         }
         //End of copied code.
-        private void AlgorithmComparisonBtn_Click(object sender, RoutedEventArgs e)
+
+        /// <summary>
+        /// Minimises the current window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MinimiseButton_Click(object sender, RoutedEventArgs e)
         {
-            AlgorithmComparisonWindow algorithmComparisonWindow = new AlgorithmComparisonWindow();
-            algorithmComparisonWindow.Owner = this;
-            algorithmComparisonWindow.Show();
+            this.WindowState = WindowState.Minimized;
+        }
+        /// <summary>
+        /// Maximises the current window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MaximiseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized) { this.WindowState = WindowState.Normal; }
+            else { this.WindowState = WindowState.Maximized; }
+        }
+        /// <summary>
+        /// Closes the parent window closing the entire application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Owner.Close();
+        }
+        /// <summary>
+        /// Opens the settings window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.Owner = this;
+            settingsWindow.Show();
             this.Hide();
         }
-
-        private void NetworkingBtn_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Closes this window and shows home window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
-            NetworkingWindow networkingWindow = new NetworkingWindow();
-            networkingWindow.Owner = this;
-            networkingWindow.Show();
-            this.Hide();
+            this.Owner.Show();
+            this.Close();
         }
-        
-
-
     }
 }

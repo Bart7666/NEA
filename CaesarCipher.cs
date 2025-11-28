@@ -132,49 +132,49 @@
                     {
                         if (ASCIICharacter >= 65 && ASCIICharacter <= 90) //Character is a (standard) capital letter
                         {
-                            ASCIICharacter += EffectiveKey;
-                            if (ASCIICharacter > 90) //If new character is greater than range of extended ASCII (standard) capital letters
+                            ASCIICharacter -= EffectiveKey;
+                            if (ASCIICharacter < 65) //If new character is greater than range of extended ASCII (standard) capital letters
                             {
-                                ASCIICharacter -= 26;
+                                ASCIICharacter += 26;
                             }
                         }
                         else if (ASCIICharacter >= 97 && ASCIICharacter <= 122) //Character is a (standard) letter
                         {
-                            ASCIICharacter += EffectiveKey;
-                            if (ASCIICharacter > 122) //If new character is greater than range of extended ASCII (standard) letters
+                            ASCIICharacter -= EffectiveKey;
+                            if (ASCIICharacter < 97) //If new character is greater than range of extended ASCII (standard) letters
                             {
-                                ASCIICharacter -= 26;
+                                ASCIICharacter += 26;
                             }
                         }
                         else if (ASCIICharacter >= 48 && ASCIICharacter <= 57) //Character is a number
                         {
-                            ASCIICharacter += EffectiveKey;
-                            if (ASCIICharacter > 57) //If new character is greater than range of extended ASCII mumbers
+                            ASCIICharacter -= EffectiveKey;
+                            if (ASCIICharacter < 48) //If new character is greater than range of extended ASCII mumbers
                             {
-                                ASCIICharacter -= 10;
+                                ASCIICharacter += 10;
                             }
                         }
                         else if (ASCIICharacter >= 192 && ASCIICharacter <= 222) //Character is a (extended) capital letter
                         {
-                            ASCIICharacter += EffectiveKey;
-                            if (ASCIICharacter > 222) //If new character is greater than range of extended ASCII (extended) letters
+                            ASCIICharacter -= EffectiveKey;
+                            if (ASCIICharacter < 192) //If new character is greater than range of extended ASCII (extended) letters
                             {
-                                ASCIICharacter -= 30;
+                                ASCIICharacter += 30;
                             }
                         }
                         else if (ASCIICharacter >= 224 && ASCIICharacter <= 254) //Character is a (extended) capital letter
                         {
-                            ASCIICharacter += EffectiveKey;
-                            if (ASCIICharacter > 254) //If new character is greater than range of extended ASCII (extended) letters
+                            ASCIICharacter -= EffectiveKey;
+                            if (ASCIICharacter < 224) //If new character is greater than range of extended ASCII (extended) letters
                             {
-                                ASCIICharacter -= 30;
+                                ASCIICharacter += 30;
                             }
                         }
-                        ProcessedData += Convert.ToString(ASCIICharacter); //Adds plaintext to processedData
+                        ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds plaintext to processedData
                     }
                     else
                     {
-                        ProcessedData += Convert.ToString(ASCIICharacter); //Adds plaintext to processedData
+                        ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds plaintext to processedData
                     }
                     Index += 8;
                 }

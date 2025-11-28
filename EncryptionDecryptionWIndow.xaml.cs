@@ -190,40 +190,48 @@ namespace NEA
             {
                 if(CurrentAlgorithm == AlgorithmSelected.CaesarCipher) //Caesar Cipher is selected to use
                 {
-                    CaesarCipher Algorithm = new CaesarCipher(); //Instance of Caesar Cipher created
-                    ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text); //Attempts to set and so validate input data
-                    if (InputValidity == ValidationResult.Valid) //If all input data is correct
-                    {
-                        Algorithm.CleanData(DataInputType.Text); //Cleans input data
-                        if((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
-                        {
-                            Algorithm.EncryptData();
-                            Algorithm.ComposeData(DataInputType.Text);
-                        }
-                        else if ((string)EncryptDecryptBtn.Content == "Decrypt")
-                        {
-                            Algorithm.DecryptData();
-                            Algorithm.ComposeData(DataInputType.Text);
-                        }
-                        OutputFieldTBlock.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
-                    }
-                    else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
-                    {
-                        throw new NotImplementedException(); //Create pop up window alerting user of incorrect input plaintext / ciphertext data
-                    }
-                    else if (InputValidity == ValidationResult.KeyInvalid) //Alerts user key is invalid for this algorithm
-                    {
-                        throw new NotImplementedException(); //Create pop up window alerting user of incorrect key
-                    }
-                    else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
-                    {
-                        throw new NotImplementedException(); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
-                    }
+                    RunCaesarCipher(); //Runs the Caesar Cipher on input data
                 }
             }
             else // No algorithm selected
             {
                 throw new NotImplementedException(); //Create pop up window alerting user of them not having selected a cipher to use
+            }
+        }
+        /// <summary>
+        /// Runs the Caesar Cipher with the selected settings using the Input Data
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        private void RunCaesarCipher()
+        {
+            CaesarCipher Algorithm = new CaesarCipher(); //Instance of Caesar Cipher created
+            ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text); //Attempts to set and so validate input data
+            if (InputValidity == ValidationResult.Valid) //If all input data is correct
+            {
+                Algorithm.CleanData(DataInputType.Text); //Cleans input data
+                if((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
+                {
+                    Algorithm.EncryptData();
+                    Algorithm.ComposeData(DataInputType.Text);
+                }
+                else if ((string)EncryptDecryptBtn.Content == "Decrypt")
+                {
+                    Algorithm.DecryptData();
+                    Algorithm.ComposeData(DataInputType.Text);
+                }
+                OutputFieldTBlock.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
+            }
+            else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
+            {
+                throw new NotImplementedException(); //Create pop up window alerting user of incorrect input plaintext / ciphertext data
+            }
+            else if (InputValidity == ValidationResult.KeyInvalid) //Alerts user key is invalid for this algorithm
+            {
+                throw new NotImplementedException(); //Create pop up window alerting user of incorrect key
+            }
+            else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
+            {
+                throw new NotImplementedException(); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
             }
         }
         /// <summary>

@@ -21,8 +21,8 @@
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
+            <!--Title Bar-->
             <Grid Grid.Row="0" Grid.ColumnSpan="3">
-                <!--Title Bar-->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
@@ -54,8 +54,8 @@
                     </Canvas>
                 </Button>
             </Grid>
+            <!-- Content of the window -->
             <Grid Grid.Column="1" Grid.Row="1">
-                <!-- Content of the window -->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -89,7 +89,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <RadioButton Grid.Column="0" x:Name="SegoeUIRButton" Style="{DynamicResource RadioButton}" GroupName="Font" Content="Segoe UI" Margin="0,0,5,0" FontFamily="Segoe UI"/>
-                        <RadioButton Grid.Column="1" x:Name="ArialRButton" Style="{DynamicResource RadioButton}" GroupName="Font" Content="Arial" Margin="5,0,5,0" FontFamily="Arial"/>
+                        <RadioButton Grid.Column="1" x:Name="ArialRButton" VerticalContentAlignment="Center" Style="{DynamicResource RadioButton}" GroupName="Font" Content="Arial" Margin="5,0,5,0" FontFamily="Arial"/>
                         <RadioButton Grid.Column="2" x:Name="ComicSansMSRButton" Style="{DynamicResource RadioButton}" GroupName="Font" Content="Comic Sans MS" Margin="5,0,0,0" FontFamily="Comic Sans MS"/>
                     </Grid>
                 </Viewbox>
