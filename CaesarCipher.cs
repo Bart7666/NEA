@@ -100,7 +100,7 @@
                         }
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
-                    else
+                    else // Not an encryptable character
                     {
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
@@ -176,7 +176,7 @@
                         }
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds plaintext to processedData
                     }
-                    else
+                    else // Not a decryptable character
                     {
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds plaintext to processedData
                     }
