@@ -220,7 +220,7 @@ namespace NEA
                     Algorithm.DecryptData();
                     Algorithm.ComposeData(DataInputType.Text);
                 }
-                OutputFieldTBlock.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
+                OutpotFieldTBox.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
             }
             else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
             {
@@ -325,8 +325,8 @@ namespace NEA
         private void SwapFieldsBtn_Click(object sender, RoutedEventArgs e)
         {
             string TempVar = InputFieldTBox.Text;
-            InputFieldTBox.Text = OutputFieldTBlock.Text;
-            OutputFieldTBlock.Text = TempVar;
+            InputFieldTBox.Text = OutpotFieldTBox.Text;
+            OutpotFieldTBox.Text = TempVar;
         }
     }
     
