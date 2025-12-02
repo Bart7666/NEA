@@ -57,7 +57,7 @@
         <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="BorderBrush" Value="#99b3e6"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
-        <Setter Property="Background" Value="#595959"/>
+        <Setter Property="Background" Value="#777777"/>
     </Style>
     <Style TargetType="TextBlock" x:Key="BaseTextBlock">
         <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
@@ -101,7 +101,7 @@
         <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
         <Setter Property="Foreground" Value="#99b3e6"/>
         <Setter Property="BorderBrush" Value="#595959"/>
-        <Setter Property="Background" Value="#595959"/>
+        <Setter Property="Background" Value="#777777"/>
     </Style>
     <FontFamily x:Key="ArialFont">Arial</FontFamily>
     <FontFamily x:Key="SegoeUI">Segoe UI</FontFamily>

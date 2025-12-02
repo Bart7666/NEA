@@ -190,7 +190,8 @@ namespace NEA
             {
                 if(CurrentAlgorithm == AlgorithmSelected.CaesarCipher) //Caesar Cipher is selected to use
                 {
-                    RunCaesarCipher(); //Runs the Caesar Cipher on input data
+                    RunCaesarCipher(); //Runs the Caesar Cipher on input data using config settings and key
+                    
                 }
             }
             else // No algorithm selected
@@ -235,6 +236,13 @@ namespace NEA
             }
         }
         /// <summary>
+        /// Sets the config settings and the key requiremnts to be displayed
+        /// </summary>
+        private void CaesarCipherConfig()
+        {
+            KeyFieldTBox.Text = "Any integer";
+        }
+        /// <summary>
         /// User selected to encrypt data and so changes content and logic of EncryptDecryptBtn to match.
         /// </summary>
         /// <param name="sender"></param>
@@ -253,13 +261,72 @@ namespace NEA
             EncryptDecryptBtn.Content = "Decrypt";
         }
         /// <summary>
-        /// Sets algorithm to be used in encryption and decryption to be Caesar Cipher
+        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SelectCaesarCipher_Selected(object sender, RoutedEventArgs e)
         {
             CurrentAlgorithm = AlgorithmSelected.CaesarCipher;
+            CaesarCipherConfig(); //Labels the Keyfield to require integer input
+        }
+        /// <summary>
+        /// Checks if the currently selected algorithm is one which uses a numeric key
+        /// </summary>
+        /// <returns></returns>
+        private bool IsNumerickey()
+        {
+            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher) //Contains list of algorithms which use numeric keys
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Depending on the required key, only allows the user to enter numbers or letters
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void KeyFieldTBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (IsNumerickey() & KeyFieldTBox.IsFocused) //Key validation for numeric keys
+            {
+                if (KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0) //Key field isn't empty
+                {
+                    if ((int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex-1]) < 48 | (int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex-1]) > 57) //If input at caret location is not a number
+                    {
+                        KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex-1, 1); //Clears character input
+                        KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Clears instruction text for user when selecting the keyfield box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void KeyFieldTBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (IsNumerickey() && KeyFieldTBox.Text == "Any integer") //If instruction text is still present for numeric keys
+            {
+                KeyFieldTBox.Text = "";
+            }
+        }
+        /// <summary>
+        /// Swaps content of input and output fields
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SwapFieldsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string TempVar = InputFieldTBox.Text;
+            InputFieldTBox.Text = OutputFieldTBlock.Text;
+            OutputFieldTBlock.Text = TempVar;
         }
     }
     
