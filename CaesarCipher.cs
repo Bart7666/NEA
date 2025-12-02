@@ -45,7 +45,9 @@
         /// </summary>
         public override void EncryptData()
         {
-            int EffectiveKey = Int32.Parse(Key) % 26; //Finds the actual transformation the key will effect
+            int EffectiveLetterKey = Int32.Parse(Key) % 26; //Finds the actual transformation the key will effect on letters
+            int EffectiveNumberKey = Int32.Parse(Key) % 10; //Finds the actual transformation the key will effect on numbers
+            int EffectiveExtendedKey = Int32.Parse(Key) % 30; //Finds the actual transformation the key will effect on extended characters
             string WorkingCleanedData = CleanedData; //Saves CleanedData to working variable
             int Index = 0;
             int ASCIICharacter; //Extended ASCII representation of a character
@@ -54,11 +56,11 @@
                 if (WorkingCleanedData[Index] != ',')//Handles CSV files
                 {
                     ASCIICharacter = Convert.ToInt32(WorkingCleanedData.Substring(Index, 8), 2); //First converts CleanedData into an integer from a string of binary and saves it to a variable
-                    if ((ASCIICharacter >=  65 && ASCIICharacter <= 90) | (ASCIICharacter >= 97 && ASCIICharacter <= 122) | (ASCIICharacter >= 48 && ASCIICharacter <= 57) | (ASCIICharacter >= 192 && ASCIICharacter <= 222) | (ASCIICharacter >= 224 && ASCIICharacter <= 254))
+                    if ((ASCIICharacter >= 65 && ASCIICharacter <= 90) | (ASCIICharacter >= 97 && ASCIICharacter <= 122) | (ASCIICharacter >= 48 && ASCIICharacter <= 57) | (ASCIICharacter >= 192 && ASCIICharacter <= 222) | (ASCIICharacter >= 224 && ASCIICharacter <= 254))
                     {
                         if (ASCIICharacter >= 65 && ASCIICharacter <= 90) //Character is a (standard) capital letter
                         {
-                            ASCIICharacter += EffectiveKey;
+                            ASCIICharacter += EffectiveLetterKey;
                             if (ASCIICharacter > 90) //If new character is greater than range of extended ASCII (standard) capital letters
                             {
                                 ASCIICharacter -= 26;
@@ -66,7 +68,7 @@
                         }
                         else if (ASCIICharacter >= 97 && ASCIICharacter <= 122) //Character is a (standard) letter
                         {
-                            ASCIICharacter += EffectiveKey;
+                            ASCIICharacter += EffectiveLetterKey;
                             if (ASCIICharacter > 122) //If new character is greater than range of extended ASCII (standard) letters
                             {
                                 ASCIICharacter -= 26;
@@ -74,7 +76,7 @@
                         }
                         else if (ASCIICharacter >= 48 && ASCIICharacter <= 57) //Character is a number
                         {
-                            ASCIICharacter += EffectiveKey;
+                            ASCIICharacter += EffectiveNumberKey;
                             if (ASCIICharacter > 57) //If new character is greater than range of extended ASCII mumbers
                             {
                                 ASCIICharacter -= 10;
@@ -82,7 +84,7 @@
                         }
                         else if (ASCIICharacter >= 192 && ASCIICharacter <= 222) //Character is a (extended) capital letter
                         {
-                            ASCIICharacter += EffectiveKey;
+                            ASCIICharacter += EffectiveExtendedKey;
                             if (ASCIICharacter > 222) //If new character is greater than range of extended ASCII (extended) letters
                             {
                                 ASCIICharacter -= 30;
@@ -90,17 +92,17 @@
                         }
                         else if (ASCIICharacter >= 224 && ASCIICharacter <= 254) //Character is a (extended) capital letter
                         {
-                            ASCIICharacter += EffectiveKey;
+                            ASCIICharacter += EffectiveExtendedKey;
                             if (ASCIICharacter > 254) //If new character is greater than range of extended ASCII (extended) letters
                             {
                                 ASCIICharacter -= 30;
                             }
                         }
-                        ProcessedData += Convert.ToString(ASCIICharacter,2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
+                        ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
                     else
                     {
-                        ProcessedData += Convert.ToString(ASCIICharacter,2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
+                        ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
                     Index += 8;
                 }
@@ -119,7 +121,9 @@
         /// </summary>
         public override void DecryptData()
         {
-            int EffectiveKey = Int32.Parse(Key) % 26; //Finds the actual transformation the key will effect
+            int EffectiveLetterKey = Int32.Parse(Key) % 26; //Finds the actual transformation the key will effect on letters
+            int EffectiveNumberKey = Int32.Parse(Key) % 10; //Finds the actual transformation the key will effect on numbers
+            int EffectiveExtendedKey = Int32.Parse(Key) % 30; //Finds the actual transformation the key will effect on extended characters
             string WorkingCleanedData = CleanedData; //Saves CleanedData to working variable
             int Index = 0;
             int ASCIICharacter; //Extended ASCII representation of a character
@@ -132,7 +136,7 @@
                     {
                         if (ASCIICharacter >= 65 && ASCIICharacter <= 90) //Character is a (standard) capital letter
                         {
-                            ASCIICharacter -= EffectiveKey;
+                            ASCIICharacter -= EffectiveLetterKey;
                             if (ASCIICharacter < 65) //If new character is greater than range of extended ASCII (standard) capital letters
                             {
                                 ASCIICharacter += 26;
@@ -140,7 +144,7 @@
                         }
                         else if (ASCIICharacter >= 97 && ASCIICharacter <= 122) //Character is a (standard) letter
                         {
-                            ASCIICharacter -= EffectiveKey;
+                            ASCIICharacter -= EffectiveLetterKey;
                             if (ASCIICharacter < 97) //If new character is greater than range of extended ASCII (standard) letters
                             {
                                 ASCIICharacter += 26;
@@ -148,7 +152,7 @@
                         }
                         else if (ASCIICharacter >= 48 && ASCIICharacter <= 57) //Character is a number
                         {
-                            ASCIICharacter -= EffectiveKey;
+                            ASCIICharacter -= EffectiveNumberKey;
                             if (ASCIICharacter < 48) //If new character is greater than range of extended ASCII mumbers
                             {
                                 ASCIICharacter += 10;
@@ -156,7 +160,7 @@
                         }
                         else if (ASCIICharacter >= 192 && ASCIICharacter <= 222) //Character is a (extended) capital letter
                         {
-                            ASCIICharacter -= EffectiveKey;
+                            ASCIICharacter -= EffectiveExtendedKey;
                             if (ASCIICharacter < 192) //If new character is greater than range of extended ASCII (extended) letters
                             {
                                 ASCIICharacter += 30;
@@ -164,7 +168,7 @@
                         }
                         else if (ASCIICharacter >= 224 && ASCIICharacter <= 254) //Character is a (extended) capital letter
                         {
-                            ASCIICharacter -= EffectiveKey;
+                            ASCIICharacter -= EffectiveExtendedKey;
                             if (ASCIICharacter < 224) //If new character is greater than range of extended ASCII (extended) letters
                             {
                                 ASCIICharacter += 30;
@@ -184,6 +188,7 @@
                     {
                         ProcessedData += ",";
                         Index++;
+        
                     }
                 }
             }
