@@ -26,6 +26,7 @@
     {
         None,
         CaesarCipher,
+        VigenèreCipher
     }
     
 }

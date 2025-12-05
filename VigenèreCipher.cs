@@ -1,18 +1,24 @@
-﻿namespace NEA
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NEA
 {
     /// <summary>
-    /// Implementation of CeasarCipher as a class.
+    /// Implementation of the Vigenère Cipher as a class
     /// </summary>
-    public class CaesarCipher : EncryptionAlgorithm
+    public class VigenèreCipher : EncryptionAlgorithm
     {
         /// <summary>
-        ///Key to use in encryption or decryption by Caesar Cipher, Overrides root key definition within EncryptionAlgorithm
+        /// Key to use in encryption or decryption by Vigenère Cipher, Overrides root key definition within EncryptionAlgorithm
         /// </summary>
         public override string Key
         {
             get
             {
-                if (_key != null)
+                if (_key != null) //Getter method
                 {
                     return _key;
                 }
@@ -21,39 +27,49 @@
                     return string.Empty;
                 }
             }
-            set 
+            set
             {
                 if (value != null)
                 {
                     value = value.Replace(" ", "");//Removes all spaces, string will not have any newlines as the key field does not accept them.
-                    foreach(char Character in value) //Checks the passed value is made of purely integers
+                    value = value.ToLower(); //Converts passed value to lowercase
+                    foreach (char Character in value) //Checks the passed value is purely letters in the english alphabet
                     {
-                        if (!Char.IsDigit(Character)) 
+                        if (!((int)Character >= 97 && (int)Character <= 122)) //If it is not a letter set value of key to null and stop checking
                         { 
-                            _key = null;
+                            _key = null; 
                             break;
                         }
-                        else
+                        else //If (this character of ) the key is an english letter
                         {
-                            _key = value;
+                            _key = value; 
                         }
                     }
                 }
             }
         }
         /// <summary>
-        /// Encrypts plaintext using the Caesar Cipher
+        /// Encrypts plaintext using the Vigenère Cipher
         /// </summary>
         public override void EncryptData()
         {
-            int EffectiveLetterKey = Int32.Parse(Key) % 26; //Finds the actual transformation the key will effect on letters
-            int EffectiveNumberKey = Int32.Parse(Key) % 10; //Finds the actual transformation the key will effect on numbers
-            int EffectiveExtendedKey = Int32.Parse(Key) % 30; //Finds the actual transformation the key will effect on extended characters
+            int KeyIndex = 0; //Current index of key to use to encrypt
+            char CurrentKeyCharacter; //Character at KeyIndex;
+            int CurrentKey; //Conversion of character into an integer
             string WorkingCleanedData = CleanedData; //Saves CleanedData to working variable
             int Index = 0;
             int ASCIICharacter; //Extended ASCII representation of a character
             while (Index < WorkingCleanedData.Length)
             {
+                if(KeyIndex >= Key.Length) // If end of key is reached, loop back to start
+                {
+                    KeyIndex = 0;
+                }
+                CurrentKeyCharacter = Key[KeyIndex]; //Gets current character of key to use as encryption key
+                CurrentKey = (int)CurrentKeyCharacter-96; //Converts character to general encryption key by making it a 1-26 (a-z)
+                int EffectiveLetterKey = CurrentKey % 26; //Finds the actual transformation the key will effect on letters
+                int EffectiveNumberKey = CurrentKey % 10; //Finds the actual transformation the key will effect on numbers
+                int EffectiveExtendedKey = CurrentKey % 30; //Finds the actual transformation the key will effect on extended characters
                 if (WorkingCleanedData[Index] != ',')//Handles CSV files
                 {
                     ASCIICharacter = Convert.ToInt32(WorkingCleanedData.Substring(Index, 8), 2); //First converts CleanedData into an integer from a string of binary and saves it to a variable
@@ -106,6 +122,7 @@
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
                     Index += 8;
+                    KeyIndex++; 
                 }
                 else
                 {
@@ -118,20 +135,29 @@
             }
         }
         /// <summary>
-        /// Decrypts ciphertext using the Caesar Cipher
+        /// Decrypts ciphertext using the Vigenère Cipher
         /// </summary>
         public override void DecryptData()
         {
-            int EffectiveLetterKey = Int32.Parse(Key) % 26; //Finds the actual transformation the key will effect on letters
-            int EffectiveNumberKey = Int32.Parse(Key) % 10; //Finds the actual transformation the key will effect on numbers
-            int EffectiveExtendedKey = Int32.Parse(Key) % 30; //Finds the actual transformation the key will effect on extended characters
+            int KeyIndex = 0; //Current index of key to use to decrypt
+            char CurrentKeyCharacter; //Character at KeyIndex;
+            int CurrentKey; //Conversion of character into an integer
             string WorkingCleanedData = CleanedData; //Saves CleanedData to working variable
             int Index = 0;
             int ASCIICharacter; //Extended ASCII representation of a character
             while (Index < WorkingCleanedData.Length)
             {
-                if (WorkingCleanedData[Index] != ',')//Handles CSV files
+                if (KeyIndex >= Key.Length) // If end of key is reached, loop back to start
                 {
+                    KeyIndex = 0;
+                }
+                CurrentKeyCharacter = (Key[KeyIndex]); //Gets current character of key to use as decryption key
+                CurrentKey = (int)CurrentKeyCharacter - 96; //Converts character to general decryption key by making it a 1-26 (a-z)
+                int EffectiveLetterKey = CurrentKey % 26; //Finds the actual transformation the key will effect on letters
+                int EffectiveNumberKey = CurrentKey % 10; //Finds the actual transformation the key will effect on numbers
+                int EffectiveExtendedKey = CurrentKey % 30; //Finds the actual transformation the key will effect on extended characters
+                if (WorkingCleanedData[Index] != ',')//Handles CSV files
+                { 
                     ASCIICharacter = Convert.ToInt32(WorkingCleanedData.Substring(Index, 8), 2); //First converts CleanedData into an integer from a string of binary and saves it to a variable
                     if ((ASCIICharacter >= 65 && ASCIICharacter <= 90) | (ASCIICharacter >= 97 && ASCIICharacter <= 122) | (ASCIICharacter >= 48 && ASCIICharacter <= 57) | (ASCIICharacter >= 192 && ASCIICharacter <= 222) | (ASCIICharacter >= 224 && ASCIICharacter <= 254))
                     {
@@ -142,7 +168,7 @@
                             {
                                 ASCIICharacter += 26;
                             }
-                        }   
+                        }
                         else if (ASCIICharacter >= 97 && ASCIICharacter <= 122) //Character is a (standard) letter
                         {
                             ASCIICharacter -= EffectiveLetterKey;
@@ -182,6 +208,7 @@
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds plaintext to processedData
                     }
                     Index += 8;
+                    KeyIndex++;
                 }
                 else
                 {
@@ -189,12 +216,11 @@
                     {
                         ProcessedData += ",";
                         Index++;
-        
+
                     }
                 }
             }
         }
     }
-    
-}
 
+}

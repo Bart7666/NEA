@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -17,13 +18,13 @@ using System.Windows.Shapes;
 namespace NEA
 {   
     /// <summary>
-    /// Interaction logic for EncryptionDecryptionWIndow.xaml
+    /// Interaction logic for EncryptionDecryptionWindow.xaml
     /// </summary>
-    public partial class EncryptionDecryptionWIndow : Window
+    public partial class EncryptionDecryptionWindow : Window
     {
         public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None;
 
-        public EncryptionDecryptionWIndow()
+        public EncryptionDecryptionWindow()
         {
             InitializeComponent();
         }
@@ -188,24 +189,42 @@ namespace NEA
         {
             if (CurrentAlgorithm != AlgorithmSelected.None) //An algorithm is selected
             {
-                if(CurrentAlgorithm == AlgorithmSelected.CaesarCipher) //Caesar Cipher is selected to use
-                {
-                    RunCaesarCipher(); //Runs the Caesar Cipher on input data using config settings and key
-                    
-                }
+                RunAlgorithm(SelectAlgorithm()!); //Runs the algorithm
             }
             else // No algorithm selected
             {
-                throw new NotImplementedException(); //Create pop up window alerting user of them not having selected a cipher to use
+                MessageBox.Show("No algorithm selected, please select one from the drop down menu","Algorithm Selection Error"); //Creates a pop up window alerting user of them not having selected a cipher to use
             }
         }
         /// <summary>
-        /// Runs the Caesar Cipher with the selected settings using the Input Data
+        /// Creates an instance of the selected algorithm to use in encryption / decryption
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        private void RunCaesarCipher()
+        /// <returns></returns>
+        private EncryptionAlgorithm? SelectAlgorithm()
         {
-            CaesarCipher Algorithm = new CaesarCipher(); //Instance of Caesar Cipher created
+            EncryptionAlgorithm Algorithm;
+            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher)
+            {
+                Algorithm = new CaesarCipher(); //Instance of Caesar Cipher created
+                return Algorithm;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.VigenèreCipher)
+            {
+                Algorithm = new VigenèreCipher();
+                return Algorithm;
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+       /// <summary>
+       /// Runs the selected cipher using the selected settings and the given inputs
+       /// </summary>
+       /// <param name="Algorithm"></param>
+        private void RunAlgorithm(EncryptionAlgorithm Algorithm)
+        {
             ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text); //Attempts to set and so validate input data
             if (InputValidity == ValidationResult.Valid) //If all input data is correct
             {
@@ -224,15 +243,15 @@ namespace NEA
             }
             else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
             {
-                throw new NotImplementedException(); //Create pop up window alerting user of incorrect input plaintext / ciphertext data
+                MessageBox.Show("Incorrect input data, please check requirements for this algorithm", "Incorrect Data Input");//Creates a pop up window alerting user of incorrect input plaintext / ciphertext data
             }
             else if (InputValidity == ValidationResult.KeyInvalid) //Alerts user key is invalid for this algorithm
             {
-                throw new NotImplementedException(); //Create pop up window alerting user of incorrect key
+                MessageBox.Show("Incorrect key input, please check requirements for key for this algorithm", "Incorrect Key Input"); //Creates a pop up window alerting user of incorrect key
             }
             else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
             {
-                throw new NotImplementedException(); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
+                MessageBox.Show("Incorrect key and data input, please check requirements for this algorithm", "Incorrect Key and Data Input"); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
             }
         }
         /// <summary>
@@ -241,6 +260,13 @@ namespace NEA
         private void CaesarCipherConfig()
         {
             KeyFieldTBox.Text = "Any integer";
+        }
+        /// <summary>
+        /// Sets the config settings and the key requiremnts to be displayed
+        /// </summary>
+        private void VigenèreCipherConfig()
+        {
+            KeyFieldTBox.Text = "Any English letters";
         }
         /// <summary>
         /// User selected to encrypt data and so changes content and logic of EncryptDecryptBtn to match.
@@ -260,16 +286,7 @@ namespace NEA
         {
             EncryptDecryptBtn.Content = "Decrypt";
         }
-        /// <summary>
-        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SelectCaesarCipher_Selected(object sender, RoutedEventArgs e)
-        {
-            CurrentAlgorithm = AlgorithmSelected.CaesarCipher;
-            CaesarCipherConfig(); //Labels the Keyfield to require integer input
-        }
+        
         /// <summary>
         /// Checks if the currently selected algorithm is one which uses a numeric key
         /// </summary>
@@ -292,15 +309,22 @@ namespace NEA
         /// <param name="e"></param>
         private void KeyFieldTBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (IsNumerickey() & KeyFieldTBox.IsFocused) //Key validation for numeric keys
-            {
-                if (KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0) //Key field isn't empty
+            if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0) //Key validation for numeric keys
+            { 
+                int ChangedCharacter = (int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex - 1]); //Most recently added character in ASCII form
+                if (ChangedCharacter < 48 | ChangedCharacter > 57) //If input at caret location is not a number
                 {
-                    if ((int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex-1]) < 48 | (int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex-1]) > 57) //If input at caret location is not a number
-                    {
-                        KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex-1, 1); //Clears character input
-                        KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
-                    }
+                    KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex-1, 1); //Clears character input
+                    KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
+                }
+            }
+            else if (!IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0) //Key validation for letter keys
+            {
+                int ChangedCharacter = (int)Char.ToLower(Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex - 1])); //Most recently added character in ASCII form
+                if (!(ChangedCharacter >= 97 & ChangedCharacter <= 122)) //If input at caret location is not an english letter
+                {
+                    KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex - 1, 1); //Clears character input
+                    KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
                 }
             }
         }
@@ -316,6 +340,10 @@ namespace NEA
             {
                 KeyFieldTBox.Text = "";
             }
+            else if (!IsNumerickey() && KeyFieldTBox.Text == "Any English letters")
+            {
+                KeyFieldTBox.Text = "";
+            }
         }
         /// <summary>
         /// Swaps content of input and output fields
@@ -327,6 +355,26 @@ namespace NEA
             string TempVar = InputFieldTBox.Text;
             InputFieldTBox.Text = OutpotFieldTBox.Text;
             OutpotFieldTBox.Text = TempVar;
+        }
+        /// <summary>
+        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectVigenèreCipher_Selected(object sender, RoutedEventArgs e)
+        {
+            CurrentAlgorithm = AlgorithmSelected.VigenèreCipher;
+            VigenèreCipherConfig(); //Labels the Keyfield to require string input
+        }
+        /// <summary>
+        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectCaesarCipher_Selected(object sender, RoutedEventArgs e)
+        {
+            CurrentAlgorithm = AlgorithmSelected.CaesarCipher;
+            CaesarCipherConfig(); //Labels the Keyfield to require integer input
         }
     }
     

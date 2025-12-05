@@ -79,9 +79,9 @@ namespace NEA
         /// <param name="e"></param>
         private void EncryptionDecryptionButton_Click(object sender, RoutedEventArgs e)
         {
-            EncryptionDecryptionWIndow encryptionDecryptionWIndow = new EncryptionDecryptionWIndow();
-            encryptionDecryptionWIndow.Owner = this;
-            encryptionDecryptionWIndow.Show();
+            EncryptionDecryptionWindow encryptionDecryptionWindow = new EncryptionDecryptionWindow();
+            encryptionDecryptionWindow.Owner = this;
+            encryptionDecryptionWindow.Show();
             this.Hide();
         }
         // The following code (untill comment says otherwise) fixes the border issue for the application as discovered in testing for protype 1, it is copied as referenced in the NEA documentation.
