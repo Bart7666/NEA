@@ -11,7 +11,10 @@
 
   <ItemGroup>
     <None Remove="Images\Colour Palette.ico" />
+    <None Remove="Images\Comparison Lockpick.png" />
     <None Remove="Images\Lock.jpg" />
+    <None Remove="Images\LockPick.png" />
+    <None Remove="Images\NetworkLock.png" />
     <None Remove="Images\Settings Cog.png" />
   </ItemGroup>
 
@@ -19,7 +22,16 @@
     <Resource Include="Images\Colour Palette.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Comparison Lockpick.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Lock.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\LockPick.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\NetworkLock.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Settings Cog.png">

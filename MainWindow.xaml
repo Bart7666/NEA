@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NEA"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="BreakEncrypt-HomeScreen" Height="450" Width="800" WindowStyle="None" Icon="/Images/Colour Palette.ico" MinHeight="40" MinWidth="200" WindowStartupLocation="CenterScreen" WindowState="Maximized" Style="{DynamicResource Window}">
+        Title="BreakEncrypt-HomeScreen" Height="450" Width="800" WindowStyle="None" Icon="/Images/LockPick.png" MinHeight="40" MinWidth="200" WindowStartupLocation="CenterScreen" WindowState="Maximized" Style="{DynamicResource Window}">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="40" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
     </WindowChrome.WindowChrome>
@@ -31,7 +31,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" x:Name="HomeButton" Click="HomeButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="You are in the Home Screen" Style="{DynamicResource Button}">
-                    <Image Source="/Images/Lock.jpg" />
+                    <Image Source="/Images/LockPick.png"/>
                 </Button>
                 <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="2" Style="{DynamicResource Button}">
                     <Image Source="/Images/Settings Cog.png"/>
