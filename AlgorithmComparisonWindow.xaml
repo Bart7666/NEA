@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NEA"
         mc:Ignorable="d"
-        Title="AlgorithmComparisonWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="450" Width="800" Style="{DynamicResource Window}">
+        Title="AlgorithmComparisonWindow" Icon="/Images/Comparison Lockpick.png" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="450" Width="800" Style="{DynamicResource Window}">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="40" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
     </WindowChrome.WindowChrome>
@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" x:Name="HomeButton" Click="HomeButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height="40" Width="40" Style="{DynamicResource Button}">
-                <Image Source="/Images/Lock.jpg" />
+                <Image Source="/Images/LockPick.png" />
             </Button>
             <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="You are in settings" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="2" Style="{DynamicResource Button}">
                 <Image Source="/Images/Settings Cog.png"/>

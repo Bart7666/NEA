@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NEA"
         mc:Ignorable="d"
-        Title="BreakEncrypt-Ciphers" Icon="/Images/Colour Palette.ico" Height="450" Width="800" MinHeight="40" MinWidth="200" WindowStyle="None" Style="{DynamicResource Window}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="BreakEncrypt-Ciphers" Icon="/Images/LockPick.png" Height="450" Width="800" MinHeight="40" MinWidth="200" WindowStyle="None" Style="{DynamicResource Window}" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="40"/>
     </WindowChrome.WindowChrome>
@@ -26,7 +26,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" x:Name="HomeButton" Click="HomeButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height="40" Width="40" Style="{DynamicResource Button}">
-                    <Image Source="/Images/Lock.jpg" />
+                    <Image Source="/Images/LockPick.png"/>
                 </Button>
                 <Button x:Name="SettingsButton" Click="SettingsButton_Click" WindowChrome.IsHitTestVisibleInChrome="True" Height ="30" Width="30" Margin="5,5,5,5" Grid.Column="2" Style="{DynamicResource Button}">
                     <Image Source="/Images/Settings Cog.png"/>
