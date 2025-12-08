@@ -17,7 +17,11 @@
         Valid,
         KeyInvalid,
         DataInvalid,
-        KeyAndDataInvalid
+        ConfigInvalid,
+        KeyAndDataInvalid,
+        KeyAndConfigInvalid,
+        DataAndConfigInvalid,
+        KeyAndDataAndConfigInvalid
     }
     /// <summary>
     /// List of all Algorithms implemented, used to determine which one to execute
@@ -26,7 +30,8 @@
     {
         None,
         CaesarCipher,
-        VigenèreCipher
+        VigenèreCipher,
+        Enigma
     }
     
 }

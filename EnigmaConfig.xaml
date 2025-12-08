@@ -1,0 +1,77 @@
+﻿<Page x:Class="NEA.EnigmaConfig"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NEA"
+      xmlns:controls="clr-namespace:NEA"
+      mc:Ignorable="d" 
+      d:DesignHeight="250" d:DesignWidth="600"
+      Title="EnigmaConfig">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="Rotor1Selection" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource ComboBox}" SelectedIndex="0">
+            <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Rotor 1" Visibility="Collapsed"/>
+            <ComboBoxItem Content="I" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="II" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="III" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="IV" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="V" Style="{DynamicResource ComboBoxItem}"/>
+        </ComboBox>
+       
+        <ComboBox x:Name="Rotor2Selection" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource ComboBox}" SelectedIndex="0">
+            <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Rotor 2" Visibility="Collapsed"/>
+            <ComboBoxItem Content="I" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="II" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="III" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="IV" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="V" Style="{DynamicResource ComboBoxItem}"/>
+        </ComboBox>
+        <ComboBox x:Name="Rotor3Selection" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource ComboBox}" SelectedIndex="0">
+            <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Rotor 3" Visibility="Collapsed"/>
+            <ComboBoxItem Content="I" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="II" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="III" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="IV" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="V" Style="{DynamicResource ComboBoxItem}"/>
+        </ComboBox>
+        <ComboBox x:Name="ReflectorSelection" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource ComboBox}" SelectedIndex="0">
+            <ComboBoxItem HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="Reflector" Visibility="Collapsed"/>
+            <ComboBoxItem Content="B" Style="{DynamicResource ComboBoxItem}"/>
+            <ComboBoxItem Content="C" Style="{DynamicResource ComboBoxItem}"/>
+        </ComboBox>
+        <Grid Grid.Column="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Rotor 1 Offset" TextWrapping="Wrap" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource TextBlock}"></TextBlock>
+            <controls:UpDown x:Name="Rotor1Offset" Grid.Column="1"></controls:UpDown>
+        </Grid>
+        <Grid Grid.Column="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Rotor 2 Offset" TextWrapping="Wrap" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource TextBlock}"></TextBlock>
+            <controls:UpDown x:Name="Rotor2Offset" Grid.Column="1"></controls:UpDown>
+        </Grid>
+        <Grid Grid.Column="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Rotor 3 Offset" TextWrapping="Wrap" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource TextBlock}"></TextBlock>
+            <controls:UpDown x:Name="Rotor3Offset" Grid.Column="1"></controls:UpDown>
+        </Grid>
+    </Grid>
+</Page>

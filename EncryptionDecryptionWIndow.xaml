@@ -86,8 +86,8 @@
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectVigenèreCipher" Selected="SelectVigenèreCipher_Selected">
                                 <Label Content="Vigenère Cipher" Style="{DynamicResource Label}"/>
                             </ComboBoxItem>
-                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}">
-                                <Label Content="and onther Cipher" Style="{DynamicResource Label}"/>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectEnigma" Selected="SelectEnigma_Selected">
+                                <Label Content="Enigma" Style="{DynamicResource Label}"/>
                             </ComboBoxItem>
                         </ComboBox>
                     </Border>
@@ -117,6 +117,7 @@
                     <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2">
                         <Label Content="Algorithm Configuration" Style="{DynamicResource Label}"/>
                     </Viewbox>
+                    <Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden" Name="AlgorithmConfigFrame"/>
                 </Grid>
                 <Viewbox Grid.Row="1">
                     <Label Style="{DynamicResource Label}" Content="Input Field"/>

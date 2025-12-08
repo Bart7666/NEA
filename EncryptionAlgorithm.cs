@@ -1,4 +1,6 @@
-﻿namespace NEA
+﻿using System.Diagnostics.Metrics;
+
+namespace NEA
 {
     /// <summary>
     /// The root class for all implemented encryption algorithms, it is abstract.
@@ -126,6 +128,29 @@
                 _key = value;
             }
         }
+
+        protected List<string>? _algorithmConfig;
+        /// <summary>
+        /// List that will contain all the algoithm config options (if relevant) for each algorithm, it is virtual and contains no validation as each algorithm will have seperate validatio
+        /// </summary>
+        public virtual List<string> AlgorithmConfig
+        {
+            get
+            {
+                if (_algorithmConfig != null)
+                {
+                    return _algorithmConfig;
+                }
+                else //Should never occur but to make code more robust
+                {
+                    return new List<string> { string.Empty };
+                }
+            }
+            set //Validation will be changed depending on algorithm so none implemented here
+            {
+                _algorithmConfig = value;
+            }
+        }
         /// <summary>
         /// Cleans the Rawdata into binary to be used in encryption or decryption, Virtual as to allow override as neccesary in specific algorithms
         /// </summary>
@@ -184,20 +209,37 @@
             }
         }
         /// <summary>
-        /// Attempts to set value of RawData and Key, then returns the validity of the inputdata
+        /// Attempts to set value of RawData, Key, and ConfigSettings then returns the validity of the inputdata
         /// </summary>
         /// <returns></returns>
-        public virtual ValidationResult SetAndValidateData(string RawDataInput, string KeyInput)
+        public virtual ValidationResult SetAndValidateData(string RawDataInput, string KeyInput, List<string> ConfigSettings)
         {
             Key = KeyInput;
             RawData = RawDataInput;
-            if (RawData == string.Empty & Key == string.Empty) //Ciphertext / Plaintext invalid and Key invalid for encryption /decryption
+            AlgorithmConfig = ConfigSettings;
+            if (RawData == string.Empty & Key == string.Empty & AlgorithmConfig[0] == string.Empty) //Ciphertext / Plaintext invalid and Key invalid and Config settings invalid for encryption / decryption
+            {
+                return ValidationResult.KeyAndDataAndConfigInvalid;
+            }
+            else if (RawData == string.Empty & Key == string.Empty) //Ciphertext / Plaintext invalid and Key invalid for encryption / decryption
             {
                 return ValidationResult.KeyAndDataInvalid;
             }
+            else if (RawData == string.Empty & AlgorithmConfig[0] == string.Empty) //Ciphertext / Plaintext invalid and ConfigSettings invalid for encryption / decryption
+            {
+                return ValidationResult.DataAndConfigInvalid;
+            }
+            else if (Key == string.Empty & AlgorithmConfig[0] == string.Empty) //Key invalid and ConfigSettings invalid for encryption / decryption
+            {
+                return ValidationResult.KeyAndConfigInvalid;
+            }
             else if (Key == string.Empty) //Key invalid for encryption / decryption
             {
-                return ValidationResult.KeyInvalid; 
+                return ValidationResult.KeyInvalid;
+            }
+            else if (AlgorithmConfig[0] == string.Empty) //ConfigSettings invalid for encryption / decryption
+            {
+                return ValidationResult.ConfigInvalid;
             }
             else if (RawData == string.Empty) //Ciphertext / Plaintext invalid for encryption / decryption
             {
@@ -208,7 +250,6 @@
                 return ValidationResult.Valid;
             }
         }
-
     }
     
 }

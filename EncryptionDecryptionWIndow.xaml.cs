@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -189,7 +190,7 @@ namespace NEA
         {
             if (CurrentAlgorithm != AlgorithmSelected.None) //An algorithm is selected
             {
-                RunAlgorithm(SelectAlgorithm()!); //Runs the selected algorithm
+                RunAlgorithm(SelectAlgorithm()!,ComposeConfig()!); //Runs the selected algorithm
             }
             else // No algorithm selected
             {
@@ -210,7 +211,12 @@ namespace NEA
             }
             else if (CurrentAlgorithm == AlgorithmSelected.VigenèreCipher)
             {
-                Algorithm = new VigenèreCipher();
+                Algorithm = new VigenèreCipher(); //Instance of Vigenère Cipher created
+                return Algorithm;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.Enigma)
+            {
+                Algorithm = new Enigma(); //Instance of Enigma created
                 return Algorithm;
             }
             else
@@ -219,13 +225,51 @@ namespace NEA
             }
             
         }
-       /// <summary>
-       /// Runs the selected cipher using the selected settings and the given inputs
-       /// </summary>
-       /// <param name="Algorithm"></param>
-        private void RunAlgorithm(EncryptionAlgorithm Algorithm)
+        /// <summary>
+        /// Creates Config list to use in encryption / decryption if used
+        /// </summary>
+        /// <returns></returns>
+        private List<string> ComposeConfig()
         {
-            ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text); //Attempts to set and so validate input data
+            List<string> ComposedConfigSettings = new List<string> {string.Empty};
+            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher)
+            {
+                ComposedConfigSettings.Clear();
+                ComposedConfigSettings.Add("N/A"); //No config for this algorithm
+                return ComposedConfigSettings;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.VigenèreCipher)
+            {
+                ComposedConfigSettings.Clear();
+                ComposedConfigSettings.Add("N/A"); //No config for this algorithm
+                return ComposedConfigSettings;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.Enigma)
+            {
+                ComposedConfigSettings.Clear();
+                ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor1Selection.Text); //This and two next lines add selected Rotors
+                ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor2Selection.Text);
+                ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor3Selection.Text);
+                ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor1Offset.UpDownCounter.Text); //This and the two next lines add the offset for the selected rotors
+                ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor2Offset.UpDownCounter.Text);
+                ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor3Offset.UpDownCounter.Text);
+                ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).ReflectorSelection.Text); //This adds the selected Reflector
+                return ComposedConfigSettings;
+            }
+            else
+            {
+                return ComposedConfigSettings;
+            }
+            
+        }
+        /// <summary>
+        /// Runs the selected cipher using the selected settings and the given inputs
+        /// </summary>
+        /// <param name="Algorithm"></param>
+        private void RunAlgorithm(EncryptionAlgorithm Algorithm, List<string> ComposedConfigSettings)
+        {
+            
+            ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text,ComposedConfigSettings); //Attempts to set and so validate input data
             if (InputValidity == ValidationResult.Valid) //If all input data is correct
             {
                 Algorithm.CleanData(DataInputType.Text); //Cleans input data
@@ -243,15 +287,31 @@ namespace NEA
             }
             else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
             {
-                MessageBox.Show("Incorrect input data, please check requirements for this algorithm", "Incorrect Data Input");//Creates a pop up window alerting user of incorrect input plaintext / ciphertext data
+                MessageBox.Show("Incorrect input data, please check raw data input requirements for this algorithm", "Incorrect Data Input");//Creates a pop up window alerting user of incorrect input plaintext / ciphertext data
             }
             else if (InputValidity == ValidationResult.KeyInvalid) //Alerts user key is invalid for this algorithm
             {
                 MessageBox.Show("Incorrect key input, please check requirements for key for this algorithm", "Incorrect Key Input"); //Creates a pop up window alerting user of incorrect key
             }
+            else if (InputValidity == ValidationResult.ConfigInvalid) //Alerts user config settings are invalid for this algorithm
+            {
+                MessageBox.Show("Incorrect config settings, please check requirements for algorithm configuration for this algorithm", "Incorrect Key Input"); //Creates a pop up window alerting user of incorrect config settings
+            }
             else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
             {
                 MessageBox.Show("Incorrect key and data input, please check requirements for this algorithm", "Incorrect Key and Data Input"); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
+            }
+            else if (InputValidity == ValidationResult.KeyAndConfigInvalid) //Alerts user key and selected config settings are invalid for this algorithm
+            {
+                MessageBox.Show("Incorrect key and config settings input, please check requirements for this algorithm", "Incorrect Key and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
+            }
+            else if (InputValidity == ValidationResult.DataAndConfigInvalid) //Alerts user input data and selected config settings are invalid for this algorithm
+            {
+                MessageBox.Show("Incorrect data and config settings input, please check requirements for this algorithm", "Incorrect Data and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
+            }
+            else if (InputValidity == ValidationResult.KeyAndDataAndConfigInvalid) //Alerts user key and selected config settings are invalid for this algorithm
+            {
+                MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
             }
         }
         /// <summary>
@@ -259,14 +319,27 @@ namespace NEA
         /// </summary>
         private void CaesarCipherConfig()
         {
+            InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
             KeyFieldTBox.Text = "Any integer";
+            AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
         }
         /// <summary>
         /// Sets the config settings and the key requiremnts to be displayed
         /// </summary>
         private void VigenèreCipherConfig()
         {
+            InputFieldTBox.Text = "Max input character length = 536870912\n;Using extended ASCII (ISO Latin-1)";
             KeyFieldTBox.Text = "Any English letters";
+            AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
+        }
+        /// <summary>
+        /// Sets the config settings and the key requiremnts to be displayed
+        /// </summary>
+        private void EnigmaConfig()
+        {
+            InputFieldTBox.Text = "Max input character length = 536870912\nUsing regular ASCII letters (regular english letters)";
+            KeyFieldTBox.Text = "Three English letters to show start positions of each rotor, left to right - first to third";
+            AlgorithmConfigFrame.Content = new EnigmaConfig(); //Set Algorithm Config to EnigmaConfig settings
         }
         /// <summary>
         /// User selected to encrypt data and so changes content and logic of EncryptDecryptBtn to match.
@@ -320,8 +393,14 @@ namespace NEA
             }
             else if (!IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0) //Key validation for letter keys
             {
+                
                 int ChangedCharacter = (int)Char.ToLower(Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex - 1])); //Most recently added character in ASCII form
-                if (!(ChangedCharacter >= 97 & ChangedCharacter <= 122)) //If input at caret location is not an english letter
+                if (CurrentAlgorithm == AlgorithmSelected.Enigma && KeyFieldTBox.Text.Length>3)
+                {
+                    KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex - 1, 1); //Clears character input
+                    KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
+                }
+                else if (!(ChangedCharacter >= 97 & ChangedCharacter <= 122)) //If input at caret location is not an english letter
                 {
                     KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex - 1, 1); //Clears character input
                     KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
@@ -340,7 +419,7 @@ namespace NEA
             {
                 KeyFieldTBox.Text = "";
             }
-            else if (!IsNumerickey() && KeyFieldTBox.Text == "Any English letters")
+            else if (!IsNumerickey() & (KeyFieldTBox.Text == "Any English letters" | KeyFieldTBox.Text == "Three English letters to show start positions of each rotor, left to right - first to third"))
             {
                 KeyFieldTBox.Text = "";
             }
@@ -375,6 +454,12 @@ namespace NEA
         {
             CurrentAlgorithm = AlgorithmSelected.CaesarCipher;
             CaesarCipherConfig(); //Labels the Keyfield to require integer input
+        }
+
+        private void SelectEnigma_Selected(object sender, RoutedEventArgs e)
+        {
+            CurrentAlgorithm = AlgorithmSelected.Enigma;
+            EnigmaConfig(); //Labels Keyfield to require specific string input
         }
     }
     
