@@ -189,7 +189,7 @@ namespace NEA
         {
             if (CurrentAlgorithm != AlgorithmSelected.None) //An algorithm is selected
             {
-                RunAlgorithm(SelectAlgorithm()!); //Runs the algorithm
+                RunAlgorithm(SelectAlgorithm()!); //Runs the selected algorithm
             }
             else // No algorithm selected
             {

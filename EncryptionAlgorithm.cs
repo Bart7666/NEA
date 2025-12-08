@@ -6,7 +6,10 @@
     public abstract class EncryptionAlgorithm
     {
         protected string? _rawData;
-        public virtual string RawData //Contents of Input Field, Virtual as to allow override as neccesary in specific algorithms
+        /// <summary>
+        /// Contents of Input Field, Virtual as to allow override as neccesary in specific algorithms
+        /// </summary>
+        public virtual string RawData 
         {
             get
             {
