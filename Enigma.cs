@@ -135,8 +135,8 @@ namespace NEA
                 }
                 else //Should never occur but to make code more robust
                 {
-                    int[,] EmptyField = new int[26, 2];
-                    return EmptyField;
+                    _reflector = new int[26, 2];
+                    return _reflector;
                 }
             }
             set
@@ -162,8 +162,8 @@ namespace NEA
                 }//Should never occur but to make code more robust
                 else
                 {
-                    int[] EmptyField = new int[3];
-                    return EmptyField;
+                    _notchPositions = new int[3];
+                    return _notchPositions;
                 }
             }
             set
@@ -248,7 +248,7 @@ namespace NEA
             else
             {
                 int[] BottomValues = { Rotors[RotorToRotate][ 25, 0], Rotors[RotorToRotate][ 25, 1] }; //Stores the values at the end index
-                for (int Loop = 26; Loop > 0; Loop--) //"Moves" every value in the rotor down one 
+                for (int Loop = 25; Loop > 0; Loop--) //"Moves" every value in the rotor down one 
                 {
                     Rotors[RotorToRotate][ Loop, 0] = Rotors[RotorToRotate][ Loop - 1, 0];
                     Rotors[RotorToRotate][ Loop, 1] = Rotors[RotorToRotate][ Loop - 1, 1];
@@ -296,27 +296,27 @@ namespace NEA
             {
                 if (AlgorithmConfig[RotorSlot] == "I") //Adds Rotor and sets NotchPosition
                 {
-                    Rotors.Add(I);
+                    Rotors.Add((int[,])I.Clone());
                     NotchPositions[RotorSlot] = 16; 
                 }
                 else if (AlgorithmConfig[RotorSlot] == "II") //Adds Rotor and sets NotchPosition
                 {
-                    Rotors.Add(II);
-                    NotchPositions[RotorSlot] = 1;
+                    Rotors.Add((int[,])II.Clone());
+                    NotchPositions[RotorSlot] = 4;
                 }
                 else if (AlgorithmConfig[RotorSlot] == "III") //Adds Rotor and sets NotchPosition
                 {
-                    Rotors.Add(III);
+                    Rotors.Add((int[,])III.Clone());
                     NotchPositions[RotorSlot] = 21;
                 }
                 else if (AlgorithmConfig[RotorSlot] == "IV") //Adds Rotor and sets NotchPosition
                 {
-                    Rotors.Add(IV);
+                    Rotors.Add((int[,])IV.Clone());
                     NotchPositions[RotorSlot] = 9;
                 }
                 else if (AlgorithmConfig[RotorSlot] == "V") //Adds Rotor and sets NotchPosition
                 {
-                    Rotors.Add(V);
+                    Rotors.Add((int[,])V.Clone());
                     NotchPositions[RotorSlot] = 25;
                 }
             }
@@ -332,17 +332,17 @@ namespace NEA
             for (int Rotor1Offset = 0;  Rotor1Offset < Int32.Parse(AlgorithmConfig[3]);  Rotor1Offset++)
             {
                 Rotate(0, false);
-                NotchPositions[0] = (NotchPositions[0] - 1) % 26;
+                NotchPositions[0] = (NotchPositions[0] - 1+26) % 26;
             }
             for (int Rotor2Offset = 0; Rotor2Offset < Int32.Parse(AlgorithmConfig[4]); Rotor2Offset++)
             {
-                Rotate(0, false);
-                NotchPositions[1] = (NotchPositions[1] - 1) % 26;
+                Rotate(1, false);
+                NotchPositions[1] = (NotchPositions[1] - 1+26) % 26;
             }
             for (int Rotor3Offset = 0; Rotor3Offset < Int32.Parse(AlgorithmConfig[5]); Rotor3Offset++)
             {
-                Rotate(0, false);
-                NotchPositions[2] = (NotchPositions[2] - 1) % 26;
+                Rotate(2, false);
+                NotchPositions[2] = (NotchPositions[2] - 1 + 26) % 26;
             }
         }
         /// <summary>
@@ -380,7 +380,7 @@ namespace NEA
         /// <returns> int SearchIndex </returns>
         public int SearchRotor(int RotorToSearch,int SearchItem)
         {
-            for (int SearchIndex = 0; SearchIndex < Rotors[RotorToSearch].Length; SearchIndex++)
+            for (int SearchIndex = 0; SearchIndex < Rotors[RotorToSearch].GetLength(0); SearchIndex++)
             {
                 if (Rotors[RotorToSearch][SearchIndex, 1] == SearchItem)
                 {
