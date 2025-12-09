@@ -31,7 +31,9 @@
         None,
         CaesarCipher,
         VigenèreCipher,
-        Enigma
+        Enigma,
+        Scytale,
+        OneTimePad
     }
     
 }

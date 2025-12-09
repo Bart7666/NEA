@@ -206,17 +206,22 @@ namespace NEA
             EncryptionAlgorithm Algorithm;
             if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher)
             {
-                Algorithm = new CaesarCipher(); //Instance of Caesar Cipher created
+                Algorithm = new CaesarCipher(); //Instance of Caesar Cipher created to use
                 return Algorithm;
             }
             else if (CurrentAlgorithm == AlgorithmSelected.VigenèreCipher)
             {
-                Algorithm = new VigenèreCipher(); //Instance of Vigenère Cipher created
+                Algorithm = new VigenèreCipher(); //Instance of Vigenère Cipher created to use
                 return Algorithm;
             }
             else if (CurrentAlgorithm == AlgorithmSelected.Enigma)
             {
-                Algorithm = new Enigma(); //Instance of Enigma created
+                Algorithm = new Enigma(); //Instance of Enigma created to use
+                return Algorithm;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.Scytale)
+            {
+                Algorithm = new Scytale(); //Instance of Scytale created to use
                 return Algorithm;
             }
             else
@@ -254,6 +259,12 @@ namespace NEA
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor2Offset.UpDownCounter.Text);
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor3Offset.UpDownCounter.Text);
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).ReflectorSelection.Text); //This adds the selected Reflector
+                return ComposedConfigSettings;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.Scytale)
+            {
+                ComposedConfigSettings.Clear();
+                ComposedConfigSettings.Add("N/A"); //No config for this algorithm
                 return ComposedConfigSettings;
             }
             else
@@ -328,7 +339,7 @@ namespace NEA
         /// </summary>
         private void VigenèreCipherConfig()
         {
-            InputFieldTBox.Text = "Max input character length = 536870912\n;Using extended ASCII (ISO Latin-1)";
+            InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
             KeyFieldTBox.Text = "Any English letters";
             AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
         }
@@ -340,6 +351,24 @@ namespace NEA
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing regular ASCII letters (regular english letters)";
             KeyFieldTBox.Text = "Three English letters to show start positions of each rotor, left to right - first to third";
             AlgorithmConfigFrame.Content = new EnigmaConfig(); //Set Algorithm Config to EnigmaConfig settings
+        }
+        /// <summary>
+        /// Sets the config settings and the key requiremnts to be displayed
+        /// </summary>
+        private void OneTimePadConfig()
+        {
+            InputFieldTBox.Text = "Max input character length = 536870912\nUsing only standard ASCII (english) letters";
+            KeyFieldTBox.Text = "Any English letters, must be as long as or greater than data";
+            AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
+        }
+        /// <summary>
+        /// Sets the config settings and the key requiremnts to be displayed
+        /// </summary>
+        private void ScytaleConfig()
+        {
+            InputFieldTBox.Text = "Max input character length = 536870912, Must fit in Scytale (rectangle) of are equal to the product of the two components of the key number\nUsing extended ASCII (ISO Latin-1)";
+            KeyFieldTBox.Text = "Scytale: (RowNum,ColumnNum)";
+            AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
         }
         /// <summary>
         /// User selected to encrypt data and so changes content and logic of EncryptDecryptBtn to match.
@@ -366,7 +395,7 @@ namespace NEA
         /// <returns></returns>
         private bool IsNumerickey()
         {
-            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher) //Contains list of algorithms which use numeric keys
+            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher || CurrentAlgorithm == AlgorithmSelected.Scytale) //Contains list of algorithms which use numeric keys
             {
                 return true;
             }
@@ -382,12 +411,23 @@ namespace NEA
         /// <param name="e"></param>
         private void KeyFieldTBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0) //Key validation for numeric keys
+            if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0 & CurrentAlgorithm != AlgorithmSelected.Scytale) //Key validation for numeric keys
             { 
                 int ChangedCharacter = (int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex - 1]); //Most recently added character in ASCII form
                 if (ChangedCharacter < 48 | ChangedCharacter > 57) //If input at caret location is not a number
                 {
                     KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex-1, 1); //Clears character input
+                    KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
+                }
+            }
+            else if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0 & CurrentAlgorithm == AlgorithmSelected.Scytale) //Key validation for Scytale
+            {
+                int ChangedCharacter = (int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex - 1]); //Most recently added character in ASCII form
+                int CommaCount = KeyFieldTBox.Text.Split(",").Length - 1;
+                if (ChangedCharacter == 44 & CommaCount == 1) {} //If there is only one comma input
+                else if (ChangedCharacter < 48 | ChangedCharacter > 57) //If input at caret location is not a number
+                {
+                    KeyFieldTBox.Text = KeyFieldTBox.Text.ToString().Remove(KeyFieldTBox.CaretIndex - 1, 1); //Clears character input
                     KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
                 }
             }
@@ -455,11 +495,35 @@ namespace NEA
             CurrentAlgorithm = AlgorithmSelected.CaesarCipher;
             CaesarCipherConfig(); //Labels the Keyfield to require integer input
         }
-
+        /// <summary>
+        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectEnigma_Selected(object sender, RoutedEventArgs e)
         {
             CurrentAlgorithm = AlgorithmSelected.Enigma;
-            EnigmaConfig(); //Labels Keyfield to require specific string input
+            EnigmaConfig(); //Labels Keyfield to require specific string input and labels input field for only english letters
+        }
+        /// <summary>
+        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectScytale_Selected(object sender, RoutedEventArgs e)
+        {
+            CurrentAlgorithm = AlgorithmSelected.Scytale;
+            ScytaleConfig(); //Labels Keyfield to require specific string input and raw data input field for extended ASCII
+        }
+        /// <summary>
+        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectOneTimePad_Selected(object sender, RoutedEventArgs e)
+        {
+            CurrentAlgorithm = AlgorithmSelected.OneTimePad;
+            OneTimePadConfig(); // Labels Key and input field to use only regular ascii letters and tells user of min length for key, and opens config to generate random key
         }
     }
     

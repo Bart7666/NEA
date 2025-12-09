@@ -214,9 +214,9 @@ namespace NEA
         /// <returns></returns>
         public virtual ValidationResult SetAndValidateData(string RawDataInput, string KeyInput, List<string> ConfigSettings)
         {
-            Key = KeyInput;
             RawData = RawDataInput;
             AlgorithmConfig = ConfigSettings;
+            Key = KeyInput;
             if (RawData == string.Empty & Key == string.Empty & AlgorithmConfig[0] == string.Empty) //Ciphertext / Plaintext invalid and Key invalid and Config settings invalid for encryption / decryption
             {
                 return ValidationResult.KeyAndDataAndConfigInvalid;

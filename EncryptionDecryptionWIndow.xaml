@@ -89,6 +89,12 @@
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectEnigma" Selected="SelectEnigma_Selected">
                                 <Label Content="Enigma" Style="{DynamicResource Label}"/>
                             </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectScytale" Selected="SelectScytale_Selected">
+                                <Label Content="Scytale" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectOneTimePad" Selected="SelectOneTimePad_Selected">
+                                <Label Content="One Time Pad" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
                         </ComboBox>
                     </Border>
                     <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="1">
