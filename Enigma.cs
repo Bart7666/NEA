@@ -76,6 +76,8 @@ namespace NEA
                     if (value.Length < 536870912) //Checks character limit is correct.
                     {
                             value = value.Replace(" ", "");//Removes all spaces (as they are not valid for Enigma Encryption
+                            value = value.Replace("\n", "");//Removes all newlines (as they are not valid for Enigma Encryption
+                            value = value.Replace("\r", "");//Removes all newlines (as they are not valid for Enigma Encryption
                             foreach (char Character in value) //Checks the passed value is purely letters in the english alphabet
                             {
                                 if (!((int)Character >= 65 && (int)Character <= 90)) //If it is not a letter set value of RawData to null and stop checking
@@ -92,7 +94,6 @@ namespace NEA
                 }
             }
         }
-
         private List<int[,]>? _rotors;
         /// <summary>
         /// A 3D array which contains the currently in used rotors in the form of 3 2D arrays with 2 rows and 26 columns
@@ -225,33 +226,6 @@ namespace NEA
                     }
                 }
             }
-            ReintroduceSpacing(InputType); 
-
-        }
-        /// <summary>
-        /// Reintroduces spaces and new lines into OutputData after encryption using Enigma
-        /// </summary>
-        /// <param name="InputType"></param>
-        public void ReintroduceSpacing(DataInputType InputType)
-        {
-            if (InputType == DataInputType.Text)
-            {
-                string WorkingRawData = RawData; //Saves RawData to working variable
-                WorkingRawData = WorkingRawData.ToUpper(); //Converts RawData value to uppercase (As Enigma works in one case and so I will use UpperCase)
-                for (int Loop = 0;  Loop < WorkingRawData.Length; Loop++) //Loops through each character in the data input
-                {
-                    if (((int)WorkingRawData[Loop] == 32)) //If Character at current index is a space add space at that index in output
-                    {
-                        OutputData = OutputData.Substring(0, Loop) + " " + OutputData.Substring(Loop,OutputData.Length-Loop); 
-                    }
-                    else if (((int)WorkingRawData[Loop] == 10))
-                    {
-                        OutputData = OutputData.Substring(0, Loop) + "\n" + OutputData.Substring(Loop, OutputData.Length - Loop);
-                    }
-                }
-            }
-            if (InputType == DataInputType.TextFile) { throw new NotImplementedException(); } //not yet implemented
-            if (InputType == DataInputType.CSV) { throw new NotImplementedException(); } //not yet implemented
         }
         /// <summary>
         /// Rotates a given Rotor either forwards or backwards one
