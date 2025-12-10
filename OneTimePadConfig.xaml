@@ -18,5 +18,8 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Viewbox Grid.Column="3">
+            <CheckBox x:Name="RandomNumCheckB"  Content="Random Key?" Style="{DynamicResource CheckBox}"/>
+        </Viewbox>
     </Grid>
 </Page>

@@ -55,6 +55,7 @@ namespace NEA
                 Application.Current.Resources["Icon Path"] = Application.Current.Resources["BasePath"];
                 Application.Current.Resources["ComboBox"] = Application.Current.Resources["BaseComboBox"];
                 Application.Current.Resources["ComboBoxItem"] = Application.Current.Resources["BaseComboBoxItem"];
+                Application.Current.Resources["CheckBox"] = Application.Current.Resources["BaseCheckBox"];
             }
             else if (DarkModeRButton.IsChecked != null && (bool)DarkModeRButton.IsChecked)
             {
@@ -78,6 +79,7 @@ namespace NEA
                 Application.Current.Resources["Icon Path"] = Application.Current.Resources["DarkPath"];
                 Application.Current.Resources["ComboBox"] = Application.Current.Resources["DarkComboBox"];
                 Application.Current.Resources["ComboBoxItem"] = Application.Current.Resources["DarkComboBoxItem"];
+                Application.Current.Resources["CheckBox"] = Application.Current.Resources["DarkCheckBox"];
             }
 
             if(SegoeUIRButton.IsChecked != null && (bool)SegoeUIRButton.IsChecked) //Applies selected font 

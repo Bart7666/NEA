@@ -103,6 +103,16 @@
         <Setter Property="BorderBrush" Value="#595959"/>
         <Setter Property="Background" Value="#777777"/>
     </Style>
+    <Style TargetType="CheckBox" x:Key="BaseCheckBox">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
+        <Setter Property="Background" Value="White"/>
+    </Style>
+    <Style TargetType="CheckBox" x:Key="DarkCheckBox">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
+        <Setter Property="Foreground" Value="#99b3e6"/>
+        <Setter Property="BorderBrush" Value="#595959"/>
+        <Setter Property="Background" Value="#777777"/>
+    </Style>
     <FontFamily x:Key="ArialFont">Arial</FontFamily>
     <FontFamily x:Key="SegoeUI">Segoe UI</FontFamily>
     <FontFamily x:Key="ComicSansMS">Comic Sans MS</FontFamily>

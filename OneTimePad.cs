@@ -29,13 +29,21 @@ namespace NEA
             }
             set
             {
-                if (value != null)
+                if (Convert.ToBoolean(AlgorithmConfig[0]))
+                {
+                    Random random = new Random();
+                    for (int Loop = 0; Loop < RawData.Length; Loop++)
+                    {
+                        _key += Convert.ToChar(random.Next(26)+65);
+                    }
+                }
+                else if (value != null)
                 {
                     value = value.Replace(" ", "");//Removes all spaces, string will not have any newlines as the key field does not accept them.
-                    value = value.ToLower(); //Converts passed value to lowercase
+                    value = value.ToUpper(); //Converts passed value to lowercase
                     foreach (char Character in value) //Checks the passed value is purely letters in the english alphabet
                     {
-                        if (!((int)Character >= 97 && (int)Character <= 122)) //If it is not a letter set value of key to null and stop checking
+                        if (!((int)Character >= 65 && (int)Character <= 90)) //If it is not a letter set value of key to null and stop checking
                         {
                             _key = null;
                             break;
@@ -80,7 +88,7 @@ namespace NEA
                         value = value.Replace("\r", "");//Removes all newlines (as they are not valid for Enigma Encryption
                         foreach (char Character in value) //Checks the passed value is purely letters in the english alphabet
                         {
-                            if (!((int)Character >= 65 && (int)Character <= 90) | !((int)Character >= 97 && (int)Character <= 122)) //If it is not a letter set value of RawData to null and stop checking
+                            if (!((int)Character >= 65 && (int)Character <= 90) & !((int)Character >= 97 && (int)Character <= 122)) //If it is not a letter set value of RawData to null and stop checking
                             {
                                 _rawData = null;
                                 break;
@@ -107,12 +115,8 @@ namespace NEA
             int ASCIICharacter; //Extended ASCII representation of a character
             while (Index < WorkingCleanedData.Length)
             {
-                if (KeyIndex >= Key.Length) // If end of key is reached, loop back to start
-                {
-                    KeyIndex = 0;
-                }
                 CurrentKeyCharacter = Key[KeyIndex]; //Gets current character of key to use as encryption key
-                CurrentKey = (int)CurrentKeyCharacter - 96; //Converts character to general encryption key by making it a 1-26 (a-z)
+                CurrentKey = (int)CurrentKeyCharacter - 64; //Converts character to general encryption key by making it a 1-26 (a-z)
                 int EffectiveLetterKey = CurrentKey % 26; //Finds the actual transformation the key will effect on letters
                 int EffectiveNumberKey = CurrentKey % 10; //Finds the actual transformation the key will effect on numbers
                 int EffectiveExtendedKey = CurrentKey % 30; //Finds the actual transformation the key will effect on extended characters
@@ -169,12 +173,8 @@ namespace NEA
             int ASCIICharacter; //Extended ASCII representation of a character
             while (Index < WorkingCleanedData.Length)
             {
-                if (KeyIndex >= Key.Length) // If end of key is reached, loop back to start
-                {
-                    KeyIndex = 0;
-                }
                 CurrentKeyCharacter = (Key[KeyIndex]); //Gets current character of key to use as decryption key
-                CurrentKey = (int)CurrentKeyCharacter - 96; //Converts character to general decryption key by making it a 1-26 (a-z)
+                CurrentKey = (int)CurrentKeyCharacter - 64; //Converts character to general decryption key by making it a 1-26 (a-z)
                 int EffectiveLetterKey = CurrentKey % 26; //Finds the actual transformation the key will effect on letters
                 int EffectiveNumberKey = CurrentKey % 10; //Finds the actual transformation the key will effect on numbers
                 int EffectiveExtendedKey = CurrentKey % 30; //Finds the actual transformation the key will effect on extended characters

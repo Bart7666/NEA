@@ -224,6 +224,11 @@ namespace NEA
                 Algorithm = new Scytale(); //Instance of Scytale created to use
                 return Algorithm;
             }
+            else if (CurrentAlgorithm == AlgorithmSelected.OneTimePad)
+            {
+                Algorithm = new OneTimePad(); //Instance of OneTimePad is created to use
+                return Algorithm;
+            }
             else
             {
                 return null;
@@ -265,6 +270,12 @@ namespace NEA
             {
                 ComposedConfigSettings.Clear();
                 ComposedConfigSettings.Add("N/A"); //No config for this algorithm
+                return ComposedConfigSettings;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.OneTimePad)
+            {
+                ComposedConfigSettings.Clear();
+                ComposedConfigSettings.Add(Convert.ToString(((OneTimePadConfig)(AlgorithmConfigFrame.Content)).RandomNumCheckB.IsChecked)!); //If random key is selected
                 return ComposedConfigSettings;
             }
             else
@@ -324,6 +335,10 @@ namespace NEA
             {
                 MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
             }
+            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad)
+            {
+                KeyFieldTBox.Text = Algorithm.Key;
+            }
         }
         /// <summary>
         /// Sets the config settings and the key requiremnts to be displayed
@@ -359,7 +374,7 @@ namespace NEA
         {
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing only standard ASCII (english) letters";
             KeyFieldTBox.Text = "Any English letters, must be as long as or greater than data";
-            AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
+            AlgorithmConfigFrame.Content = new OneTimePadConfig(); //Set Algorithm to OneTimePadConfig settings
         }
         /// <summary>
         /// Sets the config settings and the key requiremnts to be displayed

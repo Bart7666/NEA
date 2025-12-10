@@ -29,6 +29,9 @@
     <Style TargetType="RadioButton" x:Key="RadioButton">
         <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
     </Style>
+    <Style TargetType="CheckBox" x:Key="CheckBox">
+        <Setter Property="FontFamily" Value="{DynamicResource CurrentFont}"/>
+    </Style>
     <Style TargetType="Border" x:Key="Border">
         <Setter Property="BorderThickness" Value="0.25"/>
         <Setter Property="BorderBrush" Value="Black"/>
