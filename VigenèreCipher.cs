@@ -216,11 +216,9 @@ namespace NEA
                     {
                         ProcessedData += ",";
                         Index++;
-
                     }
                 }
             }
         }
     }
-
 }

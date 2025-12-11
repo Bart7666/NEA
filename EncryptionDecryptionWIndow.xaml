@@ -95,13 +95,16 @@
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectOneTimePad" Selected="SelectOneTimePad_Selected">
                                 <Label Content="One Time Pad" Style="{DynamicResource Label}"/>
                             </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectRSA" Selected="SelectRSA_Selected">
+                                <Label Content="RSA" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
                         </ComboBox>
                     </Border>
                     <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="1">
                         <Label Content="Encrypt or Decrypt" Style="{DynamicResource Label}"/>
                     </Viewbox>
                     <Border Grid.Column="1" Grid.Row="1" Style="{DynamicResource Border}" >
-                        <ComboBox Style="{DynamicResource ComboBox}" IsEditable="False" x:Name="EncryptDecryptCBox" SelectedIndex="0">
+                        <ComboBox Style="{DynamicResource ComboBox}" IsEditable="False" x:Name="EncryptDecryptCBox" SelectionChanged="EncryptDecryptCBox_SelectionChanged" SelectedIndex="0">
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" Visibility="Collapsed">
                                 <Label Content="Encrypt or Decrypt" Style="{DynamicResource Label}"/>
                             </ComboBoxItem>
@@ -136,7 +139,7 @@
                     <TextBox IsReadOnly="True"  x:Name="OutpotFieldTBox"  IsTabStop="False" Style="{DynamicResource TextBox}" TextWrapping="Wrap"/>
                 </Border>
                 <Viewbox Grid.Column="1" Grid.Row="1" Margin="5,0" >
-                    <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}" Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
+                    <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}"  Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
                 </Viewbox>
                 <Viewbox Grid.Column="1" Grid.Row="2" Margin="5,0" VerticalAlignment="Top" >
                     <Button x:Name="SwapFieldsBtn" Style="{DynamicResource Button}"  Content=" Swap input&#x0a;output fields" Margin="5" Click="SwapFieldsBtn_Click"/>

@@ -33,7 +33,8 @@
         VigenèreCipher,
         Enigma,
         Scytale,
-        OneTimePad
+        OneTimePad,
+        RSA
     }
     
 }

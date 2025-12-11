@@ -229,6 +229,11 @@ namespace NEA
                 Algorithm = new OneTimePad(); //Instance of OneTimePad is created to use
                 return Algorithm;
             }
+            else if (CurrentAlgorithm == AlgorithmSelected.RSA)
+            {
+                Algorithm = new RSA(); //Instance of RSA is created to use
+                return Algorithm;
+            }
             else
             {
                 return null;
@@ -276,6 +281,13 @@ namespace NEA
             {
                 ComposedConfigSettings.Clear();
                 ComposedConfigSettings.Add(Convert.ToString(((OneTimePadConfig)(AlgorithmConfigFrame.Content)).RandomNumCheckB.IsChecked)!); //If random key is selected
+                return ComposedConfigSettings;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.RSA)
+            {
+                ComposedConfigSettings.Clear();
+                ComposedConfigSettings.Add(Convert.ToString(((RSAConfig)AlgorithmConfigFrame.Content).HexNumberCheckB.IsChecked)!); //If Hex input is selected
+                //ComposedConfigSettings.Add(Convert.ToString(((OneTimePadConfig)(AlgorithmConfigFrame.Content)).RandomNumCheckB.IsChecked)!); //If random key is selected
                 return ComposedConfigSettings;
             }
             else
@@ -335,7 +347,7 @@ namespace NEA
             {
                 MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
             }
-            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad)
+            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad | CurrentAlgorithm == AlgorithmSelected.RSA)
             {
                 KeyFieldTBox.Text = Algorithm.Key;
             }
@@ -374,7 +386,7 @@ namespace NEA
         {
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing only standard ASCII (english) letters";
             KeyFieldTBox.Text = "Any English letters, must be as long as or greater than data";
-            AlgorithmConfigFrame.Content = new OneTimePadConfig(); //Set Algorithm to OneTimePadConfig settings
+            AlgorithmConfigFrame.Content = new OneTimePadConfig(); //Set Algorithm Config to OneTimePadConfig settings
         }
         /// <summary>
         /// Sets the config settings and the key requiremnts to be displayed
@@ -384,6 +396,22 @@ namespace NEA
             InputFieldTBox.Text = "Max input character length = 536870912, Must fit in Scytale (rectangle) of are equal to the product of the two components of the key number\nUsing extended ASCII (ISO Latin-1)";
             KeyFieldTBox.Text = "Scytale: (RowNum,ColumnNum)";
             AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
+        }
+        /// <summary>
+        /// Sets the config settings and the key requiremnts to be displayed
+        /// </summary>
+        private void RSAConfig()
+        {
+            InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
+            if((string)EncryptDecryptBtn.Content == "Encrypt")
+            {
+                KeyFieldTBox.Text = "(Common Public Prime, PublicKey coprime)";
+            }
+            else
+            {
+                KeyFieldTBox.Text = "(Common Public Prime, Private key)";
+            }
+            AlgorithmConfigFrame.Content = new RSAConfig(); //Set Algorithm Config to RSA settings
         }
         /// <summary>
         /// User selected to encrypt data and so changes content and logic of EncryptDecryptBtn to match.
@@ -410,7 +438,7 @@ namespace NEA
         /// <returns></returns>
         private bool IsNumerickey()
         {
-            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher || CurrentAlgorithm == AlgorithmSelected.Scytale) //Contains list of algorithms which use numeric keys
+            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher || CurrentAlgorithm == AlgorithmSelected.Scytale || CurrentAlgorithm == AlgorithmSelected.RSA) //Contains list of algorithms which use numeric keys
             {
                 return true;
             }
@@ -426,7 +454,7 @@ namespace NEA
         /// <param name="e"></param>
         private void KeyFieldTBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0 & CurrentAlgorithm != AlgorithmSelected.Scytale) //Key validation for numeric keys
+            if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0 & CurrentAlgorithm != AlgorithmSelected.Scytale & CurrentAlgorithm != AlgorithmSelected.RSA) //Key validation for numeric keys
             { 
                 int ChangedCharacter = (int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex - 1]); //Most recently added character in ASCII form
                 if (ChangedCharacter < 48 | ChangedCharacter > 57) //If input at caret location is not a number
@@ -435,7 +463,7 @@ namespace NEA
                     KeyFieldTBox.CaretIndex = KeyFieldTBox.Text.Length; //Sets caret postion to end of key
                 }
             }
-            else if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0 & CurrentAlgorithm == AlgorithmSelected.Scytale) //Key validation for Scytale
+            else if (IsNumerickey() & KeyFieldTBox.IsFocused & KeyFieldTBox.Text.Length > 0 && KeyFieldTBox.CaretIndex > 0 & (CurrentAlgorithm == AlgorithmSelected.Scytale | CurrentAlgorithm == AlgorithmSelected.RSA)) //Key validation for Scytale and RSA
             {
                 int ChangedCharacter = (int)Convert.ToChar(KeyFieldTBox.Text[KeyFieldTBox.CaretIndex - 1]); //Most recently added character in ASCII form
                 int CommaCount = KeyFieldTBox.Text.Split(",").Length - 1;
@@ -470,13 +498,32 @@ namespace NEA
 
         private void KeyFieldTBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (IsNumerickey() && KeyFieldTBox.Text == "Any integer") //If instruction text is still present for numeric keys
+            if (IsNumerickey() && (KeyFieldTBox.Text == "Any integer" | KeyFieldTBox.Text == "Scytale: (RowNum,ColumnNum)" | KeyFieldTBox.Text == "(Common Public Prime, PublicKey coprime)" | KeyFieldTBox.Text == "(Common Public Prime, Private key)")) //If instruction text is still present for numeric keys
             {
                 KeyFieldTBox.Text = "";
             }
-            else if (!IsNumerickey() & (KeyFieldTBox.Text == "Any English letters" | KeyFieldTBox.Text == "Three English letters to show start positions of each rotor, left to right - first to third"))
+            else if (!IsNumerickey() && (KeyFieldTBox.Text == "Any English letters" | KeyFieldTBox.Text == "Three English letters to show start positions of each rotor, left to right - first to third"))
             {
                 KeyFieldTBox.Text = "";
+            }
+        }
+        /// <summary>
+        /// If Encrypt/Decrypt choice changed do things
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EncryptDecryptCBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CurrentAlgorithm == AlgorithmSelected.RSA)
+            {
+                if ((string)EncryptDecryptBtn.Content == "Encrypt" & KeyFieldTBox.Text == "(Common Public Prime, Private key)")
+                {
+                    KeyFieldTBox.Text = "(Common Public Prime, PublicKey coprime)";
+                }
+                else if ((string)EncryptDecryptBtn.Content == "Decrypt" & KeyFieldTBox.Text == "(Common Public Prime, PublicKey coprime)")
+                {
+                    KeyFieldTBox.Text = "(Common Public Prime, Private key)";
+                }
             }
         }
         /// <summary>
@@ -540,6 +587,18 @@ namespace NEA
             CurrentAlgorithm = AlgorithmSelected.OneTimePad;
             OneTimePadConfig(); // Labels Key and input field to use only regular ascii letters and tells user of min length for key, and opens config to generate random key
         }
+        /// <summary>
+        /// Sets algorithm to be used in encryption and shows appropiate config settings and key requirements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectRSA_Selected(object sender, RoutedEventArgs e)
+        {
+            CurrentAlgorithm= AlgorithmSelected.RSA;
+            RSAConfig(); // Labels input field to allow extended ascii and key input depending on whether encrypting or decrypting
+        }
+
+        
     }
     
 }
