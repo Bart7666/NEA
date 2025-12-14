@@ -16,10 +16,18 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Viewbox Grid.Column="1">
+            <CheckBox x:Name="HexNumberCheckB" Margin="5,0" Content="Hex Input?" Style="{DynamicResource CheckBox}"/>
+        </Viewbox>
+        <Viewbox Grid.Column="2">
+            <CheckBox x:Name="GenerateKeyCheckB"  Content="Generate Key?" Style="{DynamicResource CheckBox}"/>
+        </Viewbox>
         <Viewbox Grid.Column="3">
-            <CheckBox x:Name="HexNumberCheckB"  Content="Hex Input?" Style="{DynamicResource CheckBox}"/>
+            <Button x:Name="CopyPubliKeyBtn" Margin="4,0" Content="Copy Public Key" Click="CopyPubliKeyBtn_Click" Style="{DynamicResource Button}"/>
+        </Viewbox>
+        <Viewbox Grid.Column="4">
+            <Button x:Name="CopyPrivateKeyBtn" Margin="2.5,0" Content="Copy Private Key" Click="CopyPrivateKeyBtn_Click" Style="{DynamicResource Button}"/>
         </Viewbox>
     </Grid>
 </Page>
