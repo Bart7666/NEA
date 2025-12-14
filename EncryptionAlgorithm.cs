@@ -217,7 +217,7 @@ namespace NEA
             RawData = RawDataInput;
             AlgorithmConfig = ConfigSettings;
             Key = KeyInput;
-            if (RawData == string.Empty & Key == string.Empty & AlgorithmConfig[0] == string.Empty) //Ciphertext / Plaintext invalid and Key invalid and Config settings invalid for encryption / decryption
+            if (RawData == string.Empty & Key == string.Empty & AlgorithmConfig.Count == 0) //Ciphertext / Plaintext invalid and Key invalid and Config settings invalid for encryption / decryption
             {
                 return ValidationResult.KeyAndDataAndConfigInvalid;
             }
@@ -225,11 +225,11 @@ namespace NEA
             {
                 return ValidationResult.KeyAndDataInvalid;
             }
-            else if (RawData == string.Empty & AlgorithmConfig[0] == string.Empty) //Ciphertext / Plaintext invalid and ConfigSettings invalid for encryption / decryption
+            else if (RawData == string.Empty & AlgorithmConfig.Count == 0) //Ciphertext / Plaintext invalid and ConfigSettings invalid for encryption / decryption
             {
                 return ValidationResult.DataAndConfigInvalid;
             }
-            else if (Key == string.Empty & AlgorithmConfig[0] == string.Empty) //Key invalid and ConfigSettings invalid for encryption / decryption
+            else if (Key == string.Empty & AlgorithmConfig.Count == 0) //Key invalid and ConfigSettings invalid for encryption / decryption
             {
                 return ValidationResult.KeyAndConfigInvalid;
             }
@@ -237,7 +237,7 @@ namespace NEA
             {
                 return ValidationResult.KeyInvalid;
             }
-            else if (AlgorithmConfig[0] == string.Empty) //ConfigSettings invalid for encryption / decryption
+            else if (AlgorithmConfig.Count == 0) //ConfigSettings invalid for encryption / decryption
             {
                 return ValidationResult.ConfigInvalid;
             }

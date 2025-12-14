@@ -23,7 +23,9 @@ namespace NEA
     /// </summary>
     public partial class EncryptionDecryptionWindow : Window
     {
-        public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None;
+        public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None; //Currently selected algorithm
+
+        public List<string> RSAKeyList = new List<string>(3); //List of keys for RSA, in the order Common,Public,Private
 
         public EncryptionDecryptionWindow()
         {
@@ -108,10 +110,10 @@ namespace NEA
                     GetMonitorInfo(monitor, ref monitorInfo);
                     RECT rcWorkArea = monitorInfo.rcWork;
                     RECT rcMonitorArea = monitorInfo.rcMonitor;
-                    mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
-                    mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
-                    mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
-                    mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
+                    mmi.ptMaxPosition.X = System.Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
+                    mmi.ptMaxPosition.Y = System.Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
+                    mmi.ptMaxSize.X = System.Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
+                    mmi.ptMaxSize.Y = System.Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
                 }
 
                 Marshal.StructureToPtr(mmi, lParam, true);
@@ -246,6 +248,7 @@ namespace NEA
         /// <returns></returns>
         private List<string> ComposeConfig()
         {
+            RSAKeyList.Clear();
             List<string> ComposedConfigSettings = new List<string> {string.Empty};
             if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher)
             {
@@ -269,6 +272,10 @@ namespace NEA
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor2Offset.UpDownCounter.Text);
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor3Offset.UpDownCounter.Text);
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).ReflectorSelection.Text); //This adds the selected Reflector
+                if (ComposedConfigSettings.Count != 7 || ComposedConfigSettings[0].Length > 3 || ComposedConfigSettings[1].Length > 3 || ComposedConfigSettings[2].Length > 3 || ComposedConfigSettings[6].Length > 1)
+                {
+                    ComposedConfigSettings.Clear();
+                }
                 return ComposedConfigSettings;
             }
             else if (CurrentAlgorithm == AlgorithmSelected.Scytale)
@@ -287,7 +294,7 @@ namespace NEA
             {
                 ComposedConfigSettings.Clear();
                 ComposedConfigSettings.Add(Convert.ToString(((RSAConfig)AlgorithmConfigFrame.Content).HexNumberCheckB.IsChecked)!); //If Hex input is selected
-                //ComposedConfigSettings.Add(Convert.ToString(((OneTimePadConfig)(AlgorithmConfigFrame.Content)).RandomNumCheckB.IsChecked)!); //If random key is selected
+                ComposedConfigSettings.Add(Convert.ToString(((RSAConfig)AlgorithmConfigFrame.Content).GenerateKeyCheckB.IsChecked)!); //If random key is selected
                 return ComposedConfigSettings;
             }
             else
@@ -329,7 +336,7 @@ namespace NEA
             }
             else if (InputValidity == ValidationResult.ConfigInvalid) //Alerts user config settings are invalid for this algorithm
             {
-                MessageBox.Show("Incorrect config settings, please check requirements for algorithm configuration for this algorithm", "Incorrect Key Input"); //Creates a pop up window alerting user of incorrect config settings
+                MessageBox.Show("Incorrect config settings, please check requirements for algorithm configuration for this algorithm", "Incorrect Config Input"); //Creates a pop up window alerting user of incorrect config settings
             }
             else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
             {
@@ -347,9 +354,16 @@ namespace NEA
             {
                 MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
             }
-            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad | CurrentAlgorithm == AlgorithmSelected.RSA)
+            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad & InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True") //Sets Key after using random key
             {
                 KeyFieldTBox.Text = Algorithm.Key;
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.RSA & InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True") //Sets key after using random key generation, and makes each component accessible for user
+            {
+                KeyFieldTBox.Text = Algorithm.Key;
+                RSAKeyList.Add(Algorithm.AlgorithmConfig[2]);
+                RSAKeyList.Add(Algorithm.AlgorithmConfig[3]);
+                RSAKeyList.Add(Algorithm.AlgorithmConfig[4]);
             }
         }
         /// <summary>
@@ -357,6 +371,7 @@ namespace NEA
         /// </summary>
         private void CaesarCipherConfig()
         {
+            OutputFieldLabel.Content = "Output Field";
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
             KeyFieldTBox.Text = "Any integer";
             AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
@@ -366,6 +381,7 @@ namespace NEA
         /// </summary>
         private void VigenèreCipherConfig()
         {
+            OutputFieldLabel.Content = "Output Field";
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
             KeyFieldTBox.Text = "Any English letters";
             AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
@@ -375,6 +391,7 @@ namespace NEA
         /// </summary>
         private void EnigmaConfig()
         {
+            OutputFieldLabel.Content = "Output Field";
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing regular ASCII letters (regular english letters)";
             KeyFieldTBox.Text = "Three English letters to show start positions of each rotor, left to right - first to third";
             AlgorithmConfigFrame.Content = new EnigmaConfig(); //Set Algorithm Config to EnigmaConfig settings
@@ -384,6 +401,7 @@ namespace NEA
         /// </summary>
         private void OneTimePadConfig()
         {
+            OutputFieldLabel.Content = "Output Field";
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing only standard ASCII (english) letters";
             KeyFieldTBox.Text = "Any English letters, must be as long as or greater than data";
             AlgorithmConfigFrame.Content = new OneTimePadConfig(); //Set Algorithm Config to OneTimePadConfig settings
@@ -394,6 +412,7 @@ namespace NEA
         private void ScytaleConfig()
         {
             InputFieldTBox.Text = "Max input character length = 536870912, Must fit in Scytale (rectangle) of are equal to the product of the two components of the key number\nUsing extended ASCII (ISO Latin-1)";
+            OutputFieldLabel.Content = "Output Field";
             KeyFieldTBox.Text = "Scytale: (RowNum,ColumnNum)";
             AlgorithmConfigFrame.Content = null; //Clear Algorithm Config
         }
@@ -403,6 +422,7 @@ namespace NEA
         private void RSAConfig()
         {
             InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
+            OutputFieldLabel.Content = "Output Field (Hexadecimal)";
             if((string)EncryptDecryptBtn.Content == "Encrypt")
             {
                 KeyFieldTBox.Text = "(Common Public Prime, PublicKey coprime)";

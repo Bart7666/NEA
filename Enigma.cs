@@ -33,7 +33,7 @@ namespace NEA
                 {
                     value = value.ToUpper();
                     value = value.Trim(); //Removes all whitespace
-                    if (value.Length <= 3) //Checks character limit is correct.
+                    if (value.Length == 3) //Checks character limit is correct.
                     {
                             foreach (char Character in value) //Checks the passed value is purely letters in the english alphabet
                             {
