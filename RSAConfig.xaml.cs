@@ -24,23 +24,5 @@ namespace NEA
         {
             InitializeComponent();
         }
-
-        private void CopyPubliKeyBtn_Click(object sender, RoutedEventArgs e)
-        {
-            EncryptionDecryptionWindow OwnerWindow = (EncryptionDecryptionWindow)Window.GetWindow(this);
-            if (!(OwnerWindow.RSAKeyList.Count < 3))
-            {
-                Clipboard.SetText(OwnerWindow.RSAKeyList[0] + "," + OwnerWindow.RSAKeyList[1]);
-            }
-        }
-
-        private void CopyPrivateKeyBtn_Click(object sender, RoutedEventArgs e)
-        {
-            EncryptionDecryptionWindow OwnerWindow = (EncryptionDecryptionWindow)Window.GetWindow(this);
-            if (!(OwnerWindow.RSAKeyList.Count < 3))
-            {
-                Clipboard.SetText(OwnerWindow.RSAKeyList[0] + "," + OwnerWindow.RSAKeyList[2]);
-            }
-        }
     }
 }

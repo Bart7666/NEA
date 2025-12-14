@@ -171,11 +171,11 @@ namespace NEA
                 if (WorkingCleanedData[Index] != ',')//Handles CSV files
                 {
                     Rod[RowIndex, ColumnIndex] = WorkingCharacter; //Adds current substring to Rod array
-                    RowIndex++; //Increment Column for next input
-                    if (RowIndex == RowLength) //Move to next Row if at end of current one
+                    ColumnIndex++; //Increment Column for next input
+                    if (ColumnIndex == ColumnLength) //Move to next Row if at end of current one
                     {
-                        RowIndex = 0;
-                        ColumnIndex++;
+                        ColumnIndex = 0;
+                        RowIndex++;
                     }
                     Index += 8;
                 }
@@ -194,11 +194,11 @@ namespace NEA
                     }
                 }
             }
-            for (int OutputRowIndex = 0; OutputRowIndex < RowLength; OutputRowIndex++)
+            for (int OutputColumnIndex = 0; OutputColumnIndex < ColumnLength; OutputColumnIndex++)
             {
-                for (int OutputColumnIndex = 0; OutputColumnIndex < ColumnLength; OutputColumnIndex++)
+                for (int OutputRowIndex = 0; OutputRowIndex < RowLength; OutputRowIndex++)
                 {
-                    if ((Rod[OutputRowIndex, OutputColumnIndex] is not null && Rod[OutputRowIndex, OutputColumnIndex] != "01011000"))
+                    if ((Rod[OutputRowIndex, OutputColumnIndex] is not null && Rod[OutputRowIndex, OutputColumnIndex] != "X"))
                     {
                         ProcessedData += Rod[OutputRowIndex, OutputColumnIndex];
                     }
@@ -229,6 +229,7 @@ namespace NEA
                     }
                 }
             }
+            OutputData = OutputData.TrimEnd('X');
         }
     }
 }
