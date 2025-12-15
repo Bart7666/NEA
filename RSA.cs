@@ -218,7 +218,7 @@ namespace NEA
             while (!PrimeGenerated) //While a prime hasn't been generated
             {
                 RandomString = "";
-                for (int i = 0; i < 4; i++) //Create a cryptographicaly random string of integers length 155 (About 2^512 bits)
+                for (int i = 0; i < 5; i++) //Create a cryptographicaly random string of integers length 155 (About 2^512 bits)
                 {
                     RandomString += Convert.ToString(RandomNumberGenerator.GetInt32(10));
                 }

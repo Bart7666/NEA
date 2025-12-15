@@ -23,9 +23,14 @@ namespace NEA
     /// </summary>
     public partial class EncryptionDecryptionWindow : Window
     {
-        public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None; //Currently selected algorithm
-
-        public List<string> RSAKeyList = new List<string>(3); //List of keys for RSA, in the order Common,Public,Private
+        /// <summary>
+        ///Currently selected algorithm
+        /// </summary>
+        public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None;
+        /// <summary>
+        ///List of keys for RSA, in the order Common,Public,Private
+        /// </summary>
+        public List<string> RSAKeyList = new List<string>(3); 
 
         public EncryptionDecryptionWindow()
         {
@@ -354,11 +359,11 @@ namespace NEA
             {
                 MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
             }
-            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad & InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True") //Sets Key after using random key
+            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad &&( InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True")) //Sets Key after using random key
             {
                 KeyFieldTBox.Text = Algorithm.Key;
             }
-            else if (CurrentAlgorithm == AlgorithmSelected.RSA & InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True") //Sets key after using random key generation, and makes each component accessible for user
+            else if (CurrentAlgorithm == AlgorithmSelected.RSA &&( InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True")) //Sets key after using random key generation, and makes each component accessible for user
             {
                 KeyFieldTBox.Text = Algorithm.Key;
                 RSAKeyList.Add(Algorithm.AlgorithmConfig[2]);
@@ -421,7 +426,7 @@ namespace NEA
         /// </summary>
         private void RSAConfig()
         {
-            InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
+            InputFieldTBox.Text = "Reccomended max character input length is 3, more may cause performance issues\nUsing extended ASCII (ISO Latin-1)";
             OutputFieldLabel.Content = "Output Field (Hexadecimal)";
             if((string)EncryptDecryptBtn.Content == "Encrypt")
             {
