@@ -23,7 +23,14 @@ namespace NEA
     /// </summary>
     public partial class EncryptionDecryptionWindow : Window
     {
-        public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None; //Currently selected algorithm
+        /// <summary>
+        ///Currently selected algorithm
+        /// </summary>
+        public AlgorithmSelected CurrentAlgorithm = AlgorithmSelected.None;
+        /// <summary>
+        ///List of keys for RSA, in the order Common,Public,Private
+        /// </summary>
+        public List<string> RSAKeyList = new List<string>(3); 
 
         public List<string> RSAKeyList = new List<string>(3); //List of keys for RSA, in the order Common,Public,Private
 
@@ -309,62 +316,70 @@ namespace NEA
         /// <param name="Algorithm"></param>
         private void RunAlgorithm(EncryptionAlgorithm Algorithm, List<string> ComposedConfigSettings)
         {
-            
-            ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text,ComposedConfigSettings); //Attempts to set and so validate input data
-            if (InputValidity == ValidationResult.Valid) //If all input data is correct
+            if ((CurrentAlgorithm == AlgorithmSelected.RSA | KeyFieldTBox.Text.Length < 10) | !IsNumerickey())
             {
-                Algorithm.CleanData(DataInputType.Text); //Cleans input data
-                if((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
+                ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text, ComposedConfigSettings); //Attempts to set and so validate input data
+                if (InputValidity == ValidationResult.Valid) //If all input data is correct
                 {
-                    Algorithm.EncryptData();
-                    Algorithm.ComposeData(DataInputType.Text);
+                    Algorithm.CleanData(DataInputType.Text); //Cleans input data
+                    if ((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
+                    {
+                        Algorithm.EncryptData();
+                        Algorithm.ComposeData(DataInputType.Text);
+                    }
+                    else if ((string)EncryptDecryptBtn.Content == "Decrypt")
+                    {
+                        Algorithm.DecryptData();
+                        Algorithm.ComposeData(DataInputType.Text);
+                    }
+                    OutpotFieldTBox.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
                 }
-                else if ((string)EncryptDecryptBtn.Content == "Decrypt")
+                else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
                 {
-                    Algorithm.DecryptData();
-                    Algorithm.ComposeData(DataInputType.Text);
+                    MessageBox.Show("Incorrect input data, please check raw data input requirements for this algorithm", "Incorrect Data Input");//Creates a pop up window alerting user of incorrect input plaintext / ciphertext data
                 }
-                OutpotFieldTBox.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
+                else if (InputValidity == ValidationResult.KeyInvalid) //Alerts user key is invalid for this algorithm
+                {
+                    MessageBox.Show("Incorrect key input, please check requirements for key for this algorithm", "Incorrect Key Input"); //Creates a pop up window alerting user of incorrect key
+                }
+                else if (InputValidity == ValidationResult.ConfigInvalid) //Alerts user config settings are invalid for this algorithm
+                {
+                    MessageBox.Show("Incorrect config settings, please check requirements for algorithm configuration for this algorithm", "Incorrect Config Input"); //Creates a pop up window alerting user of incorrect config settings
+                }
+                else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
+                {
+                    MessageBox.Show("Incorrect key and data input, please check requirements for this algorithm", "Incorrect Key and Data Input"); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
+                }
+                else if (InputValidity == ValidationResult.KeyAndConfigInvalid) //Alerts user key and selected config settings are invalid for this algorithm
+                {
+                    MessageBox.Show("Incorrect key and config settings input, please check requirements for this algorithm", "Incorrect Key and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
+                }
+                else if (InputValidity == ValidationResult.DataAndConfigInvalid) //Alerts user input data and selected config settings are invalid for this algorithm
+                {
+                    MessageBox.Show("Incorrect data and config settings input, please check requirements for this algorithm", "Incorrect Data and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
+                }
+                else if (InputValidity == ValidationResult.KeyAndDataAndConfigInvalid) //Alerts user key and selected config settings are invalid for this algorithm
+                {
+                    MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
+                }
+                if ((CurrentAlgorithm == AlgorithmSelected.OneTimePad & Algorithm.AlgorithmConfig.Count > 0)&& (InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[0] == "True")) //Sets Key after using random key
+                {
+                    KeyFieldTBox.Text = Algorithm.Key;
+                }
+                else if ((CurrentAlgorithm == AlgorithmSelected.RSA & Algorithm.AlgorithmConfig.Count > 0) && (InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True")) //Sets key after using random key generation, and makes each component accessible for user
+                {
+                    KeyFieldTBox.Text = Algorithm.Key;
+                    RSAKeyList.Add(Algorithm.AlgorithmConfig[2]);
+                    RSAKeyList.Add(Algorithm.AlgorithmConfig[3]);
+                    RSAKeyList.Add(Algorithm.AlgorithmConfig[4]);
+                }
             }
-            else if (InputValidity == ValidationResult.DataInvalid) //Alerts user input plaintext / ciphertext data is invalid for this algorithm
-            {
-                MessageBox.Show("Incorrect input data, please check raw data input requirements for this algorithm", "Incorrect Data Input");//Creates a pop up window alerting user of incorrect input plaintext / ciphertext data
-            }
-            else if (InputValidity == ValidationResult.KeyInvalid) //Alerts user key is invalid for this algorithm
+            else //Key length is too long to hold in an itneger
             {
                 MessageBox.Show("Incorrect key input, please check requirements for key for this algorithm", "Incorrect Key Input"); //Creates a pop up window alerting user of incorrect key
             }
-            else if (InputValidity == ValidationResult.ConfigInvalid) //Alerts user config settings are invalid for this algorithm
-            {
-                MessageBox.Show("Incorrect config settings, please check requirements for algorithm configuration for this algorithm", "Incorrect Config Input"); //Creates a pop up window alerting user of incorrect config settings
-            }
-            else if (InputValidity == ValidationResult.KeyAndDataInvalid) //Alerts user key and input plaintext / ciphertext data is invalid for this algorithm
-            {
-                MessageBox.Show("Incorrect key and data input, please check requirements for this algorithm", "Incorrect Key and Data Input"); //Create pop up window alerting user of incorrect key and input plaintext / ciphertext data
-            }
-            else if (InputValidity == ValidationResult.KeyAndConfigInvalid) //Alerts user key and selected config settings are invalid for this algorithm
-            {
-                MessageBox.Show("Incorrect key and config settings input, please check requirements for this algorithm", "Incorrect Key and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
-            }
-            else if (InputValidity == ValidationResult.DataAndConfigInvalid) //Alerts user input data and selected config settings are invalid for this algorithm
-            {
-                MessageBox.Show("Incorrect data and config settings input, please check requirements for this algorithm", "Incorrect Data and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
-            }
-            else if (InputValidity == ValidationResult.KeyAndDataAndConfigInvalid) //Alerts user key and selected config settings are invalid for this algorithm
-            {
-                MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
-            }
-            if (CurrentAlgorithm == AlgorithmSelected.OneTimePad && ( InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[0] == "True")) //Sets Key after using random key
-            {
-                KeyFieldTBox.Text = Algorithm.Key;
-            }
-            else if (CurrentAlgorithm == AlgorithmSelected.RSA && (InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True")) //Sets key after using random key generation, and makes each component accessible for user
-            {
-                KeyFieldTBox.Text = Algorithm.Key;
-                RSAKeyList.Add(Algorithm.AlgorithmConfig[2]);
-                RSAKeyList.Add(Algorithm.AlgorithmConfig[3]);
-                RSAKeyList.Add(Algorithm.AlgorithmConfig[4]);
-            }
+            
+            
         }
         /// <summary>
         /// Sets the config settings and the key requiremnts to be displayed
@@ -421,7 +436,7 @@ namespace NEA
         /// </summary>
         private void RSAConfig()
         {
-            InputFieldTBox.Text = "Recommended maximum character input length is 2, any longer may cause substantial hanging\nUsing extended ASCII (ISO Latin-1)";
+            InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
             OutputFieldLabel.Content = "Output Field (Hexadecimal)";
             if((string)EncryptDecryptBtn.Content == "Encrypt")
             {
