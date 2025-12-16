@@ -218,7 +218,7 @@ namespace NEA
             while (!PrimeGenerated) //While a prime hasn't been generated
             {
                 RandomString = "";
-                for (int i = 0; i < 4; i++) //Create a cryptographicaly random string of integers length 155 (About 2^512 bits)
+                for (int i = 0; i < 3; i++) //Create a cryptographicaly random string of integers length 155 (About 2^512 bits)
                 {
                     RandomString += Convert.ToString(RandomNumberGenerator.GetInt32(10));
                 }
@@ -310,6 +310,26 @@ namespace NEA
                 if (TotientFunction % 3 != 0)
                 {
                     SmallPublic = 3;
+                    ValidKey = true;
+                }
+                else if (TotientFunction % 7 != 0)
+                {
+                    SmallPublic = 7;
+                    ValidKey = true;
+                }
+                else if (TotientFunction % 13 != 0)
+                {
+                    SmallPublic = 13;
+                    ValidKey = true;
+                }
+                else if (TotientFunction % 17 != 0)
+                {
+                    SmallPublic = 17;
+                    ValidKey = true;
+                }
+                else if (TotientFunction % 23 != 0)
+                {
+                    SmallPublic = 23;
                     ValidKey = true;
                 }
                 else if(TotientFunction % (BigInteger.Pow(2, 16) + 1) != 0)

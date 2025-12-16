@@ -91,7 +91,7 @@
                                 ASCIICharacter -= 30;
                             }
                         }
-                        else if (ASCIICharacter >= 224 && ASCIICharacter <= 254) //Character is a (extended) capital letter
+                        else if (ASCIICharacter >= 224 && ASCIICharacter <= 254) //Character is a (extended) standard letter
                         {
                             ASCIICharacter += EffectiveExtendedKey;
                             if (ASCIICharacter > 254) //If new character is greater than range of extended ASCII (extended) letters

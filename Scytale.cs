@@ -31,7 +31,7 @@ namespace NEA
             }
             set
             {
-                if (value != null)
+                if (value != null & value != "")
                 {
                     int CommaCount = 0; //Limit of one comma to mark seperation of key into rows and columns
                     value = value.Replace(" ", "");//Removes all spaces, string will not have any newlines as the key field does not accept them.
@@ -56,7 +56,7 @@ namespace NEA
                     {
                         _key = null;
                     }
-                    else 
+                    else
                     {
                         int RowLength = Convert.ToInt32(Key.Split(',')[0]); //Number of rows to use for Scytale
                         int ColumnLength = Convert.ToInt32(Key.Split(',')[1]); //Number of columns to use for Scytale
@@ -88,7 +88,7 @@ namespace NEA
                     }
                     else //Else add a question mark
                     {
-                        CleanedData += "?";
+                        CleanedData += "00111111";
                     }
                 }
             }

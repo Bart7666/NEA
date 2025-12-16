@@ -195,7 +195,7 @@ namespace NEA
                     }
                     else //Else add a question mark
                     {
-                        CleanedData += "?";
+                        CleanedData += "00111111";
                     }
                 }
             }

@@ -116,7 +116,7 @@ namespace NEA
             while (Index < WorkingCleanedData.Length)
             {
                 CurrentKeyCharacter = Key[KeyIndex]; //Gets current character of key to use as encryption key
-                CurrentKey = (int)CurrentKeyCharacter - 64; //Converts character to general encryption key by making it a 1-26 (a-z)
+                CurrentKey = (int)CurrentKeyCharacter - 65; //Converts character to general encryption key by making it a 1-26 (a-z)
                 int EffectiveLetterKey = CurrentKey % 26; //Finds the actual transformation the key will effect on letters
                 int EffectiveNumberKey = CurrentKey % 10; //Finds the actual transformation the key will effect on numbers
                 int EffectiveExtendedKey = CurrentKey % 30; //Finds the actual transformation the key will effect on extended characters
@@ -142,13 +142,13 @@ namespace NEA
                             }
                         }
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
+                        KeyIndex++;
                     }
                     else // Not an encryptable character
                     {
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds ciphertext to processedData
                     }
                     Index += 8;
-                    KeyIndex++;
                 }
                 else
                 {
@@ -174,7 +174,7 @@ namespace NEA
             while (Index < WorkingCleanedData.Length)
             {
                 CurrentKeyCharacter = (Key[KeyIndex]); //Gets current character of key to use as decryption key
-                CurrentKey = (int)CurrentKeyCharacter - 64; //Converts character to general decryption key by making it a 1-26 (a-z)
+                CurrentKey = (int)CurrentKeyCharacter - 65; //Converts character to general decryption key by making it a 1-26 (a-z)
                 int EffectiveLetterKey = CurrentKey % 26; //Finds the actual transformation the key will effect on letters
                 int EffectiveNumberKey = CurrentKey % 10; //Finds the actual transformation the key will effect on numbers
                 int EffectiveExtendedKey = CurrentKey % 30; //Finds the actual transformation the key will effect on extended characters
@@ -199,6 +199,7 @@ namespace NEA
                                 ASCIICharacter += 26;
                             }
                         }
+                        KeyIndex++;
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds plaintext to processedData
                     }
                     else // Not a decryptable character
@@ -206,7 +207,6 @@ namespace NEA
                         ProcessedData += Convert.ToString(ASCIICharacter, 2).PadLeft(8, '0'); ; //Adds plaintext to processedData
                     }
                     Index += 8;
-                    KeyIndex++;
                 }
                 else
                 {
