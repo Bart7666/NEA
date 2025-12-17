@@ -322,12 +322,12 @@ namespace NEA
                     if ((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
                     {
                         Algorithm.EncryptData();
-                        Algorithm.ComposeData(DataInputType.String);
+                        Algorithm.ComposeData(DataInputType.String,"");
                     }
                     else if ((string)EncryptDecryptBtn.Content == "Decrypt")
                     {
                         Algorithm.DecryptData();
-                        Algorithm.ComposeData(DataInputType.String);
+                        Algorithm.ComposeData(DataInputType.String,"");
                     }
                     OutpotFieldTBox.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
                 }

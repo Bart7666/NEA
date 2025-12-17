@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.Metrics;
+using System.Windows;
+using Microsoft.VisualBasic;
 
 namespace NEA
 {
@@ -157,7 +159,7 @@ namespace NEA
         /// <param name="InputType"></param>
         public virtual void CleanData(DataInputType InputType) //DataInputType is the data
         {
-            if (InputType == DataInputType.String)
+            if (InputType != DataInputType.CSV)
             {
                 string WorkingRawData = RawData; //Saves RawData to working variable
                 foreach (char RawDataCharacter in WorkingRawData) //Iterates through every character and appends it to CleanedData
@@ -172,7 +174,6 @@ namespace NEA
                     }
                 }
             }
-            if (InputType == DataInputType.TextFile) { throw new NotImplementedException(); } //not yet implemented
             if (InputType == DataInputType.CSV) { throw new NotImplementedException(); } //not yet implemented
         }
         /// <summary>
@@ -187,7 +188,9 @@ namespace NEA
         /// Converts result of Encryption / Decryption (stored in ProcessedData) into human readable data (stored in OutputData)
         /// </summary>
         /// <param name="InputType"></param>
-        public virtual void ComposeData(DataInputType InputType)
+        /// <param name="FilePath"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public virtual void ComposeData(DataInputType InputType, string FilePath)
         {
             string WorkingProcessedData = ProcessedData; //Saves ProcessedData to working variable
             int Index = 0;
@@ -207,6 +210,30 @@ namespace NEA
                     }
                 }
             }
+            if (InputType == DataInputType.TextFile & FilePath != "") //Saves OutputData (and Key + MetaData into a file at the same location as input file
+            {
+                string FileContents = ""; //Data to be saved to file
+                string MetaData = Interaction.InputBox("Enter Notes", "MetaData", ""); //TOpens input box to add metadata to file
+                if(Convert.ToBoolean(AlgorithmConfig[AlgorithmConfig.Count - 1])) //If key is being saved add its length to FileContents
+                {
+                    FileContents += (Convert.ToString(Key.Length)).PadLeft(2,'0');
+                }
+                else //Else add 0 for keylength
+                {
+                    FileContents += "00";
+                }
+                FileContents += (Convert.ToString(MetaData.Length)).PadLeft(6,'0'); //AddMetaData input to FileContents
+                if (Convert.ToBoolean(AlgorithmConfig[AlgorithmConfig.Count - 1])) //If key is being saved add it to FileContents
+                {
+                    FileContents += Key;
+                }
+                FileContents += MetaData; //Add metadata to FileContents
+                FileContents += OutputData; //Add payload to FileContents
+                FilePath = FilePath.Replace(".txt", "_Ciphered.txt");//Adjust file to create a new version to not overwrite old version
+                System.IO.File.WriteAllText(FilePath,FileContents); //Create file at same location with _Ciphered appended to file name which contains FileContent
+                MessageBox.Show("Ouput saved to file at file input location");
+            }
+            if (InputType == DataInputType.CSV) { throw new NotImplementedException(); } //not yet implemented
         }
         /// <summary>
         /// Attempts to set value of RawData, Key, and ConfigSettings then returns the validity of the inputdata
@@ -214,9 +241,15 @@ namespace NEA
         /// <returns></returns>
         public virtual ValidationResult SetAndValidateData(string RawDataInput, string KeyInput, List<string> ConfigSettings)
         {
-            RawData = RawDataInput;
+            if(RawData == string.Empty)
+            {
+                RawData = RawDataInput;
+            }
             AlgorithmConfig = ConfigSettings;
-            Key = KeyInput;
+            if (Key == string.Empty)
+            {
+                Key = KeyInput;
+            }
             if (RawData == string.Empty & Key == string.Empty & AlgorithmConfig.Count == 0) //Ciphertext / Plaintext invalid and Key invalid and Config settings invalid for encryption / decryption
             {
                 return ValidationResult.KeyAndDataAndConfigInvalid;

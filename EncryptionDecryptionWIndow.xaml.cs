@@ -39,7 +39,7 @@ namespace NEA
         /// <summary>
         /// String used to hold the location of the file dropped into the solution
         /// </summary>
-        public string? FileInput;
+        public string FileInput = "";
         public EncryptionDecryptionWindow()
         {
             InitializeComponent();
@@ -205,7 +205,7 @@ namespace NEA
         {
             if (CurrentAlgorithm != AlgorithmSelected.None) //An algorithm is selected
             {
-                RunAlgorithm(SelectAlgorithm()!,ComposeConfig()!); //Runs the selected algorithm
+                RunAlgorithm(SelectAlgorithm()!,ComposeConfig()!,FileInputType); //Runs the selected algorithm
             }
             else // No algorithm selected
             {
@@ -256,7 +256,7 @@ namespace NEA
             
         }
         /// <summary>
-        /// Creates Config list to use in encryption / decryption if used
+        /// Creates Config list to use in encryption / decryption
         /// </summary>
         /// <returns></returns>
         private List<string> ComposeConfig()
@@ -266,13 +266,13 @@ namespace NEA
             if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher)
             {
                 ComposedConfigSettings.Clear();
-                ComposedConfigSettings.Add("N/A"); //No config for this algorithm
+                ComposedConfigSettings.Add(Convert.ToString((bool)SavekeyCheckB.IsChecked!));
                 return ComposedConfigSettings;
             }
             else if (CurrentAlgorithm == AlgorithmSelected.VigenèreCipher)
             {
                 ComposedConfigSettings.Clear();
-                ComposedConfigSettings.Add("N/A"); //No config for this algorithm
+                ComposedConfigSettings.Add(Convert.ToString((bool)SavekeyCheckB.IsChecked!));
                 return ComposedConfigSettings;
             }
             else if (CurrentAlgorithm == AlgorithmSelected.Enigma)
@@ -285,7 +285,8 @@ namespace NEA
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor2Offset.UpDownCounter.Text);
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).Rotor3Offset.UpDownCounter.Text);
                 ComposedConfigSettings.Add(((EnigmaConfig)(AlgorithmConfigFrame.Content)).ReflectorSelection.Text); //This adds the selected Reflector
-                if (ComposedConfigSettings.Count != 7 || ComposedConfigSettings[0].Length > 3 || ComposedConfigSettings[1].Length > 3 || ComposedConfigSettings[2].Length > 3 || ComposedConfigSettings[6].Length > 1)
+                ComposedConfigSettings.Add(Convert.ToString((bool)SavekeyCheckB.IsChecked!));
+                if (ComposedConfigSettings.Count != 8 || ComposedConfigSettings[0].Length > 3 || ComposedConfigSettings[1].Length > 3 || ComposedConfigSettings[2].Length > 3 || ComposedConfigSettings[6].Length > 1)
                 {
                     ComposedConfigSettings.Clear();
                 }
@@ -294,13 +295,15 @@ namespace NEA
             else if (CurrentAlgorithm == AlgorithmSelected.Scytale)
             {
                 ComposedConfigSettings.Clear();
-                ComposedConfigSettings.Add("N/A"); //No config for this algorithm
+                ComposedConfigSettings.Add(Convert.ToString((bool)SavekeyCheckB.IsChecked!));
+
                 return ComposedConfigSettings;
             }
             else if (CurrentAlgorithm == AlgorithmSelected.OneTimePad)
             {
                 ComposedConfigSettings.Clear();
                 ComposedConfigSettings.Add(Convert.ToString(((OneTimePadConfig)(AlgorithmConfigFrame.Content)).RandomNumCheckB.IsChecked)!); //If random key is selected
+                ComposedConfigSettings.Add(Convert.ToString((bool)SavekeyCheckB.IsChecked!));
                 return ComposedConfigSettings;
             }
             else if (CurrentAlgorithm == AlgorithmSelected.RSA)
@@ -308,6 +311,7 @@ namespace NEA
                 ComposedConfigSettings.Clear();
                 ComposedConfigSettings.Add(Convert.ToString(((RSAConfig)AlgorithmConfigFrame.Content).HexNumberCheckB.IsChecked)!); //If Hex input is selected
                 ComposedConfigSettings.Add(Convert.ToString(((RSAConfig)AlgorithmConfigFrame.Content).GenerateKeyCheckB.IsChecked)!); //If random key is selected
+                ComposedConfigSettings.Add(Convert.ToString((bool)SavekeyCheckB.IsChecked!));
                 return ComposedConfigSettings;
             }
             else
@@ -320,24 +324,24 @@ namespace NEA
         /// Runs the selected cipher using the selected settings and the given inputs
         /// </summary>
         /// <param name="Algorithm"></param>
-        private void RunAlgorithm(EncryptionAlgorithm Algorithm, List<string> ComposedConfigSettings)
+        private void RunAlgorithm(EncryptionAlgorithm Algorithm, List<string> ComposedConfigSettings, DataInputType UserDataInputType)
         {
             if ((CurrentAlgorithm == AlgorithmSelected.RSA | KeyFieldTBox.Text.Length < 10) | !IsNumerickey())
             {
-                UpdateInputs(Algorithm); //Updates keys, input, and config if files are being input
+                Algorithm = UpdateInputs(Algorithm); //Updates keys, input, and config if files are being input
                 ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text, ComposedConfigSettings); //Attempts to set and so validate input data
                 if (InputValidity == ValidationResult.Valid) //If all input data is correct
                 {
-                    Algorithm.CleanData(DataInputType.String); //Cleans input data
+                    Algorithm.CleanData(UserDataInputType); //Cleans input data
                     if ((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
                     {
                         Algorithm.EncryptData();
-                        Algorithm.ComposeData(DataInputType.String);
+                        Algorithm.ComposeData(UserDataInputType, FileInput);
                     }
                     else if ((string)EncryptDecryptBtn.Content == "Decrypt")
                     {
                         Algorithm.DecryptData();
-                        Algorithm.ComposeData(DataInputType.String);
+                        Algorithm.ComposeData(UserDataInputType, FileInput);
                     }
                     OutpotFieldTBox.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
                 }
@@ -370,6 +374,7 @@ namespace NEA
                     MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
                 }
                 UpdateKey(Algorithm); //Updated keys input depending on if random key was generated
+                
 
             }
             else //Key length is too long to hold in an itneger
@@ -378,35 +383,114 @@ namespace NEA
             }
         }
         /// <summary>
+        /// When a file is input into the input field it is initally saved in File Input if it is only one file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void InputFieldTBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) //If file is dropped
+            {
+                string[] Files = (string[])e.Data.GetData(DataFormats.FileDrop); // If it is the correct format
+                if (Files != null && Files.Length == 1 && (System.IO.Path.GetExtension(Files[0]) == ".txt" | System.IO.Path.GetExtension(Files[0]) == ".csv")) //If the file has a location and there is only one dragged into the field, and that file is a CSV or TXT file
+                {
+                    FileInput = Files[0];
+                    InputFieldTBox.Text = FileInput; //Saves file in variable to access accross solution
+                    List<string> FileData = LoadFileData();
+                    if (FileData.Count == 3) //If there is any metaData associated with the file, display it as a messagebox
+                    {
+                        MessageBox.Show(FileData[2], "File notes"); // MetaData of file is shown as a messagebox
+
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Tells solution custom input handling is in place
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void InputFieldTBox_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+        /// <summary>
         /// This method updates the key and input fields as applicable (due to file input)
         /// </summary>
         /// <param name="Algorithm"></param>
-        private void UpdateInputs(EncryptionAlgorithm Algorithm)
+        /// <returns></returns>
+        private EncryptionAlgorithm UpdateInputs(EncryptionAlgorithm Algorithm)
         {
             if (FileInputType == DataInputType.TextFile)
             {
-                LoadFileData();
+                List<string> FileData = LoadFileData();
+                if (FileData.Count == 1)
+                {
+                    Algorithm.RawData = FileData[0]; //Set RawData to Payload of File provided
+                }
+                if (FileData.Count == 3)
+                {
+                    Algorithm.RawData = FileData[0]; //Set RawData to Payload of File provided
+                    Algorithm.Key = FileData[1]; //Set Key to be Key within File Provided
+                    if (FileData[2].Length > 0)
+                    {
+                        MessageBox.Show(FileData[2], "File notes"); // MetaData of file is shown as a messagebox
+                    }
+                }
             }
-            else if (FileInputType == DataInputType.TextFile)
+            else if (FileInputType == DataInputType.CSV)
             {
-                LoadFileData();
+                
             }
+            return Algorithm; //If string FileInputType is selected then no change is done
         }
-        
-        private List<string> LoadFileData()
+        /// <summary>
+        /// This method takes the rawinput file and then returns either the payload or the payload and key / metadata if there is a valid header as a list of strings
+        /// </summary>
+        /// <returns>Either payload (1 item) or Payload, Key, MetaData (3 items)</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public List<string> LoadFileData()
         {
             if (FileInputType == DataInputType.TextFile)
             {
                 string FileContents = File.ReadAllText(FileInput!);
-                string KeyLength = FileContents.Substring(0, 2);
-                string MetaDataLength = FileContents.Substring(2, 6);
-                if (Int32.TryParse(KeyLength, out int Key))
+                string Header;
+                if (FileContents.Length > 8)
+                {
+                    Header = FileContents.Substring(0, 8); //Gets first 8 characters, which are used to store the header of the file
+                }
+                else
+                {
+                    Header = "A";
+                }
+                string Payload; //Actual ciphertext or plaintext within the file
+                string Key; //Any key included in the solution
+                string MetaData; //Any metadata included in the solution
+                List<string> FileData = new List<string>(); //Data to return
+                if (Int32.TryParse(Header, out _)) //If there is a valid header
+                {
+                    int KeyLength = Int32.Parse(Header.Substring(0, 2)); //Length of key after header
+                    int MetaDataLength = Int32.Parse(Header.Substring(2, 6)); //Length of MetaData after header
+                    Key = FileContents.Substring(8, KeyLength); //Gets key from File string
+                    MetaData = FileContents.Substring(8+KeyLength, MetaDataLength); //Gets MetaData from File String
+                    Payload = FileContents.Substring(8 + KeyLength + MetaDataLength); //Gets payload from File string
+                    FileData.Add(Payload);
+                    FileData.Add(Key);
+                    FileData.Add(MetaData);
+                }
+                else //If there isn't a valid header, assume entire file is the payload
+                {
+                    Payload = FileContents;
+                    FileData.Add(Payload);
+                }
+                return FileData;
                 //read contents of file as string
                 //return either just a single element in the list containing the paylod or 3 for payload, key, metadata
             }
-            else if (FileInputType == DataInputType.CSV)
+            else //CSV file detected
             {
-
+                throw new NotImplementedException("CSV file encryption not implemented");
             }
         }
         /// <summary>
@@ -756,8 +840,10 @@ namespace NEA
         {
             if (InputFieldTBox != null)
             {
+                FileInput = ""; //Clears value of FileInput after encryption to reset for next enccryption
                 FileInputType = DataInputType.String; //Sets expected inout type
                 InputFieldTBox.IsReadOnly = false; //Sets properties of input field for inputting of strings
+                SavekeyCheckB.Visibility = Visibility.Hidden;
                 InputFieldTBox.AllowDrop = false;
             }
         }
@@ -768,8 +854,10 @@ namespace NEA
         /// <param name="e"></param>
         private void SelectTXTFile_Selected(object sender, RoutedEventArgs e)
         {
+            FileInput = ""; //Clears value of FileInput after encryption to reset for next enccryption
             FileInputType = DataInputType.TextFile; //Sets expected inout type
             InputFieldTBox.IsReadOnly = true; //Sets properties of input field for inputting of files
+            SavekeyCheckB.Visibility = Visibility.Visible;
             InputFieldTBox.Text = "";
             InputFieldTBox.AllowDrop = true;
         }
@@ -781,38 +869,14 @@ namespace NEA
 
         private void SelectCSVFile_Selected(object sender, RoutedEventArgs e)
         {
+            FileInput = ""; //Clears value of FileInput after encryption to reset for next enccryption
             FileInputType = DataInputType.CSV; //Sets expected inout type
             InputFieldTBox.IsReadOnly = true; //Sets properties of input field for inputting of files
+            SavekeyCheckB.Visibility = Visibility.Visible;
             InputFieldTBox.Text = "";
             InputFieldTBox.AllowDrop = true;
         }
-        /// <summary>
-        /// When a file is input into the input field it is initally saved in File Input if it is only one file.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
 
-        private void InputFieldTBox_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) //If file is dropped
-            {
-                string[] Files = (string[])e.Data.GetData(DataFormats.FileDrop); // If it is the correct format
-                if (Files != null && Files.Length == 1) //If the file has a location and there is only one dragged into the field
-                {
-                    FileInput = Files[0];
-                    InputFieldTBox.Text = FileInput;
-                }
-            }
-        }
-        /// <summary>
-        /// Tells solution custom input handling is in place
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void InputFieldTBox_PreviewDragOver(object sender, DragEventArgs e)
-        {
-            e.Handled = true;
-        }
     }
     
 }

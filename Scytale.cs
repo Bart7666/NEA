@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,7 @@ namespace NEA
             }
             set
             {
-                if (value != null & value != "")
+                if (value != null && value != "")
                 {
                     int CommaCount = 0; //Limit of one comma to mark seperation of key into rows and columns
                     value = value.Replace(" ", "");//Removes all spaces, string will not have any newlines as the key field does not accept them.
@@ -92,7 +93,6 @@ namespace NEA
                     }
                 }
             }
-            if (InputType == DataInputType.TextFile) { throw new NotImplementedException(); } //not yet implemented
             if (InputType == DataInputType.CSV) { throw new NotImplementedException(); } //not yet implemented
         }
         /// <summary>
@@ -209,7 +209,7 @@ namespace NEA
         /// Override of ComposeData for Scytale, in order to remove trailing Xs
         /// </summary>
         /// <param name="InputType"></param>
-        public override void ComposeData(DataInputType InputType)
+        public override void ComposeData(DataInputType InputType,string FilePath)
         {
             string WorkingProcessedData = ProcessedData; //Saves ProcessedData to working variable
             int Index = 0;
@@ -229,6 +229,29 @@ namespace NEA
                     }
                 }
             }
+            if (InputType == DataInputType.TextFile & FilePath != "") //Saves OutputData (and Key + MetaData into a file at the same location as input file
+            {
+                string FileContents = ""; //Data to be saved to file
+                string MetaData = Interaction.InputBox("Enter Notes", "MetaData", ""); //TOpens input box to add metadata to file
+                if (Convert.ToBoolean(AlgorithmConfig[AlgorithmConfig.Count - 1])) //If key is being saved add its length to FileContents
+                {
+                    FileContents += Convert.ToString(Key.Length);
+                }
+                else //Else add 0 for keylength
+                {
+                    FileContents += "00";
+                }
+                FileContents += Convert.ToString(MetaData.Length); //AddMetaData input to FileContents
+                if (Convert.ToBoolean(AlgorithmConfig[AlgorithmConfig.Count - 1])) //If key is being saved add it to FileContents
+                {
+                    FileContents += Key;
+                }
+                FileContents += MetaData; //Add metadata to FileContents
+                FileContents += OutputData; //Add payload to FileContents
+                FilePath = FilePath.Replace(".txt", "_Ciphered.txt");//Adjust file to create a new version to not overwrite old version
+                System.IO.File.WriteAllText(FilePath, FileContents); //Create file at same location with _Ciphered appended to file name which contains FileContent
+            }
+            if (InputType == DataInputType.CSV) { throw new NotImplementedException(); } //not yet implemented
         }
     }
 }
