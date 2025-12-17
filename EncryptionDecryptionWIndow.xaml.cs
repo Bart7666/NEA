@@ -631,8 +631,75 @@ namespace NEA
             CurrentAlgorithm= AlgorithmSelected.RSA;
             RSAConfig(); // Labels input field to allow extended ascii and key input depending on whether encrypting or decrypting
         }
-
-        
+        /// <summary>
+        /// Gives a description and basic history of Caesar Cipher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CaesarCipherBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Description and History\nThis algorithm is one of the most famous encryption algorithms, due to its nature as a very simple algorithm, which was historically used by Julius Caesar to encrypt messages whilst on campaign.\n" + "Function\n" +
+                " An integer key is used as the offset to apply for each character input from its current position in the alphabet, and it loops back to beginning if offset is big enough."
+                , "Caesar Cipher"); //Creates a pop up window giving a description and basic history of this algorithm
+        }
+        /// <summary>
+        /// Gives a description and basic history of Vigenère Cipher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VigenèreCipherBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Description and History\nThis algorithm is a major advancement in cryptogrpahy and was used from its conception in the late 16th century to the 19th century during which it garned the name \"The indecipherable cipher\", it is an evolution of the Caesar Cipher.\n" + "Function\n" +
+                " A key is used as the offset to apply for each character input from its current position in the alphabet, and it loops back to beginning if offset is big enough, the key is composed of a string of letters, where the offset per letter to encrypt is the offset each letter in the key is from A," +
+                "if the there are not enough letters in the key to match the number of input characters, then loop back around to the start of the key."
+                , "Vigenère Cipher"); //Creates a pop up window giving a description and basic history of this algorithm
+        }
+        /// <summary>
+        /// Gives a description and basic history of Enigma
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnigmaBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Description and History\nThis is perhaps the most famous encryption algorithm, especially in the UK, due to the notoriety it gained from its use in WW2 by the Nazis, and its importance has since been elevated by many pieces of media." +
+                " It fundamentally works by linking encryption of one letter with the encryption of the next letter, and this was done in thw actual enigma machine by a series or rotors linked by wires which would rotate when a certain letter was encrypted.\n" + "Function\n" +
+                "The key represents the starting position of each rotor, left to right, and the notch offsets change at what character the rotors cause rotation. Each input letter goes through the machine by following the connections of the rotors, then is reflected back by the reflector and then leaves through the rotors"
+                , "Enigma"); //Creates a pop up window giving a description and basic history of this algorithm
+        }
+        /// <summary>
+        /// Gives a description and basic history of Scytale
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScytaleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Description and History\nThis is one of the oldest theorised encryption methods, however its historical legitmacy is questioned by many scholars, it was purportedly used by Ancient greek soliders to encrypt messages however its very weak encryption meant it was more like a method of message authentication than encryption\n" + "Function\n" +
+                "This algorithm works by winding a strip around a cylinder of a specific width, then writing the message lengthwise along the cylinder, on each of the \"sides\" then unwinding the strip leading to a seamingly scrambeled message, the key represents the number of columns (letters written along the cylinder) and the number of rows (\"faces\" used to write on)"
+                , "Enigma"); //Creates a pop up window giving a description and basic history of this algorithm
+        }
+        /// <summary>
+        /// Gives a description and basic history of One Time Pad Cipher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OneTimePadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Description and History\nThis is unique algorithm which is quite special, fundamentally it is a special case of Vigenère Cipher, however under specific conditions it is mathemetically unbreakble. It is the only historical cipher in this solution which is still used for encryption as it can be used to send message sperfectly securely," +
+                " howeer its use peaked during the cold war where spies had hundreds of these one time pads to securely transfer secret information\n" + "Function\n" +
+                "This applies the Vigenère Cipher on the input data as normal, however the key must be as long or longer than the input data, so there is no two letters that could have used the same key and so caused a pattern. If this is met and the keys are truly random and the pad is only used once, it is a cryptographically secure method of encryption"
+                , "One Time Pad"); //Creates a pop up window giving a description and basic history of this algorithm
+        }
+        /// <summary>
+        /// Gives a description and basic history of the RSA algorithm
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RSABtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Description and History\nThis is one of the cornerstones of modern cryptography and so cybersecurity, and it is still used widely to this day, it is a form of assymetric encryption which allows secure data transfer (at current technology) without transfering the secret key\n" + "Function\n" +
+                " This algorithm uses the idea of large prime numbers being difficult to factorise to encrypt data securely, and it works by converting input data into a number which is then multiplied and exponentiated using the public key, and then that number can be decrypted using the private key. " 
+                , "RSA algorithm"); //Creates a pop up window giving a description and basic history of this algorithm
+        }
     }
     
 }

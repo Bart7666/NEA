@@ -81,22 +81,88 @@
                                 <Label Content="Select Cipher" Style="{DynamicResource Label}"/>
                             </ComboBoxItem>
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectCaesarCipher" Selected="SelectCaesarCipher_Selected">
-                                <Label Content="Caesar Cipher" Style="{DynamicResource Label}" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Caesar Cipher" Grid.Column="0" Style="{DynamicResource Label}" />
+                                    <Button Grid.Column="1" Style="{DynamicResource Button}" x:Name="CaesarCipherBtn" Click="CaesarCipherBtn_Click" Margin="3,2">
+                                        <Viewbox Height="20" Width="20">
+                                            <Image Source="/Images/Blue Lightbulb.png"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
                             </ComboBoxItem>
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectVigenèreCipher" Selected="SelectVigenèreCipher_Selected">
-                                <Label Content="Vigenère Cipher" Style="{DynamicResource Label}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Vigenère Cipher" Style="{DynamicResource Label}"/>
+                                    <Button Grid.Column="1" Style="{DynamicResource Button}" x:Name="VigenèreCipherBtn" Click="VigenèreCipherBtn_Click" Margin="3,2">
+                                        <Viewbox Height="20" Width="20">
+                                            <Image Source="/Images/Blue Lightbulb.png"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
                             </ComboBoxItem>
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectEnigma" Selected="SelectEnigma_Selected">
-                                <Label Content="Enigma" Style="{DynamicResource Label}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Enigma" Style="{DynamicResource Label}"/>
+                                    <Button Grid.Column="1" Style="{DynamicResource Button}" x:Name="EnigmaBtn" Click="EnigmaBtn_Click" Margin="3,2">
+                                        <Viewbox Height="20" Width="20">
+                                            <Image Source="/Images/Blue Lightbulb.png"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
                             </ComboBoxItem>
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectScytale" Selected="SelectScytale_Selected">
-                                <Label Content="Scytale" Style="{DynamicResource Label}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Scytale" Style="{DynamicResource Label}"/>
+                                    <Button Grid.Column="1" Style="{DynamicResource Button}" x:Name="ScytaleBtn" Click="ScytaleBtn_Click" Margin="3,2">
+                                        <Viewbox Height="20" Width="20">
+                                            <Image Source="/Images/Blue Lightbulb.png"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
                             </ComboBoxItem>
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectOneTimePad" Selected="SelectOneTimePad_Selected">
-                                <Label Content="One Time Pad" Style="{DynamicResource Label}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="One Time Pad" Style="{DynamicResource Label}"/>
+                                    <Button Grid.Column="1" Style="{DynamicResource Button}" x:Name="OneTimePadBtn" Click="OneTimePadBtn_Click" Margin="3,2">
+                                        <Viewbox Height="20" Width="20">
+                                            <Image Source="/Images/Blue Lightbulb.png"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
                             </ComboBoxItem>
                             <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectRSA" Selected="SelectRSA_Selected">
-                                <Label Content="RSA" Style="{DynamicResource Label}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="0.2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="RSA" Style="{DynamicResource Label}"/>
+                                    <Button Grid.Column="1" Style="{DynamicResource Button}" x:Name="RSABtn" Click="RSABtn_Click" Margin="3,2">
+                                        <Viewbox Height="20" Width="20">
+                                            <Image Source="/Images/Blue Lightbulb.png"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
                             </ComboBoxItem>
                         </ComboBox>
                     </Border>

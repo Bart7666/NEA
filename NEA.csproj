@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Blue Lightbulb.png" />
     <None Remove="Images\Colour Palette.ico" />
     <None Remove="Images\Comparison Lockpick.png" />
     <None Remove="Images\Lock.jpg" />
@@ -19,10 +20,13 @@
     <None Remove="Images\Settings Cog.png" />
   </ItemGroup>
   <ItemGroup>
-	  <PackageReference Include="Math.Gmp.Native.NET" Version="2.0.6"/>
+	  <PackageReference Include="Math.Gmp.Native.NET" Version="2.0.6" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Blue Lightbulb.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Colour Palette.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
