@@ -253,7 +253,6 @@ namespace NEA
             {
                 return null;
             }
-            
         }
         /// <summary>
         /// Creates Config list to use in encryption / decryption
@@ -398,7 +397,7 @@ namespace NEA
                     FileInput = Files[0];
                     InputFieldTBox.Text = FileInput; //Saves file in variable to access accross solution
                     List<string> FileData = LoadFileData();
-                    if (FileData.Count == 3) //If there is any metaData associated with the file, display it as a messagebox
+                    if (FileData.Count == 3 && FileData[2].Length > 0) //If there is any metaData associated with the file, display it as a messagebox
                     {
                         MessageBox.Show(FileData[2], "File notes"); // MetaData of file is shown as a messagebox
 
@@ -433,10 +432,6 @@ namespace NEA
                 {
                     Algorithm.RawData = FileData[0]; //Set RawData to Payload of File provided
                     Algorithm.Key = FileData[1]; //Set Key to be Key within File Provided
-                    if (FileData[2].Length > 0)
-                    {
-                        MessageBox.Show(FileData[2], "File notes"); // MetaData of file is shown as a messagebox
-                    }
                 }
             }
             else if (FileInputType == DataInputType.CSV)
@@ -499,13 +494,12 @@ namespace NEA
         /// <param name="Algorithm"></param>
         private void UpdateKey(EncryptionAlgorithm Algorithm)
         {
-            if ((CurrentAlgorithm == AlgorithmSelected.OneTimePad & Algorithm.AlgorithmConfig.Count > 0) && (Algorithm.AlgorithmConfig[0] == "True")) //Sets Key after using random key
+            if (KeyFieldTBox.Text != Algorithm.Key) //Updates key if the displayed value does not macth the interna; value
             {
                 KeyFieldTBox.Text = Algorithm.Key;
             }
-            else if ((CurrentAlgorithm == AlgorithmSelected.RSA & Algorithm.AlgorithmConfig.Count > 0) && (Algorithm.AlgorithmConfig[1] == "True")) //Sets key after using random key generation, and makes each component accessible for user
+            if ((CurrentAlgorithm == AlgorithmSelected.RSA & Algorithm.AlgorithmConfig.Count > 0) && (Algorithm.AlgorithmConfig[1] == "True")) //Sets key after using random key generation, and makes each component accessible for user
             {
-                KeyFieldTBox.Text = Algorithm.Key;
                 RSAKeyList.Add(Algorithm.AlgorithmConfig[2]);
                 RSAKeyList.Add(Algorithm.AlgorithmConfig[3]);
                 RSAKeyList.Add(Algorithm.AlgorithmConfig[4]);
@@ -670,6 +664,38 @@ namespace NEA
             else if (!IsNumerickey() && (KeyFieldTBox.Text == "Any English letters" | KeyFieldTBox.Text == "Three English letters to show start positions of each rotor, left to right - first to third"))
             {
                 KeyFieldTBox.Text = "";
+            }
+        }
+        /// <summary>
+        /// Clears instruction text for user when selecting the inputfield box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void InputFieldTBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (CurrentAlgorithm == AlgorithmSelected.CaesarCipher & InputFieldTBox.Text == "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)")
+            {
+                InputFieldTBox.Text = "";
+            }
+            else if (CurrentAlgorithm  == AlgorithmSelected.VigenèreCipher & InputFieldTBox.Text == "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)")
+            {
+                InputFieldTBox.Text = "";
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.Enigma & InputFieldTBox.Text == "Max input character length = 536870912\nUsing regular ASCII letters (regular english letters)")
+            {
+                InputFieldTBox.Text = "";
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.OneTimePad & InputFieldTBox.Text == "Max input character length = 536870912\nUsing only standard ASCII (english) letters")
+            {
+                InputFieldTBox.Text = "";
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.Scytale & InputFieldTBox.Text == "Max input character length = 536870912, Must fit in Scytale (rectangle) of are equal to the product of the two components of the key number\nUsing extended ASCII (ISO Latin-1)")
+            {
+                InputFieldTBox.Text = "";
+            }
+            else if (CurrentAlgorithm == AlgorithmSelected.RSA & InputFieldTBox.Text == "Reccomended maximum character input length is 3 characters, any more can substantially impact performance\nUsing extended ASCII (ISO Latin-1)")
+            {
+                InputFieldTBox.Text = "";
             }
         }
         /// <summary>
@@ -844,6 +870,7 @@ namespace NEA
                 FileInputType = DataInputType.String; //Sets expected inout type
                 InputFieldTBox.IsReadOnly = false; //Sets properties of input field for inputting of strings
                 SavekeyCheckB.Visibility = Visibility.Hidden;
+                InputFieldTBox.Text = "";
                 InputFieldTBox.AllowDrop = false;
             }
         }
@@ -858,7 +885,7 @@ namespace NEA
             FileInputType = DataInputType.TextFile; //Sets expected inout type
             InputFieldTBox.IsReadOnly = true; //Sets properties of input field for inputting of files
             SavekeyCheckB.Visibility = Visibility.Visible;
-            InputFieldTBox.Text = "";
+            InputFieldTBox.Text = "Drag and drop a text file to encrypt or decrypt";
             InputFieldTBox.AllowDrop = true;
         }
         /// <summary>
@@ -873,10 +900,11 @@ namespace NEA
             FileInputType = DataInputType.CSV; //Sets expected inout type
             InputFieldTBox.IsReadOnly = true; //Sets properties of input field for inputting of files
             SavekeyCheckB.Visibility = Visibility.Visible;
-            InputFieldTBox.Text = "";
+            InputFieldTBox.Text = "Drag and drop a CSV file to encrypt or decrypt";
             InputFieldTBox.AllowDrop = true;
         }
 
+        
     }
     
 }

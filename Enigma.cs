@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NEA
 {
@@ -184,7 +185,7 @@ namespace NEA
         /// <param name="InputType"></param>
         public override void CleanData(DataInputType InputType) //DataInputType is the data
         {
-            if (InputType == DataInputType.String)
+            if (InputType != DataInputType.CSV)
             {
                 string WorkingRawData = RawData; //Saves RawData to working variable
                 WorkingRawData = WorkingRawData.ToUpper(); //Converts RawData value to uppercase (As Enigma works in one case and so I will use UpperCase)
@@ -232,13 +233,13 @@ namespace NEA
                 string MetaData = Interaction.InputBox("Enter Notes", "MetaData", ""); //TOpens input box to add metadata to file
                 if (Convert.ToBoolean(AlgorithmConfig[AlgorithmConfig.Count - 1])) //If key is being saved add its length to FileContents
                 {
-                    FileContents += Convert.ToString(Key.Length);
+                    FileContents += (Convert.ToString(Key.Length)).PadLeft(2, '0');
                 }
                 else //Else add 0 for keylength
                 {
                     FileContents += "00";
                 }
-                FileContents += Convert.ToString(MetaData.Length); //AddMetaData input to FileContents
+                FileContents += (Convert.ToString(MetaData.Length)).PadLeft(6, '0'); //AddMetaData input to FileContents
                 if (Convert.ToBoolean(AlgorithmConfig[AlgorithmConfig.Count - 1])) //If key is being saved add it to FileContents
                 {
                     FileContents += Key;
@@ -247,6 +248,7 @@ namespace NEA
                 FileContents += OutputData; //Add payload to FileContents
                 FilePath = FilePath.Replace(".txt", "_Ciphered.txt");//Adjust file to create a new version to not overwrite old version
                 System.IO.File.WriteAllText(FilePath, FileContents); //Create file at same location with _Ciphered appended to file name which contains FileContent
+                MessageBox.Show("Ouput saved to file at file input location");
             }
             if (InputType == DataInputType.CSV) { throw new NotImplementedException(); } //not yet implemented
         }
