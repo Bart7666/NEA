@@ -157,7 +157,7 @@ namespace NEA
         /// <param name="InputType"></param>
         public virtual void CleanData(DataInputType InputType) //DataInputType is the data
         {
-            if (InputType == DataInputType.Text)
+            if (InputType == DataInputType.String)
             {
                 string WorkingRawData = RawData; //Saves RawData to working variable
                 foreach (char RawDataCharacter in WorkingRawData) //Iterates through every character and appends it to CleanedData

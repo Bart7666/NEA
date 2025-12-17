@@ -180,7 +180,7 @@ namespace NEA
         /// <param name="InputType"></param>
         public override void CleanData(DataInputType InputType)
         {
-            if (InputType == DataInputType.Text)
+            if (InputType == DataInputType.String)
             {
                 string WorkingRawData = RawData; //Saves RawData to working variable
                 WorkingRawData = WorkingRawData.Replace(" ", ""); //Removes spaces

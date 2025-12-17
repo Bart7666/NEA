@@ -5,7 +5,7 @@
     /// </summary>
     public enum DataInputType 
     {
-        Text,
+        String,
         TextFile,
         CSV
     }

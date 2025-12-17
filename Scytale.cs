@@ -76,7 +76,7 @@ namespace NEA
         /// <exception cref="NotImplementedException"></exception>
         public override void CleanData(DataInputType InputType)
         {
-            if (InputType == DataInputType.Text)
+            if (InputType == DataInputType.String)
             {
                 string WorkingRawData = RawData; //Saves RawData to working variable
                 WorkingRawData = WorkingRawData.Replace(" ", "");

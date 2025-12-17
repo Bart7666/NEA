@@ -15,6 +15,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace NEA
 {   
@@ -30,9 +31,15 @@ namespace NEA
         /// <summary>
         ///List of keys for RSA, in the order Common,Public,Private
         /// </summary>
-        public List<string> RSAKeyList = new List<string>(3); 
-
-
+        public List<string> RSAKeyList = new List<string>(3);
+        /// <summary>
+        /// What type of data will be used for encryption / decryption
+        /// </summary>
+        public DataInputType FileInputType = DataInputType.String;
+        /// <summary>
+        /// String used to hold the location of the file dropped into the solution
+        /// </summary>
+        public string? FileInput;
         public EncryptionDecryptionWindow()
         {
             InitializeComponent();
@@ -317,19 +324,20 @@ namespace NEA
         {
             if ((CurrentAlgorithm == AlgorithmSelected.RSA | KeyFieldTBox.Text.Length < 10) | !IsNumerickey())
             {
+                UpdateInputs(Algorithm); //Updates keys, input, and config if files are being input
                 ValidationResult InputValidity = Algorithm.SetAndValidateData(InputFieldTBox.Text, KeyFieldTBox.Text, ComposedConfigSettings); //Attempts to set and so validate input data
                 if (InputValidity == ValidationResult.Valid) //If all input data is correct
                 {
-                    Algorithm.CleanData(DataInputType.Text); //Cleans input data
+                    Algorithm.CleanData(DataInputType.String); //Cleans input data
                     if ((string)EncryptDecryptBtn.Content == "Encrypt") //Depending on state of EncryptDecrypt Button it either encrypts or decrypts the data then composes
                     {
                         Algorithm.EncryptData();
-                        Algorithm.ComposeData(DataInputType.Text);
+                        Algorithm.ComposeData(DataInputType.String);
                     }
                     else if ((string)EncryptDecryptBtn.Content == "Decrypt")
                     {
                         Algorithm.DecryptData();
-                        Algorithm.ComposeData(DataInputType.Text);
+                        Algorithm.ComposeData(DataInputType.String);
                     }
                     OutpotFieldTBox.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
                 }
@@ -361,24 +369,63 @@ namespace NEA
                 {
                     MessageBox.Show("Incorrect key, data, and config settings input, please check requirements for this algorithm", "Incorrect Key, Data, and Config Input");//Creates a pop up window alerting user of incorrect key and config settings
                 }
-                if ((CurrentAlgorithm == AlgorithmSelected.OneTimePad & Algorithm.AlgorithmConfig.Count > 0)&& (InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[0] == "True")) //Sets Key after using random key
-                {
-                    KeyFieldTBox.Text = Algorithm.Key;
-                }
-                else if ((CurrentAlgorithm == AlgorithmSelected.RSA & Algorithm.AlgorithmConfig.Count > 0) && (InputValidity == ValidationResult.Valid & Algorithm.AlgorithmConfig[1] == "True")) //Sets key after using random key generation, and makes each component accessible for user
-                {
-                    KeyFieldTBox.Text = Algorithm.Key;
-                    RSAKeyList.Add(Algorithm.AlgorithmConfig[2]);
-                    RSAKeyList.Add(Algorithm.AlgorithmConfig[3]);
-                    RSAKeyList.Add(Algorithm.AlgorithmConfig[4]);
-                }
+                UpdateKey(Algorithm); //Updated keys input depending on if random key was generated
+
             }
             else //Key length is too long to hold in an itneger
             {
                 MessageBox.Show("Incorrect key input, please check requirements for key for this algorithm", "Incorrect Key Input"); //Creates a pop up window alerting user of incorrect key
             }
-            
-            
+        }
+        /// <summary>
+        /// This method updates the key and input fields as applicable (due to file input)
+        /// </summary>
+        /// <param name="Algorithm"></param>
+        private void UpdateInputs(EncryptionAlgorithm Algorithm)
+        {
+            if (FileInputType == DataInputType.TextFile)
+            {
+                LoadFileData();
+            }
+            else if (FileInputType == DataInputType.TextFile)
+            {
+                LoadFileData();
+            }
+        }
+        
+        private List<string> LoadFileData()
+        {
+            if (FileInputType == DataInputType.TextFile)
+            {
+                string FileContents = File.ReadAllText(FileInput!);
+                string KeyLength = FileContents.Substring(0, 2);
+                string MetaDataLength = FileContents.Substring(2, 6);
+                if (Int32.TryParse(KeyLength, out int Key))
+                //read contents of file as string
+                //return either just a single element in the list containing the paylod or 3 for payload, key, metadata
+            }
+            else if (FileInputType == DataInputType.CSV)
+            {
+
+            }
+        }
+        /// <summary>
+        /// This method updates the key fields as applicable (due to random key generation)
+        /// </summary>
+        /// <param name="Algorithm"></param>
+        private void UpdateKey(EncryptionAlgorithm Algorithm)
+        {
+            if ((CurrentAlgorithm == AlgorithmSelected.OneTimePad & Algorithm.AlgorithmConfig.Count > 0) && (Algorithm.AlgorithmConfig[0] == "True")) //Sets Key after using random key
+            {
+                KeyFieldTBox.Text = Algorithm.Key;
+            }
+            else if ((CurrentAlgorithm == AlgorithmSelected.RSA & Algorithm.AlgorithmConfig.Count > 0) && (Algorithm.AlgorithmConfig[1] == "True")) //Sets key after using random key generation, and makes each component accessible for user
+            {
+                KeyFieldTBox.Text = Algorithm.Key;
+                RSAKeyList.Add(Algorithm.AlgorithmConfig[2]);
+                RSAKeyList.Add(Algorithm.AlgorithmConfig[3]);
+                RSAKeyList.Add(Algorithm.AlgorithmConfig[4]);
+            }
         }
         /// <summary>
         /// Sets the config settings and the key requiremnts to be displayed
@@ -638,8 +685,8 @@ namespace NEA
         /// <param name="e"></param>
         private void CaesarCipherBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Description and History\nThis algorithm is one of the most famous encryption algorithms, due to its nature as a very simple algorithm, which was historically used by Julius Caesar to encrypt messages whilst on campaign.\n" + "Function\n" +
-                " An integer key is used as the offset to apply for each character input from its current position in the alphabet, and it loops back to beginning if offset is big enough."
+            MessageBox.Show("Description and History\nThis cipher is one of the most famous encryption algorithms, due to its nature of being very simple, which was historically used by Julius Caesar to encrypt messages whilst on campaign.\n" + "Function\n" +
+                " An integer key is used as the offset to apply for each character input from its current position in the alphabet, and it loops back to beginning if offset is longer than than 26, the length of the english alphabet."
                 , "Caesar Cipher"); //Creates a pop up window giving a description and basic history of this algorithm
         }
         /// <summary>
@@ -650,7 +697,7 @@ namespace NEA
         private void VigenèreCipherBtn_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Description and History\nThis algorithm is a major advancement in cryptogrpahy and was used from its conception in the late 16th century to the 19th century during which it garned the name \"The indecipherable cipher\", it is an evolution of the Caesar Cipher.\n" + "Function\n" +
-                " A key is used as the offset to apply for each character input from its current position in the alphabet, and it loops back to beginning if offset is big enough, the key is composed of a string of letters, where the offset per letter to encrypt is the offset each letter in the key is from A," +
+                " A key is used as the offset to apply for each character input from its current position in the alphabet, the key is composed of a string of letters, where the offset per letter to encrypt is the offset each letter in the key is from A," +
                 "if the there are not enough letters in the key to match the number of input characters, then loop back around to the start of the key."
                 , "Vigenère Cipher"); //Creates a pop up window giving a description and basic history of this algorithm
         }
@@ -685,7 +732,7 @@ namespace NEA
         private void OneTimePadBtn_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Description and History\nThis is unique algorithm which is quite special, fundamentally it is a special case of Vigenère Cipher, however under specific conditions it is mathemetically unbreakble. It is the only historical cipher in this solution which is still used for encryption as it can be used to send message sperfectly securely," +
-                " howeer its use peaked during the cold war where spies had hundreds of these one time pads to securely transfer secret information\n" + "Function\n" +
+                " however its use peaked during the cold war where spies had hundreds of these one time pads to securely transfer secret information\n" + "Function\n" +
                 "This applies the Vigenère Cipher on the input data as normal, however the key must be as long or longer than the input data, so there is no two letters that could have used the same key and so caused a pattern. If this is met and the keys are truly random and the pad is only used once, it is a cryptographically secure method of encryption"
                 , "One Time Pad"); //Creates a pop up window giving a description and basic history of this algorithm
         }
@@ -699,6 +746,72 @@ namespace NEA
             MessageBox.Show("Description and History\nThis is one of the cornerstones of modern cryptography and so cybersecurity, and it is still used widely to this day, it is a form of assymetric encryption which allows secure data transfer (at current technology) without transfering the secret key\n" + "Function\n" +
                 " This algorithm uses the idea of large prime numbers being difficult to factorise to encrypt data securely, and it works by converting input data into a number which is then multiplied and exponentiated using the public key, and then that number can be decrypted using the private key. " 
                 , "RSA algorithm"); //Creates a pop up window giving a description and basic history of this algorithm
+        }
+        /// <summary>
+        /// User decides to input a string directly into the input field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectString_Selected(object sender, RoutedEventArgs e)
+        {
+            if (InputFieldTBox != null)
+            {
+                FileInputType = DataInputType.String; //Sets expected inout type
+                InputFieldTBox.IsReadOnly = false; //Sets properties of input field for inputting of strings
+                InputFieldTBox.AllowDrop = false;
+            }
+        }
+        /// <summary>
+        /// User decides to input a text file using drag and drop into the input field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectTXTFile_Selected(object sender, RoutedEventArgs e)
+        {
+            FileInputType = DataInputType.TextFile; //Sets expected inout type
+            InputFieldTBox.IsReadOnly = true; //Sets properties of input field for inputting of files
+            InputFieldTBox.Text = "";
+            InputFieldTBox.AllowDrop = true;
+        }
+        /// <summary>
+        /// User decides to input a csv file using drag and droo into the input field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void SelectCSVFile_Selected(object sender, RoutedEventArgs e)
+        {
+            FileInputType = DataInputType.CSV; //Sets expected inout type
+            InputFieldTBox.IsReadOnly = true; //Sets properties of input field for inputting of files
+            InputFieldTBox.Text = "";
+            InputFieldTBox.AllowDrop = true;
+        }
+        /// <summary>
+        /// When a file is input into the input field it is initally saved in File Input if it is only one file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void InputFieldTBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) //If file is dropped
+            {
+                string[] Files = (string[])e.Data.GetData(DataFormats.FileDrop); // If it is the correct format
+                if (Files != null && Files.Length == 1) //If the file has a location and there is only one dragged into the field
+                {
+                    FileInput = Files[0];
+                    InputFieldTBox.Text = FileInput;
+                }
+            }
+        }
+        /// <summary>
+        /// Tells solution custom input handling is in place
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void InputFieldTBox_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
         }
     }
     

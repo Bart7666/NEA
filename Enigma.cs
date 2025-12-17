@@ -183,7 +183,7 @@ namespace NEA
         /// <param name="InputType"></param>
         public override void CleanData(DataInputType InputType) //DataInputType is the data
         {
-            if (InputType == DataInputType.Text)
+            if (InputType == DataInputType.String)
             {
                 string WorkingRawData = RawData; //Saves RawData to working variable
                 WorkingRawData = WorkingRawData.ToUpper(); //Converts RawData value to uppercase (As Enigma works in one case and so I will use UpperCase)
