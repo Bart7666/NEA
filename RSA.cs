@@ -200,6 +200,10 @@ namespace NEA
                         {
                             CleanedData += Convert.ToString(((int)RawDataCharacter), 16); //Converts integer (Extended ASCII) representation of a letter (or anything else) into a hex representation (in ASCII)
                         }
+                        else
+                        {
+                            CleanedData += "3F";
+                        }
                     }
                     
                 }

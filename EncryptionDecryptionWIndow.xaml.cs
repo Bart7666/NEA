@@ -32,7 +32,6 @@ namespace NEA
         /// </summary>
         public List<string> RSAKeyList = new List<string>(3); 
 
-        public List<string> RSAKeyList = new List<string>(3); //List of keys for RSA, in the order Common,Public,Private
 
         public EncryptionDecryptionWindow()
         {
@@ -436,7 +435,7 @@ namespace NEA
         /// </summary>
         private void RSAConfig()
         {
-            InputFieldTBox.Text = "Max input character length = 536870912\nUsing extended ASCII (ISO Latin-1)";
+            InputFieldTBox.Text = "Reccomended maximum character input length is 3 characters, any more can substantially impact performance\nUsing extended ASCII (ISO Latin-1)";
             OutputFieldLabel.Content = "Output Field (Hexadecimal)";
             if((string)EncryptDecryptBtn.Content == "Encrypt")
             {
