@@ -213,7 +213,7 @@ namespace NEA
             if (InputType == DataInputType.TextFile & FilePath != "") //Saves OutputData (and Key + MetaData into a file at the same location as input file
             {
                 string FileContents = ""; //Data to be saved to file
-                string MetaData = Interaction.InputBox("Enter Notes", "MetaData", ""); //TOpens input box to add metadata to file
+                string MetaData = Interaction.InputBox("Enter Notes", "MetaData", ""); //Opens input box to add metadata to file
                 if(Convert.ToBoolean(AlgorithmConfig[AlgorithmConfig.Count - 1])) //If key is being saved add its length to FileContents
                 {
                     FileContents += (Convert.ToString(Key.Length)).PadLeft(2,'0');

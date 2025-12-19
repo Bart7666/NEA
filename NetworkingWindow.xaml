@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NEA"
         mc:Ignorable="d"
-        Title="NetworkingWindow" Icon="/Images/NetworkLock.png" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="450" Width="800" Style="{DynamicResource Window}">
+        Title="NetworkingWindow" Closing="Window_Closing" Icon="/Images/NetworkLock.png" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="450" Width="800" Style="{DynamicResource Window}">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="40" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+        <WindowChrome CaptionHeight="40"/>
     </WindowChrome.WindowChrome>
     <Border Style="{StaticResource WindowMainPanelStyle}">
         <Grid>
@@ -63,10 +63,12 @@
                 <Grid x:Name="CipherSettings" Grid.ColumnSpan="3" Margin="10,5" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="110" Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.5*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.75*"/>
+                        <ColumnDefinition Width="0.75*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -167,7 +169,7 @@
                         </ComboBox>
                     </Border>
                     <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="1">
-                        <Label Content="Encrypt or Decrypt" Style="{DynamicResource Label}"/>
+                        <Label Content="Process" Style="{DynamicResource Label}"/>
                     </Viewbox>
                     <Border Grid.Column="1" Grid.Row="1" Style="{DynamicResource Border}" >
                         <ComboBox Style="{DynamicResource ComboBox}" IsEditable="False" x:Name="EncryptDecryptCBox" SelectionChanged="EncryptDecryptCBox_SelectionChanged" SelectedIndex="0">
@@ -183,16 +185,35 @@
                         </ComboBox>
                     </Border>
                     <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="2">
+                        <Label Content="Input Type" Style="{DynamicResource Label}"/>
+                    </Viewbox>
+                    <Border Grid.Column="2" Grid.Row="1" Style="{DynamicResource Border}" >
+                        <ComboBox Style="{DynamicResource ComboBox}" IsEditable="False" x:Name="FileHandlingCBox" SelectedIndex="0">
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectString" Selected="SelectString_Selected" >
+                                <Label Content="String" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectTXTFile" Selected="SelectTXTFile_Selected">
+                                <Label Content="TXT file" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem Style="{DynamicResource ComboBoxItem}" x:Name="SelectCSVFile" Selected="SelectCSVFile_Selected">
+                                <Label Content="CSV file" Style="{DynamicResource Label}"/>
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </Border>
+                    <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="3">
                         <Label Content="Key Field" Style="{DynamicResource Label}"/>
                     </Viewbox>
-                    <Grid Grid.Column="2" Grid.Row="1">
+                    <Grid Grid.Column="3" Grid.Row="1">
                         <Border Style="{DynamicResource Border}"/>
                         <TextBox x:Name="KeyFieldTBox" GotKeyboardFocus="KeyFieldTBox_GotKeyboardFocus" TextChanged="KeyFieldTBox_TextChanged" TextWrapping="Wrap" Style="{DynamicResource TextBox}"/>
                     </Grid>
-                    <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2">
+                    <Viewbox Stretch="Uniform" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3">
                         <Label Content="Algorithm Configuration" Style="{DynamicResource Label}"/>
                     </Viewbox>
-                    <Frame Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden" Name="AlgorithmConfigFrame"/>
+                    <Viewbox Grid.Column="4" Grid.Row="1">
+                        <CheckBox x:Name="SavekeyCheckB" Visibility="Hidden"  Content="Save Key?" Style="{DynamicResource CheckBox}"/>
+                    </Viewbox>
+                    <Frame Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden" Name="AlgorithmConfigFrame"/>
                 </Grid>
                 <Viewbox Grid.Row="1">
                     <Label Style="{DynamicResource Label}" Content="Input Field"/>
@@ -200,17 +221,57 @@
                 <Viewbox Grid.Row="1" Grid.Column="2">
                     <Label Style="{DynamicResource Label}" Content="Output Field" x:Name="OutputFieldLabel" />
                 </Viewbox>
-                <TextBox Grid.Row="2" Grid.Column="0" x:Name="InputFieldTBox" Margin="10,5,5,5" Style="{DynamicResource TextBox}" TextWrapping="Wrap" AcceptsReturn="True"/>
-                <Border Grid.Row="2" Grid.Column="2" Margin="5,5,10,5" Style="{DynamicResource Border}">
-                    <TextBox IsReadOnly="True"  x:Name="OutpotFieldTBox"  IsTabStop="False" Style="{DynamicResource TextBox}" TextWrapping="Wrap"/>
-                </Border>
-                <Viewbox Grid.Column="1" Grid.Row="2" Margin="10,5" VerticalAlignment="Top">
-                    <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}"  Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
-                </Viewbox>
+                <TextBox Grid.Row="2" Grid.Column="0" x:Name="InputFieldTBox" GotKeyboardFocus="InputFieldTBox_GotKeyboardFocus" PreviewDragOver="InputFieldTBox_PreviewDragOver" AllowDrop="False" Drop="InputFieldTBox_Drop" Margin="10,5,5,5" Style="{DynamicResource TextBox}" TextWrapping="Wrap" AcceptsReturn="True"/>
+                <TextBox IsReadOnly="True"  x:Name="OutpotFieldTBox" Grid.Row="2" Grid.Column="2" Margin="5,5,10,5" IsTabStop="False" Style="{DynamicResource TextBox}" TextWrapping="Wrap"/>
+                
                 <Viewbox Grid.Column="1" Grid.Row="1" Margin="5,0" VerticalAlignment="Center" >
                     <Button x:Name="SwapFieldsBtn" Style="{DynamicResource Button}"  Content=" Swap input output fields" Margin="5" Click="SwapFieldsBtn_Click"/>
                 </Viewbox>
-
+                <Grid Grid.Row="3" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="0.75*"/>
+                        <RowDefinition Height="0.75*"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.75*"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="0.75*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Viewbox VerticalAlignment="Top">
+                        <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}" Margin="20,5" Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
+                    </Viewbox>
+                    <Viewbox Grid.Row="1">
+                        <CheckBox x:Name="TransmitDataCheckB"  Content="Transmit Output?" Style="{DynamicResource CheckBox}"/>
+                    </Viewbox>
+                    <Viewbox Grid.Row="2">
+                        <Label Style="{DynamicResource Label}" Content="Host IP Field"/>
+                    </Viewbox>
+                    <TextBox  x:Name="IPFieldTBox" Grid.Row="3" Margin="5,5,10,5" Style="{DynamicResource TextBox}" />
+                    <Viewbox Grid.Row="4">
+                        <Label Style="{DynamicResource Label}" Content="Host Connection"/>
+                    </Viewbox>
+                    <Viewbox Grid.Row="5">
+                        <Button x:Name="HostBtn" Style="{DynamicResource Button}" Margin="20,5" Content="Host" Click="HostBtn_Click"/>
+                    </Viewbox>
+                    <Viewbox Grid.Row="6">
+                        <Label Style="{DynamicResource Label}" Content="Establish Connection"/>
+                    </Viewbox>
+                    <Grid Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Button x:Name="ConnectBtn" Style="{DynamicResource Button}" Margin="10,2.5" Content="Connect" Click="ConnectBtn_Click"/>
+                        </Viewbox>
+                        <Viewbox Grid.Column="1">
+                            <Button x:Name="DisconnectBtn" Style="{DynamicResource Button}" Margin="8,2" Content="Disconnect" Click="DisconnectBtn_Click"/>
+                        </Viewbox>
+                    </Grid>
+                    
+                </Grid>
             </Grid>
         </Grid>
     </Border>

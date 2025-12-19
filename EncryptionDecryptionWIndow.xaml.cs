@@ -50,7 +50,7 @@ namespace NEA
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MinimiseButton_Click(object sender, RoutedEventArgs e)
-        {
+        {   
             this.WindowState = WindowState.Minimized;
         }
         /// <summary>
@@ -903,8 +903,6 @@ namespace NEA
             InputFieldTBox.Text = "Drag and drop a CSV file to encrypt or decrypt";
             InputFieldTBox.AllowDrop = true;
         }
-
-        
     }
     
 }

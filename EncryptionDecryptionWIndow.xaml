@@ -223,13 +223,13 @@
                 </Viewbox>
                 <TextBox Grid.Row="2" Grid.Column="0" x:Name="InputFieldTBox" GotKeyboardFocus="InputFieldTBox_GotKeyboardFocus" PreviewDragOver="InputFieldTBox_PreviewDragOver" AllowDrop="False" Drop="InputFieldTBox_Drop" Margin="10,5,5,5" Style="{DynamicResource TextBox}" TextWrapping="Wrap" AcceptsReturn="True"/>
                 <TextBox IsReadOnly="True"  x:Name="OutpotFieldTBox" Grid.Row="2" Grid.Column="2" Margin="5,5,10,5" IsTabStop="False" Style="{DynamicResource TextBox}" TextWrapping="Wrap"/>
-                <Viewbox Grid.Column="1" Grid.Row="2" Margin="30,5" VerticalAlignment="Top">
-                    <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}"  Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
-                </Viewbox>
+                
                 <Viewbox Grid.Column="1" Grid.Row="1" Margin="5,0" VerticalAlignment="Center" >
                     <Button x:Name="SwapFieldsBtn" Style="{DynamicResource Button}"  Content=" Swap input output fields" Margin="5" Click="SwapFieldsBtn_Click"/>
                 </Viewbox>
-                
+                <Viewbox Grid.Column="1" Grid.Row="2"  VerticalAlignment="Top">
+                    <Button x:Name="EncryptDecryptBtn" Style="{DynamicResource Button}" Margin="20,5" Content="Encrypt" ToolTip="Select whether to encrypt or decrypt in settings above"  Click="EncryptDecryptBtn_Click"/>
+                </Viewbox>
             </Grid>
         </Grid>
     </Border>
