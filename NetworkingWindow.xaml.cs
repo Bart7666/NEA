@@ -972,11 +972,12 @@ namespace NEA
         {
             if (FileInputType == DataInputType.String) //If incoming data is from encryption / decryption of a string 
             {
-                InputFieldTBox.Text = Payload;  //Set Inputfield to be recieved data
                 FileHandlingCBox.SelectedIndex = 0;
+                InputFieldTBox.Text = Payload;  //Set Inputfield to be recieved data
             }
             else if (FileInputType == DataInputType.TextFile) //If incoming data is from encryption / decryption of a txt file
             {
+                FileHandlingCBox.SelectedIndex = 1;
                 int Keylength = Int32.Parse(Payload.Substring(0, 2)); //Payload will be of the same format as my custom text file structure and so can be procssed as such, refer to LoadFileData for extra comments.
                 int MetaDataLength = Int32.Parse(Payload.Substring(2, 6));
                 string Key = Payload.Substring(8, Keylength);
@@ -991,7 +992,6 @@ namespace NEA
                     MessageBox.Show(MetaData, "MetaData of file");
                 }
                 InputFieldTBox.Text = Datapayload;
-                FileHandlingCBox.SelectedIndex = 1;
             }
             else //CSV file detected
             {
