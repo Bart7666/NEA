@@ -1206,6 +1206,7 @@ namespace NEA
         private async void HostBtn_Click(object sender, RoutedEventArgs e)
         {
             await Dispatcher.InvokeAsync(() => EstablishHost());
+            await Dispatcher.InvokeAsync(() => MessageBox.Show("Connection Established"));
 
         }
         /// <summary>
