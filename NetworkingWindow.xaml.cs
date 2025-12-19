@@ -1206,7 +1206,7 @@ namespace NEA
         private async void HostBtn_Click(object sender, RoutedEventArgs e)
         {
             await Dispatcher.InvokeAsync(() => EstablishHost());
-            await Dispatcher.InvokeAsync(() => MessageBox.Show("Connection Established"));
+            await Dispatcher.InvokeAsync(() => MessageBox.Show("Server Began"));
 
         }
         /// <summary>
@@ -1216,7 +1216,7 @@ namespace NEA
         /// <param name="e"></param>
         private async void ConnectBtn_Click(object sender, RoutedEventArgs e)
         {
-            await Dispatcher.InvokeAsync(() => (IPFieldTBox.Text)); 
+            await Dispatcher.InvokeAsync(() => Connect(IPFieldTBox.Text)); 
         }
         /// <summary>
         /// Disconnect from current connection
