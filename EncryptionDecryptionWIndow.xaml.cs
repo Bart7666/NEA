@@ -819,7 +819,7 @@ namespace NEA
         private void EnigmaBtn_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Description and History\nThis is perhaps the most famous encryption algorithm, especially in the UK, due to the notoriety it gained from its use in WW2 by the Nazis, and its importance has since been elevated by many pieces of media." +
-                " It fundamentally works by linking encryption of one letter with the encryption of the next letter, and this was done in thw actual enigma machine by a series or rotors linked by wires which would rotate when a certain letter was encrypted.\n" + "Function\n" +
+                " It fundamentally works by linking encryption of one letter with the encryption of the next letter, and this was done in the actual enigma machine by a series or rotors linked by wires which would rotate when a certain letter was encrypted.\n" + "Function\n" +
                 "The key represents the starting position of each rotor, left to right, and the notch offsets change at what character the rotors cause rotation. Each input letter goes through the machine by following the connections of the rotors, then is reflected back by the reflector and then leaves through the rotors"
                 , "Enigma"); //Creates a pop up window giving a description and basic history of this algorithm
         }
@@ -831,8 +831,9 @@ namespace NEA
         private void ScytaleBtn_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Description and History\nThis is one of the oldest theorised encryption methods, however its historical legitmacy is questioned by many scholars, it was purportedly used by Ancient greek soliders to encrypt messages however its very weak encryption meant it was more like a method of message authentication than encryption\n" + "Function\n" +
-                "This algorithm works by winding a strip around a cylinder of a specific width, then writing the message lengthwise along the cylinder, on each of the \"sides\" then unwinding the strip leading to a seamingly scrambeled message, the key represents the number of columns (letters written along the cylinder) and the number of rows (\"faces\" used to write on)"
-                , "Enigma"); //Creates a pop up window giving a description and basic history of this algorithm
+                "This algorithm works by winding a strip around a cylinder of a specific width, then writing the message lengthwise along the cylinder, on each of the \"sides\" then unwinding the strip leading to a seamingly scrambeled message, the key represents the number of columns (letters written along the cylinder) and the number of rows (\"faces\" used to write on )." +
+                " The key is a representation of the size of the scytale (the cyilnder)  in  the format, (Number of Columns, Number of faces to write on (e.g 4 for a cuboid scytale)) The scytale must have enough letter slots (Columns*faces) to fit the contents of the message (its length)"
+                , "Scytale"); //Creates a pop up window giving a description and basic history of this algorithm
         }
         /// <summary>
         /// Gives a description and basic history of One Time Pad Cipher

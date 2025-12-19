@@ -20,6 +20,7 @@ using System.Net.Sockets;
 using Microsoft.VisualBasic;
 using System.Buffers.Binary;
 using System.Net;
+using System.Windows.Threading;
 namespace NEA
 {
     /// <summary>
@@ -62,6 +63,12 @@ namespace NEA
         public NetworkingWindow()
         {
             InitializeComponent();
+            Dispatcher.BeginInvoke(() => MessageBox.Show("Welcome to the Networking fearure of the soltuino, It enables transfering the results of encryptions (strings or files) across a Local Area Network (LAN) such as home wifi.\n" +
+                "To use this feature you need two device connected to the same LAN, and then decide, arbitraily it does not cause any performance issues or change the functionality past startup, the host and client device.\n" +
+                "The host device needs to press the Host button, then the device which is acting as the client needs to connect, this is done by enterring the local IPv4 of the host device, which can be found through going into command prompt" +
+                " and input it into the IP field, (should be 4 numbers seperated by periods with the first two numbers being 192 and 168 respectively). Then press connect on the client device and a connection is now established.\n" +
+                "in order to actual send data once a connection is established, simply check the transmit data checkbox and then encrypt or decrypt data normally and it will be automatically sent and processed by the recipient device and pasted into their input field.\n" +
+                "To close the connection either close the window or press the disconnect button, for reliable connections please re do this process after disconnecting on either device."),DispatcherPriority.ContextIdle);
         }
         /// <summary>
         /// Minimises the current window
@@ -1235,10 +1242,23 @@ namespace NEA
             await ClosingConnection();
             await Dispatcher.InvokeAsync(() => MessageBox.Show("Connection Ended"));
         }
-
+        /// <summary>
+        /// Disconnect from current connection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             await ClosingConnection();
+        }
+        /// <summary>
+        /// Informs user of how to use the networking feature of the solution.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Label_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 

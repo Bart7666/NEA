@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NEA"
         mc:Ignorable="d"
-        Title="NetworkingWindow" Closing="Window_Closing" Icon="/Images/NetworkLock.png" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="450" Width="800" Style="{DynamicResource Window}">
+        Title="NetworkingWindow"  Closing="Window_Closing" Icon="/Images/NetworkLock.png" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="450" Width="800" Style="{DynamicResource Window}">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="40"/>
     </WindowChrome.WindowChrome>
@@ -246,11 +246,11 @@
                         <CheckBox x:Name="TransmitDataCheckB"  Content="Transmit Output?" Style="{DynamicResource CheckBox}"/>
                     </Viewbox>
                     <Viewbox Grid.Row="2">
-                        <Label Style="{DynamicResource Label}" Content="Host IP Field"/>
+                        <Label Style="{DynamicResource Label}" Content="Host IPv4 (local) IP Field"/>
                     </Viewbox>
                     <TextBox  x:Name="IPFieldTBox" Grid.Row="3" Margin="5,5,10,5" Style="{DynamicResource TextBox}" />
                     <Viewbox Grid.Row="4">
-                        <Label Style="{DynamicResource Label}" Content="Host Connection"/>
+                        <Label Style="{DynamicResource Label}" Content="Host Connection" Loaded="Label_Loaded"/>
                     </Viewbox>
                     <Viewbox Grid.Row="5">
                         <Button x:Name="HostBtn" Style="{DynamicResource Button}" Margin="20,5" Content="Host" Click="HostBtn_Click"/>
