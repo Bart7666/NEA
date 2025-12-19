@@ -362,7 +362,7 @@ namespace NEA
                         Algorithm.ComposeData(UserDataInputType, FileInput);
                     }
                     OutpotFieldTBox.Text = Algorithm.OutputData; //Sets value of outputfield to be the human readable composed plaintext / ciphertext.
-                    if (Convert.ToBoolean(SavekeyCheckB.IsChecked) & DataTransferStream != null)
+                    if (Convert.ToBoolean(TransmitDataCheckB.IsChecked) & DataTransferStream != null)
                     {
                         SendMessage(DataTransferStream!, CancelTokens?.Token ?? CancellationToken.None);
                     }
@@ -973,6 +973,7 @@ namespace NEA
             if (FileInputType == DataInputType.String) //If incoming data is from encryption / decryption of a string 
             {
                 InputFieldTBox.Text = Payload;  //Set Inputfield to be recieved data
+                FileHandlingCBox.SelectedIndex = 0;
             }
             else if (FileInputType == DataInputType.TextFile) //If incoming data is from encryption / decryption of a txt file
             {
@@ -990,6 +991,7 @@ namespace NEA
                     MessageBox.Show(MetaData, "MetaData of file");
                 }
                 InputFieldTBox.Text = Datapayload;
+                FileHandlingCBox.SelectedIndex = 1;
             }
             else //CSV file detected
             {
@@ -1083,9 +1085,10 @@ namespace NEA
             {
                 Client = await Host.AcceptTcpClientAsync(CancelTokens.Token); //Connects this client to connecting client
                 DataTransferStream = Client.GetStream(); //Establishes streamn to use for sending and recieving data
+
                 _ = Task.Run(() => ListenForMessage(CancelTokens.Token)); //Runs continously to listen for messages from other user
             }
-            catch { }
+            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
         }
         /// <summary>
         /// Connects the user to the provided IP and establishes a TCP client connection if a server exists
@@ -1103,9 +1106,10 @@ namespace NEA
                     Client = new TcpClient(); //Sets client to a new instance of TcpClient
                     await Client.ConnectAsync(DestinationAddressAndPort,CancelTokens.Token); //When a succesfull connection is established with a Host "server" connect the client to that server
                     DataTransferStream = Client.GetStream(); //Establishes streamn to use for sending and recieving data
+                    await Dispatcher.InvokeAsync(() => MessageBox.Show("Connection Established"));
                     _ = Task.Run(() => ListenForMessage(CancelTokens.Token)); //Runs continously to listen for messages from other user
                 }
-                catch { }
+                catch (Exception ex) { MessageBox.Show(ex.ToString()); }
             }
             else
             {
@@ -1206,7 +1210,7 @@ namespace NEA
         private async void HostBtn_Click(object sender, RoutedEventArgs e)
         {
             await Dispatcher.InvokeAsync(() => EstablishHost());
-            await Dispatcher.InvokeAsync(() => MessageBox.Show("Server Began"));
+            MessageBox.Show("Server Began");
 
         }
         /// <summary>
