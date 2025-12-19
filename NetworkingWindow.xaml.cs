@@ -973,11 +973,13 @@ namespace NEA
             if (FileInputType == DataInputType.String) //If incoming data is from encryption / decryption of a string 
             {
                 FileHandlingCBox.SelectedIndex = 0;
+                FileInputType = DataInputType.String;
                 InputFieldTBox.Text = Payload;  //Set Inputfield to be recieved data
             }
             else if (FileInputType == DataInputType.TextFile) //If incoming data is from encryption / decryption of a txt file
             {
                 FileHandlingCBox.SelectedIndex = 0;
+                FileInputType = DataInputType.String;
                 int Keylength = Int32.Parse(Payload.Substring(0, 2)); //Payload will be of the same format as my custom text file structure and so can be procssed as such, refer to LoadFileData for extra comments.
                 int MetaDataLength = Int32.Parse(Payload.Substring(2, 6));
                 string Key = Payload.Substring(8, Keylength);
